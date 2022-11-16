@@ -80,47 +80,44 @@ def attractions():
 		# page 起始頁為 0，代表 nextPage 起始頁為 1
 		page = int(request.args.get("page", None))
 		keyword = request.args.get("keyword", None)
-		print(page, keyword)
 		nextPage = page+1
 		mycursor = mydb.cursor()
 		# print(results)
 		# attraction 的 list
 		data = []
 		# 排除 keyword 沒輸入或輸入空白值，有輸入才執行關鍵字 sql query
-		if len(keyword.replace(' ','')) != 0 :
+		if keyword != None:
 			print('keyword')
 			sql = "select * from attraction where category = %s or name like concat ('%', %s, '%')"
 			value = (keyword, keyword)
 			mycursor.execute(sql, value)
 			# results 為一個由資料庫回傳的 tuple
 			results = mycursor.fetchall()
-			# print(results)
 			resultsLen = len(results)
-			hello = getResults_keyword(results, data, page, nextPage, resultsLen)
-			if hello < 0 :
+			count = getResults_keyword(results, data, page, nextPage, resultsLen)
+			if count < 0 :
 				nextPage = None
 			return jsonify({
 				"nextPage":nextPage,
 				"data":data
 			}), 200
-		else:
-			sql = "select * from attraction limit %s, %s "
-			value = (page*12, 13)
-			mycursor.execute(sql, value)
-			# results 為一個由資料庫回傳的 tuple
-			results = mycursor.fetchall()
-			getResults_page(results, data)
-			if len(results) < 13 :
-				nextPage = None
-			return jsonify({
-				"nextPage":nextPage,
-				"data":data
-			}), 200
+		sql = "select * from attraction limit %s, %s "
+		value = (page*12, 13)
+		mycursor.execute(sql, value)
+		# results 為一個由資料庫回傳的 tuple
+		results = mycursor.fetchall()
+		getResults_page(results, data)
+		if len(results) < 13 :
+			nextPage = None
+		return jsonify({
+			"nextPage":nextPage,
+			"data":data
+		}), 200
 	except:
 		print("pass")
 		return jsonify({
 			"error":True,
-			"message":"check the url"
+			"message":"Internal Server Error 500"
 		}), 500
 	# finally:
 	# 	if mycursor == True:
