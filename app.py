@@ -160,4 +160,24 @@ def attractionld(attractionId):
 			"message" : f"invalid literal for int() with base 10: {attractionId} "
 		}), 500
 
+@app.route("/api/categories")
+def categories():
+	try:
+		mycursor = mydb.cursor()
+		sql = "select distinct (category) from attraction"
+		mycursor.execute(sql, )
+		results = mycursor.fetchall()
+		categories_list = []
+		mycursor.close()
+		for CAT in results:
+			categories_list.append(''.join(CAT))
+		return jsonify({
+			"data" : categories_list
+		})
+	except:
+		return jsonify({
+			"error" : True,
+			"message" : "Internal Server Error"
+		}), 500
+
 app.run(port=3000)
