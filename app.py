@@ -110,20 +110,54 @@ def attractions():
 			# results 為一個由資料庫回傳的 tuple
 			results = mycursor.fetchall()
 			getResults_page(results, data)
-		if len(results) < 13 :
-			nextPage = None
-		return jsonify({
-			"nextPage":nextPage,
-			"data":data
-		}), 200
-	except Exception:
-		print("我有經過這裡")
+			if len(results) < 13 :
+				nextPage = None
+			return jsonify({
+				"nextPage":nextPage,
+				"data":data
+			}), 200
+	except:
+		print("pass")
 		return jsonify({
 			"error":True,
-			"message":"內部發生異常，刷新或聯絡工程人員"
+			"message":"check the url"
 		}), 500
-	finally:
+	# finally:
+	# 	if mycursor == True:
+	# 		mycursor.close()
+	# 	print("mycursor closed")
+
+@app.route("/api/attraction/<attractionId>")
+def attractionld(attractionId):
+	try:
+		mycursor = mydb.cursor()
+		sql = "select * from attraction where id = %s"
+		value = (attractionId, )
+		mycursor.execute(sql, value)
+		results = mycursor.fetchone()
 		mycursor.close()
-		print("mycursor closed")
+		return jsonify({
+			"id" : results[0],
+			"name" : results[1],
+			"category" : results[2],
+			"description" : results[3],
+			"address" : results[4],
+			"transport" : results[5],
+			"mrt" : results[6],
+			"lat" : results[7],
+			"lng" : results[8],
+			"images" : results[9].split(',')
+		})
+	except:
+		# 注意 attractionId 是 string，isnumeric() 可以確認字串中是否全為數字
+		if attractionId.isnumeric():
+			return jsonify({
+				"error" : True,
+				"message" : "id number is not correct"
+			}), 400
+		return jsonify({
+			"error" : True,
+			"message" : f"invalid literal for int() with base 10: {attractionId} "
+		}), 500
 
 app.run(port=3000)
