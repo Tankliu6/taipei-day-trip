@@ -9,7 +9,7 @@ app.config["JSON_SORT_KEYS"] = False
 mydb = mysql.connector.connect (
     host = "localhost",
     user = "root",
-    password = getPassword(),
+    password = '12345678',
     database = "taipei_day_trip"
 )
 # 產生 page JSON 格式資料
