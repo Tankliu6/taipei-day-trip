@@ -7,17 +7,17 @@ app.config["TEMPLATES_AUTO_RELOAD"]=True
 app.config["JSON_SORT_KEYS"] = False
 # 連線(connection)到資料庫
 mydb = mysql.connector.connect (
-  host = "localhost",
-  user = "root",
-  password = getPassword(),
-  database = "taipei_day_trip"
+    host = "localhost",
+    user = "root",
+    password = getPassword(),
+    database = "taipei_day_trip"
 )
 # 產生 page JSON 格式資料
 def getResults_page(results, data):
-	round = 0
-	for list in results:
+    round = 0
+    for list in results:
 		# 讀取 tuple 資料裝進 dic
-		data_item = {
+        data_item = {
 			"id":list[0],
 			"name":list[1],
 			"category":list[2],
@@ -29,18 +29,18 @@ def getResults_page(results, data):
 			"lng":list[8],
 			"images":list[9].split(",")
 		}
-		data.append(data_item)
+        data.append(data_item)
 		# 計算次數，因為從資料庫取13筆資料，但只想放入12筆資料
-		round += 1
-		if round == 12 :
-			break
+        round += 1
+        if round == 12 :
+            break
 
 # 產生 keyword JSON 格式資料
 def getResults_keyword(results, data, page, nextPage, resultsLen):
 	# 關鍵點，比對完會將"所有"資料抓進來，但每一頁都只有 12 筆，[page*12:nextPage*12] 隨頁數選取資料
-	for list in results[page*12:nextPage*12]:
+    for list in results[page*12:nextPage*12]:
 		# 讀取 tuple 資料裝進 dic
-		data_item = {
+        data_item = {
 			"id":list[0],
 			"name":list[1],
 			"category":list[2],
@@ -52,10 +52,10 @@ def getResults_keyword(results, data, page, nextPage, resultsLen):
 			"lng":list[8],
 			"images":list[9].split(",")
 		}
-		data.append(data_item)
+        data.append(data_item)
 	# 回傳下一頁還有幾筆資料
-	resultsLen = resultsLen - nextPage*12
-	return resultsLen
+    resultsLen = resultsLen - nextPage*12
+    return resultsLen
 
 # Pages
 @app.route("/")
@@ -159,20 +159,20 @@ def attractionld(attractionId):
 
 @app.route("/api/categories")
 def categories():
-	try:
-		mycursor = mydb.cursor()
-		sql = "select distinct (category) from attraction"
-		mycursor.execute(sql, )
-		results = mycursor.fetchall()
-		categories_list = []
-		mycursor.close()
-		for CAT in results:
-			categories_list.append(''.join(CAT))
-		return jsonify({
-			"data" : categories_list
-		})
-	except:
-		return jsonify({
+    try:
+        mycursor = mydb.cursor()
+        sql = "select distinct (category) from attraction"
+        mycursor.execute(sql, )
+        results = mycursor.fetchall()
+        categories_list = []
+        mycursor.close()
+        for CAT in results:
+            categories_list.append(''.join(CAT))
+        return jsonify({
+            "data" : categories_list
+        })
+    except:
+        return jsonify({
 			"error" : True,
 			"message" : "Internal Server Error"
 		}), 500
