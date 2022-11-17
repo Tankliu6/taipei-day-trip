@@ -76,49 +76,49 @@ def thankyou():
 
 @app.route("/api/attractions")
 def attractions():
-	try:
-		# page 起始頁為 0，代表 nextPage 起始頁為 1
-		page = int(request.args.get("page", None))
-		keyword = request.args.get("keyword", None)
-		nextPage = page+1
-		mycursor = mydb.cursor()
-		# print(results)
+    try:
+        # page 起始頁為 0，代表 nextPage 起始頁為 1
+        page = int(request.args.get("page", None))
+        keyword = request.args.get("keyword", None)
+        nextPage = page+1
+        mycursor = mydb.cursor()
+        # print(results)
 		# attraction 的 list
-		data = []
+        data = []
 		# 排除 keyword 沒輸入或輸入空白值，有輸入才執行關鍵字 sql query
-		if keyword != None:
-			print('keyword')
-			sql = "select * from attraction where category = %s or name like concat ('%', %s, '%')"
-			value = (keyword, keyword)
-			mycursor.execute(sql, value)
-			# results 為一個由資料庫回傳的 tuple
-			results = mycursor.fetchall()
-			resultsLen = len(results)
-			count = getResults_keyword(results, data, page, nextPage, resultsLen)
-			if count < 0 :
-				nextPage = None
-			return jsonify({
+        if keyword != None:
+            print('keyword')
+            sql = "select * from attraction where category = %s or name like concat ('%', %s, '%')"
+            value = (keyword, keyword)
+            mycursor.execute(sql, value)
+            # results 為一個由資料庫回傳的 tuple
+            results = mycursor.fetchall()
+            resultsLen = len(results)
+            count = getResults_keyword(results, data, page, nextPage, resultsLen)
+            if count < 0 :
+                nextPage = None
+            return jsonify({
 				"nextPage":nextPage,
 				"data":data
 			}), 200
-		sql = "select * from attraction limit %s, %s "
-		value = (page*12, 13)
-		mycursor.execute(sql, value)
-		# results 為一個由資料庫回傳的 tuple
-		results = mycursor.fetchall()
-		getResults_page(results, data)
-		if len(results) < 13 :
-			nextPage = None
-		return jsonify({
-			"nextPage":nextPage,
-			"data":data
+        sql = "select * from attraction limit %s, %s "
+        value = (page*12, 13)
+        mycursor.execute(sql, value)
+        # results 為一個由資料庫回傳的 tuple
+        results = mycursor.fetchall()
+        getResults_page(results, data)
+        if len(results) < 13 :
+            nextPage = None
+        return jsonify({
+            "nextPage":nextPage,
+            "data":data
 		}), 200
-	except:
-		print("pass")
-		return jsonify({
-			"error":True,
-			"message":"Internal Server Error 500"
-		}), 500
+    except:
+        print("pass")
+        return jsonify({
+            "error":True,
+            "message":"Internal Server Error 500"
+        }), 500
 	# finally:
 	# 	if mycursor == True:
 	# 		mycursor.close()
