@@ -135,6 +135,7 @@ def attractionld(attractionId):
 		results = mycursor.fetchone()
 		mycursor.close()
 		return jsonify({
+            "data" : {
 			"id" : results[0],
 			"name" : results[1],
 			"category" : results[2],
@@ -145,6 +146,7 @@ def attractionld(attractionId):
 			"lat" : results[7],
 			"lng" : results[8],
 			"images" : results[9].split(',')
+			}
 		})
 	except:
 		# 注意 attractionId 是 string，isnumeric() 可以確認字串中是否全為數字
