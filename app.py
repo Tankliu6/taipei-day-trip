@@ -13,8 +13,8 @@ mydb = mysql.connector.connect (
     password = '12345678',
     database = "taipei_day_trip"
 )
-# 產生 page JSON 格式資料
-def getResults_page(results, data):
+# 產生 /api/attractions 的 JSON 格式資料
+def getResults_attractions(results, data):
     round = 0
     for list in results:
 		# 讀取 tuple 資料裝進 dic
@@ -35,28 +35,6 @@ def getResults_page(results, data):
         round += 1
         if round == 12 :
             break
-
-# 產生 keyword JSON 格式資料
-def getResults_keyword(results, data, page, nextPage, resultsLen):
-	# 關鍵點，比對完會將"所有"資料抓進來，但每一頁都只有 12 筆，[page*12:nextPage*12] 隨頁數選取資料
-    for list in results[page*12:nextPage*12]:
-		# 讀取 tuple 資料裝進 dic
-        data_item = {
-			"id":list[0],
-			"name":list[1],
-			"category":list[2],
-			"description":list[3],
-			"address":list[4],
-			"transport":list[5],
-			"mrt":list[6],
-			"lat":list[7],
-			"lng":list[8],
-			"images":list[9].split(",")
-		}
-        data.append(data_item)
-	# 回傳下一頁還有幾筆資料
-    resultsLen = resultsLen - nextPage*12
-    return resultsLen
 
 # Pages
 @app.route("/")
@@ -83,31 +61,35 @@ def attractions():
         keyword = request.args.get("keyword", None)
         nextPage = page+1
         mycursor = mydb.cursor()
-        # print(results)
-		# attraction 的 list
+		# attractions 的 list
         data = []
-		# 排除 keyword 沒輸入或輸入空白值，有輸入才執行關鍵字 sql query
+		# 進入 keyword 查詢
         if keyword != None:
-            print('keyword')
-            sql = "select * from attraction where category = %s or name like concat ('%', %s, '%')"
-            value = (keyword, keyword)
+            print(keyword)
+            sql = "select * from attraction where category = %s or name like concat ('%', %s, '%') limit %s, %s"
+            value = (keyword, keyword, page*12, 13)
             mycursor.execute(sql, value)
-            # results 為一個由資料庫回傳的 tuple
+            # results 為裝滿景點資料(tuple) 的 list
             results = mycursor.fetchall()
-            resultsLen = len(results)
-            count = getResults_keyword(results, data, page, nextPage, resultsLen)
-            if count < 0 :
+            mycursor.close()
+            # 將景點資料取出放進 data(list)
+            getResults_attractions(results, data)
+            # < 13 代表取回的 results 小於 13 個景點，沒下一頁
+            if len(results) < 13 :
                 nextPage = None
             return jsonify({
 				"nextPage":nextPage,
 				"data":data
 			}), 200
+        # 單 Page 查詢
         sql = "select * from attraction limit %s, %s "
         value = (page*12, 13)
         mycursor.execute(sql, value)
         # results 為一個由資料庫回傳的 tuple
         results = mycursor.fetchall()
-        getResults_page(results, data)
+        getResults_attractions(results, data)
+        mycursor.close()
+        # < 13 代表取回的 results 小於 13 個景點，沒下一頁
         if len(results) < 13 :
             nextPage = None
         return jsonify({
@@ -120,10 +102,7 @@ def attractions():
             "error":True,
             "message":"Internal Server Error 500"
         }), 500
-	# finally:
-	# 	if mycursor == True:
-	# 		mycursor.close()
-	# 	print("mycursor closed")
+
 
 @app.route("/api/attraction/<attractionId>")
 def attractionld(attractionId):
