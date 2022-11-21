@@ -1,0 +1,79 @@
+#flex-col{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#Navigation{
+    width: -webkit-fill-available;
+}
+
+#Navigation-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background-color: #2196F3;
+}
+
+#Nav-backToIndex{
+    color: #448899;
+    padding: 10px;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+#Nav-btn-grid{
+    display: grid;
+    /* 讓最右邊2格隨著內容自由變寬 */
+    grid-template-columns: repeat(6, 1fr) auto auto;
+    font-size: 16px;
+    /* 不換行 */
+    grid-auto-flow: dense;
+}
+
+#Nav-btn-left{
+    padding: 10px;
+    color: #666666;
+    /* item 本身內部 */
+    align-self: center;
+    justify-self: center;
+    /* 開始格子/佔據幾格(未用到) */
+    grid-column: 9;
+}
+
+#Nav-btn-right{
+    padding: 10px;
+    color: #666666;
+    /* item 本身內部 */
+    align-self: center;
+    justify-self: center;
+    /* 開始格子/佔據幾格(未用到) */
+    grid-column: 7;
+}
+
+
+#Hero_section{
+    background-image: url('image/welcome.png');
+    background-color: #cccccc;
+    background-size: cover;
+    background-repeat: space;
+    height: 320px;
+    width: -webkit-fill-available;
+}
+
+#attractions{
+    height: auto;
+    width: -webkit-fill-available;
+}
+
+#footer{
+    height: 104px;
+    width: -webkit-fill-available;
+}
+
+
+@media (min-width: 1200px) {
+    #Navigation, #Hero_section, #attractions, #footer{
+        width: 1200px;
+    } 
+    
+}
