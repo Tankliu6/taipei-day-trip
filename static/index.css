@@ -52,12 +52,57 @@
 
 
 #Hero_section{
+    display: grid;
     background-image: url('image/welcome.png');
     background-color: #cccccc;
     background-size: cover;
     background-repeat: space;
     height: 320px;
     width: -webkit-fill-available;
+    justify-content: center;
+    align-content: center;
+}
+
+#slogan{
+    display: grid;
+    height: 149px;
+    justify-content: start;
+    align-content: center;
+    padding: 10px;
+}
+
+#slogan-title1{
+    font-size: 28px;
+    font-weight: 700;
+    color: #F8F8F8;
+    padding: 10px 10px 10px 0;
+}
+
+#slogan-title2{
+    font-size: 16px;
+    font-weight: 700;
+    color: #F8F8F8;
+    margin-bottom: 15px;
+    padding: 10px 10px 10px 0;
+}
+
+#slogan-search-grid{
+    display: grid;
+    grid-auto-flow: column;
+}
+
+#slogan-search-bar{
+    padding: 10px;
+    border-radius: 5px 0 0 5px;
+    border: 0;
+    height: 26px;
+}
+
+#slogan-search-icon{
+    padding: 10px;
+    background-color: #448899;
+    height: 26px;
+    border-radius: 0 5px 5px 0;
 }
 
 #attractions{
@@ -66,14 +111,25 @@
 }
 
 #footer{
+    display: grid;
     height: 104px;
+    background-color: #757575;
     width: -webkit-fill-available;
+    justify-content: center;
+    align-content: center;
 }
 
 
 @media (min-width: 1200px) {
-    #Navigation, #Hero_section, #attractions, #footer{
+    #Navigation, #attractions, #footer, #slogan{
         width: 1200px;
     } 
     
+}
+
+/* 1200px 以下讓 slogan 貼齊左側 */
+@media (max-width: 1200px){
+    #Hero_section{
+        justify-content: start;
+    }    
 }
