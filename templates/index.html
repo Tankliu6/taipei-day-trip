@@ -6,7 +6,7 @@
     <title>台北一日遊</title>
     <link rel = "stylesheet" type = "text/css" href = "/static/index.css">
 </head>
-<body>
+<body onload = "getPage();">
     <main id = "flex-col">
         <section id = "Navigation">
             <div id = "Navigation-grid">
@@ -25,21 +25,34 @@
                 <div id = "slogan-title1">輕鬆享受台北一日悠閒</div>
                 <div id = "slogan-title2">探索每個角落，體驗城市的深度旅遊行程</div>
                 <div id = "slogan-search-grid">
-                    <input id = "slogan-search-bar"></input>
+                    <input id = "slogan-search-bar" placeholder = "請輸入景點名稱查詢"></input>
                     <img id = "slogan-search-icon" src = "../static/image/icon_search.png">    
                 </div>
             </div>
         </section>
 
-        <section id = "attractions">
-
-        </section>
-
-        <section id = "footer">
-            <div>COPYRIGHT © 2021 台北一日遊</div>
+        <section id = "attractions" onload = "getData();">
+            <div id = "grid-attractions-container">
+                <!-- <div id = "grid-attractions-item">
+                    <div id = "wrap-attractions">
+                        <img src = "https://www.travel.taipei/d_upload_ttn/sceneadmin/pic/11000848.jpg">
+                        <div id = "attractions-item-name">
+                            平安鐘
+                        </div>
+                        <div id = "attractions-item-mrt_category">
+                            <span id = "attractions-item-mrt">忠孝復興</span>
+                            <span id = "attractions-item-category">公共藝術</span>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+            <!-- <div id = "observer"></div> -->
         </section>
     </main>
 
+    <section id = "footer">
+        <div>COPYRIGHT © 2021 台北一日遊</div>
+    </section>
 
     <script type = "text/javascript" src = "/static/index.js"></script>
 </body>
