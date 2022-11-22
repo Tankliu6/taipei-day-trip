@@ -1,17 +1,34 @@
+body, html{
+    margin: 0;
+    height: 100%;
+}
+
+img{
+    max-width: 100%;
+    /* Mozilla-based browsers will ignore this. */
+    height: -webkit-fill-available;
+    /*  WebKit-based browsers will ignore this. */
+    height: -moz-available;
+}
+
 #flex-col{
     display: flex;
     flex-direction: column;
     align-items: center;
+    /* 把 footer 擠到最底下 */
+    height: -webkit-fill-available;
+    height: -moz-available;
 }
 
 #Navigation{
     width: -webkit-fill-available;
+    width: -moz-available;
 }
 
 #Navigation-grid{
     display: grid;
     grid-template-columns: 1fr 1fr;
-    background-color: #2196F3;
+    /* background-color: #2196F3; */
 }
 
 #Nav-backToIndex{
@@ -59,6 +76,7 @@
     background-repeat: space;
     height: 320px;
     width: -webkit-fill-available;
+    width: -moz-available;
     justify-content: center;
     align-content: center;
 }
@@ -108,20 +126,91 @@
 #attractions{
     height: auto;
     width: -webkit-fill-available;
+    width: -moz-available;
 }
+
+#grid-attractions-container{
+    display: grid;
+    padding: 15px;
+    grid-gap: 30px;
+    grid-template-columns: repeat(4, 1fr);
+    justify-content: center;
+}
+
+#grid-attractions-item{
+    display: grid;
+    grid-auto-flow: row;
+    justify-content: center;
+}
+
+#wrap-attractions{
+    /* 可以讓img 和下方 站名與類別div 貼齊關掉會有4px的空格 */
+    display: grid;
+    /* 當作 attractions-item-name 絕對位置的容器 */
+    position: relative;
+}
+
+
+#wrap-attractions > img{
+    aspect-ratio: 270/197;
+}
+
+
+#attractions-item-name{
+    display: grid;
+    align-content: center;
+    padding: 10px;
+    height: 20px;
+    position: absolute;
+    bottom: 45px;
+    color: #FFFFFF;
+    background-color: #000000;
+    opacity: 0.6;
+    width: -webkit-fill-available;
+    width: -moz-available;
+}
+
+#attractions-item-mrt_category{
+    display: grid;
+    grid-auto-columns: repeat(2, 1fr);
+    grid-auto-flow: column;
+    padding: 10px;
+}
+
+#attractions-item-mrt_category > span{
+    padding: 2px;
+}
+
+#attractions-item-mrt{
+    text-align: start;
+}
+
+#attractions-item-category{
+    text-align: end;
+}
+
+
+#observer{
+    background-color: brown;
+    height: 50px;
+    width: -webkit-fill-available;
+    width: -moz-available;
+}
+
 
 #footer{
     display: grid;
     height: 104px;
     background-color: #757575;
     width: -webkit-fill-available;
+    width: -moz-available;
     justify-content: center;
     align-content: center;
 }
 
 
 @media (min-width: 1200px) {
-    #Navigation, #attractions, #footer, #slogan{
+    #Navigation, #attractions, #slogan{
         width: 1200px;
     } 
     
@@ -131,5 +220,24 @@
 @media (max-width: 1200px){
     #Hero_section{
         justify-content: start;
-    }    
+    };
+}
+
+@media (max-width: 900px){
+    #grid-attractions-container{
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px){
+    #grid-attractions-container{
+        grid-template-columns: repeat(1, minmax(321px, 450px));
+    }
+}
+
+/* 解決 360px 時文字換行問題 */
+@media (width: 360px) {
+    #Nav-btn-right {
+        padding: 9px;
+    }
 }
