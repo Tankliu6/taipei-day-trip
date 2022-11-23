@@ -1,4 +1,8 @@
+// HTML attractions section
 const attractionsContainer = document.querySelector("#grid-attractions-container");
+
+// 預設為 0
+var nextPage = 0
 
 // 存放attractions的 name、mrt、category、images(只要第一個 url)
 let attractionsPool = [];
@@ -42,11 +46,16 @@ function insertImg(attractionsPool, dataNum){
 
 
 function getPage(){
-    fetch(`/api/attractions?page=0`)
+    /* 第一次載入時的 nextPage = 0 */
+    fetch(`/api/attractions?page=${nextPage}`)
     .then(function(response){
         return response.json(); // 讀取為 JSON 格式
     }).then(function(data){
-        for(dataNum = 0; dataNum <= 11; dataNum++){
+        /* 替換nextPage (type = var)非 let */
+        nextPage = data['nextPage'];
+        /* 取得該頁有幾筆資料 */
+        let datalength = Object.keys(data['data']).length;
+        for(let dataNum = 0; dataNum < datalength ;dataNum++){
             attractionsPool.push(
                 [data['data'][dataNum]['name'], 
                 data['data'][dataNum]['mrt'], 
@@ -54,8 +63,10 @@ function getPage(){
                 data['data'][dataNum]['images'][0]
             ])
         }
-        for(dataNum = 0; dataNum <= 11; dataNum++){
+        for(dataNum = 0; dataNum < datalength; dataNum++){
             insertImg(attractionsPool, dataNum);
-        }         
+        }
+        /* 清空，讓下一頁資料填進來 */
+        attractionsPool = []
     })
 }
