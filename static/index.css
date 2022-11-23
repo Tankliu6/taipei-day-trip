@@ -15,9 +15,6 @@ img{
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* 把 footer 擠到最底下 */
-    height: -webkit-fill-available;
-    height: -moz-available;
 }
 
 #Navigation{
@@ -206,30 +203,37 @@ img{
     width: -moz-available;
     justify-content: center;
     align-content: center;
+    color: #FFFFFF;
 }
 
-
+/* 1200px 以上 */
 @media (min-width: 1200px) {
+    /* 讓這三個區塊寬度不超過 1200px */
     #Navigation, #attractions, #slogan{
         width: 1200px;
     } 
     
 }
 
-/* 1200px 以下讓 slogan 貼齊左側 */
+/* 1200px 以下 */
 @media (max-width: 1200px){
+    /* 讓 slogan 貼齊左側 */
     #Hero_section{
         justify-content: start;
     };
 }
 
+/* 900px 以下 */
 @media (max-width: 900px){
+    /* 改為1列2格景點 */
     #grid-attractions-container{
         grid-template-columns: repeat(2, 1fr);
-    }
+    }   
 }
 
+/* 600px 以下 */
 @media (max-width: 600px){
+    /* 改為1列1格景點 */
     #grid-attractions-container{
         grid-template-columns: repeat(1, minmax(321px, 450px));
     }
