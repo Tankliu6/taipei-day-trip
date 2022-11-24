@@ -6,8 +6,11 @@
     <title>台北一日遊</title>
     <link rel = "stylesheet" type = "text/css" href = "/static/index.css">
 </head>
-<body onload = "getPage();">
+<body>
+    <!-- 跳脫搜尋框的黑色覆蓋層 -->
+    <div style = "display: none" id = "htmlLayer-zindex50" onclick = "layerNone();"></div>
     <main id = "flex-col">
+        <!-- Navigation -->
         <section id = "Navigation">
             <div id = "Navigation-grid">
                 <div id = "Nav-backToIndex">
@@ -19,18 +22,31 @@
                 </div>
             </div>
         </section>
-
+        <!-- Hero Section -->
         <section id = "Hero_section">
-            <div id = "slogan">
-                <div id = "slogan-title1">輕鬆享受台北一日悠閒</div>
-                <div id = "slogan-title2">探索每個角落，體驗城市的深度旅遊行程</div>
-                <div id = "slogan-search-grid">
-                    <input id = "slogan-search-bar" placeholder = "請輸入景點名稱查詢"></input>
-                    <img id = "slogan-search-icon" src = "../static/image/icon_search.png">    
+            <div id = "wrapSlogan">
+                <div id = "slogan">
+                    <div id = "slogan-title1">輕鬆享受台北一日悠閒</div>
+                    <div id = "slogan-title2">探索每個角落，體驗城市的深度旅遊行程</div>
+                    <div id = "slogan-search-grid">
+                        <input onclick = "categories();" id = "slogan-search-bar" placeholder = "請輸入景點名稱查詢"></input>
+                        <img onclick = "remove();fetchPage();layerNone();" id = "slogan-search-icon" src = "../static/image/icon_search.png">    
+                    </div>
+                    <div style = "display: none;" id = "slogan-search-categories">
+                        <!-- <div id = "slogan-search-categories-item">公共藝術</div>
+                        <div id = "slogan-search-categories-item">公共藝術</div>
+                        <div id = "slogan-search-categories-item">公共藝術</div>
+                        <div id = "slogan-search-categories-item">公共藝術</div>
+                        <div id = "slogan-search-categories-item">公共藝術</div>
+                        <div id = "slogan-search-categories-item">公共藝術</div>
+                        <div id = "slogan-search-categories-item">公共藝術</div>
+                        <div id = "slogan-search-categories-item">公共藝術</div>
+                        <div id = "slogan-search-categories-item">公共藝術</div> -->
+                    </div>
                 </div>
             </div>
         </section>
-
+        <!-- Attractions Section -->
         <section id = "attractions">
             <div id = "grid-attractions-container">
                 <!-- <div id = "grid-attractions-item">
@@ -46,11 +62,13 @@
                     </div>
                 </div> -->
             </div>
-            <!-- <div id = "observer" onclick = "getPage();"></div> -->
         </section>
+        <!-- Footer -->
+        <footer>
+            <div id = "text-container">
+                <p>COPYRIGHT © 2021 台北一日遊</p>
+            </div>
+        </footer>
     </main>
-    <section id = "footer" onclick = "getPage();">
-        <div>COPYRIGHT © 2021 台北一日遊</div>
-    </section>    
     <script type = "text/javascript" src = "/static/index.js"></script>
 </body>
