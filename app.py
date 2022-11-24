@@ -1,5 +1,5 @@
 from flask import *
-import mysql.connector
+import mysql.connector, mysql.connector.pooling
 # from mySQL import getPassword
 app=Flask(__name__)
 app.config["JSON_AS_ASCII"] = False
@@ -7,11 +7,16 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["JSON_SORT_KEYS"] = False
 app.config["DEBUG"] = True
 # 連線(connection)到資料庫
-mydb = mysql.connector.connect (
+dbconfig = {
+    "user" : "root",
+    "password" : '12345678',
+    "database" : "taipei_day_trip",
+}
+cnxpool = mysql.connector.pooling.MySQLConnectionPool (
+    pool_name = "taipei-day-trip-pool",
     host = "localhost",
-    user = "root",
-    password = '12345678',
-    database = "taipei_day_trip"
+    pool_size = 5,
+    **dbconfig
 )
 # 產生 /api/attractions 的 JSON 格式資料
 def getResults_attractions(results, data):
@@ -56,11 +61,12 @@ def thankyou():
 @app.route("/api/attractions")
 def attractions():
     try:
+        cnx = cnxpool.get_connection()
         # page 起始頁為 0，代表 nextPage 起始頁為 1
         page = int(request.args.get("page", None))
         keyword = request.args.get("keyword", None)
         nextPage = page+1
-        mycursor = mydb.cursor()
+        mycursor = cnx.cursor()
 		# attractions 的 list
         data = []
 		# 進入 keyword 查詢
@@ -102,18 +108,20 @@ def attractions():
             "error":True,
             "message":"Internal Server Error 500"
         }), 500
-
+    finally:
+        cnx.close()
 
 @app.route("/api/attraction/<attractionId>")
 def attractionld(attractionId):
-	try:
-		mycursor = mydb.cursor()
-		sql = "select * from attraction where id = %s"
-		value = (attractionId, )
-		mycursor.execute(sql, value)
-		results = mycursor.fetchone()
-		mycursor.close()
-		return jsonify({
+    try:
+        cnx = cnxpool.get_connection()
+        mycursor = cnx.cursor()
+        sql = "select * from attraction where id = %s"
+        value = (attractionId, )
+        mycursor.execute(sql, value)
+        results = mycursor.fetchone()
+        mycursor.close()
+        return jsonify({
             "data" : {
 			"id" : results[0],
 			"name" : results[1],
@@ -127,22 +135,25 @@ def attractionld(attractionId):
 			"images" : results[9].split(',')
 			}
 		})
-	except:
+    except:
 		# 注意 attractionId 是 string，isnumeric() 可以確認字串中是否全為數字
-		if attractionId.isnumeric():
-			return jsonify({
+        if attractionId.isnumeric():
+            return jsonify({
 				"error" : True,
 				"message" : "id number is not correct"
 			}), 400
-		return jsonify({
+        return jsonify({
 			"error" : True,
 			"message" : f"invalid literal for int() with base 10: {attractionId} "
 		}), 500
+    finally:
+        cnx.close()
 
 @app.route("/api/categories")
 def categories():
     try:
-        mycursor = mydb.cursor()
+        cnx = cnxpool.get_connection()
+        mycursor = cnx.cursor()
         sql = "select distinct (category) from attraction"
         mycursor.execute(sql, )
         results = mycursor.fetchall()
@@ -158,6 +169,8 @@ def categories():
 			"error" : True,
 			"message" : "Internal Server Error"
 		}), 500
-
+    finally:
+         cnx.close()
+         
 if  __name__ == "__main__":
     app.run(host = "0.0.0.0", port=3000)
