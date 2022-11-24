@@ -11,10 +11,20 @@ img{
     height: -moz-available;
 }
 
+#htmlLayer-zindex50{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 50;
+    background-color: #000000;
+    opacity: 0.1;
+}
+
 #flex-col{
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: 100%;
 }
 
 #Navigation{
@@ -64,8 +74,12 @@ img{
     grid-column: 7;
 }
 
-
 #Hero_section{
+    width: -webkit-fill-available;
+    width: -moz-available;
+}
+
+#wrapSlogan{
     display: grid;
     background-image: url('image/welcome.png');
     background-color: #cccccc;
@@ -103,7 +117,8 @@ img{
 
 #slogan-search-grid{
     display: grid;
-    grid-auto-flow: column;
+    grid-template-columns: auto minmax(46px, 46px);
+    z-index: 51; /* 避免搜尋時被覆蓋 */
 }
 
 #slogan-search-bar{
@@ -111,6 +126,7 @@ img{
     border-radius: 5px 0 0 5px;
     border: 0;
     height: 26px;
+    width: 334px;
 }
 
 #slogan-search-icon{
@@ -120,10 +136,32 @@ img{
     border-radius: 0 5px 5px 0;
 }
 
+#slogan-search-categories{
+    display: grid;
+    grid-template-columns: repeat(3, minmax(96px, 120px));
+    justify-content: start;
+    gap: 20px;
+    background-color: #FFFFFF;
+    border-radius: 5px;
+    margin-top: 2px;
+    box-shadow: 0 0 3px #666666;
+    z-index: 51; /* 高於htmlLayer-zindex50 */
+}
+
+#slogan-search-categories :hover{
+    background-color: #ece9e9;
+}
+
+#slogan-search-categories-item{
+    padding: 10px 15px 10px 15px;
+}
+
 #attractions{
     height: auto;
+    margin-top: 40px; margin-bottom: 40px;
     width: -webkit-fill-available;
     width: -moz-available;
+    /* margin-bottom: auto; */
 }
 
 #grid-attractions-container{
@@ -145,6 +183,8 @@ img{
     display: grid;
     /* 當作 attractions-item-name 絕對位置的容器 */
     position: relative;
+    /* 外框格線 */
+    box-shadow: 0 0 1px #666666;
 }
 
 
@@ -186,16 +226,13 @@ img{
     text-align: end;
 }
 
-
-#observer{
-    background-color: brown;
-    height: 50px;
+footer{
     width: -webkit-fill-available;
     width: -moz-available;
+    margin-top: auto; /*RWD 時將footer 置底*/
 }
 
-
-#footer{
+#text-container{
     display: grid;
     height: 104px;
     background-color: #757575;
@@ -218,7 +255,7 @@ img{
 /* 1200px 以下 */
 @media (max-width: 1200px){
     /* 讓 slogan 貼齊左側 */
-    #Hero_section{
+    #wrapSlogan{
         justify-content: start;
     };
 }
@@ -228,7 +265,7 @@ img{
     /* 改為1列2格景點 */
     #grid-attractions-container{
         grid-template-columns: repeat(2, 1fr);
-    }   
+    }
 }
 
 /* 600px 以下 */
@@ -237,9 +274,13 @@ img{
     #grid-attractions-container{
         grid-template-columns: repeat(1, minmax(321px, 450px));
     }
+    /* 搜尋框配合頁面縮小 */
+    #slogan-search-bar{
+        width: auto;
+    }
 }
 
-/* 解決 360px 時文字換行問題 */
+/* 解決 360px 時右上方'登入/註冊'換行問題 */
 @media (width: 360px) {
     #Nav-btn-right {
         padding: 9px;
