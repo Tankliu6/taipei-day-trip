@@ -4,7 +4,7 @@ body, html{
 }
 
 img{
-    width: 100%;
+    max-width: 100%;
     /* Mozilla-based browsers will ignore this. */
     height: -webkit-fill-available;
     /*  WebKit-based browsers will ignore this. */
@@ -189,6 +189,7 @@ img{
 
 
 #wrap-attractions > img{
+    width: 100%;
     aspect-ratio: 270/197;
 }
 
