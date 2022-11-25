@@ -273,8 +273,3 @@ footer{
         padding: 9px;
     }
 }
-
-@media (aspect-ratio: 270/197) {
-    #wrap-attractions > img{
-    }
-}
