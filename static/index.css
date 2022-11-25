@@ -1,6 +1,5 @@
 body, html{
     margin: 0;
-    height: 100%;
 }
 
 #htmlLayer-zindex50{
@@ -86,6 +85,7 @@ body, html{
 
 #slogan{
     display: grid;
+    position: relative;
     height: 149px;
     justify-content: start;
     align-content: center;
@@ -132,7 +132,7 @@ body, html{
     display: grid;
     /* 下方彈出功能 */
     position: absolute;
-    top: 300px;
+    top: 165px;
     left: 10px;
     grid-template-columns: repeat(3, minmax(96px, 120px));
     justify-content: start;
