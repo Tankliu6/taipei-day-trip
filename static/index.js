@@ -67,10 +67,14 @@ function categories(){
             let categoryItemDiv = document.createElement("div");
             categoryItemDiv.setAttribute("id", "slogan-search-categories-item");
             categoryItemDiv.textContent = data['data'][dataNum];
+            // 點擊分類，將文字放入搜尋框中
             categoryItemDiv.addEventListener("click", function (){
                 let categoryInputValue = document.querySelector("#slogan-search-bar");
                 categoryInputValue.value = this.textContent;
             })
+            // 放入關閉分類收尋框功能
+            categoryItemDiv.addEventListener("click", layerNone);
+            // 將各分類放進分類搜尋框中
             let itemsContainer = document.querySelector("#slogan-search-categories");
             itemsContainer.appendChild(categoryItemDiv); 
         }
@@ -81,6 +85,7 @@ function categories(){
 //     document.querySelector(this).style.display = "block";
 // }
 
+/* 分類搜尋框關閉相關 */
 function layerNone(){
     /* 關閉分類框的隱形遮罩 */
     let htmlLayer = document.querySelector("#htmlLayer-zindex50");
