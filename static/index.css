@@ -1,5 +1,5 @@
-body, html{
-    margin: 0;
+html, body{
+    margin: 2px;
 }
 
 #htmlLayer-zindex50{
@@ -15,7 +15,8 @@ body, html{
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100%;
+    /* footer 置底元件一 */
+    height: 100vh;
 }
 
 #Navigation{
@@ -220,7 +221,8 @@ body, html{
 footer{
     width: -webkit-fill-available;
     width: -moz-available;
-    margin-top: auto; /*RWD 時將footer 置底*/
+    /*RWD 時 footer 置底元件二*/
+    margin-top: auto; 
 }
 
 #text-container{
@@ -232,6 +234,23 @@ footer{
     justify-content: center;
     align-content: center;
     color: #FFFFFF;
+}
+
+/* keyword fetch data is empty */
+#error-containerEmpty-grid{
+    display: grid;
+    grid-template-columns: repeat(auto);
+    justify-content: center;
+    text-align: center;
+}
+
+#error-containerEmpty-grid > img{
+    max-width: 100%; /* 隨著容器更改大小 */
+    max-height: 400px; /* 限制圖片最大400*400 */
+}
+
+#error-containerEmpty-grid > h1{
+    line-height: 40px;
 }
 
 /* 1200px 以上 */

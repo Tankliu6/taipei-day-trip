@@ -109,11 +109,14 @@ function remove(){
         first.remove();
         first = document.querySelector("#grid-attractions-container").firstElementChild
     }
+    /* 是查無資料後產生的全域變數，注意觸發的先後順序 */
+    errorContainerEmptyGrid = document.querySelector("#grid-attractions-container");
+    errorContainerEmptyGrid.style.display = "grid";
 };
 
 
 /* 拿取頁面資料*/
-function fetchPage(){
+function fetchPage(){  
     /* 標記工作階段 */
     if(isloading == false){
         isloading = true;
@@ -134,26 +137,51 @@ function fetchPage(){
     .then(function(response){
         return response.json(); // 讀取為 JSON 格式
     }).then(function(data){
-        /* 替換nextPage (type = var)非 let */
-        nextPage = [];
-        nextPage.push(data['nextPage']);
-        console.log("nextPage: " + nextPage);
-        /* 取得該頁有幾筆資料 */
-        let datalength = Object.keys(data['data']).length;
-        for(let dataNum = 0; dataNum < datalength ;dataNum++){
-            attractionsPool.push(
-                [data['data'][dataNum]['name'], 
-                data['data'][dataNum]['mrt'], 
-                data['data'][dataNum]['category'], 
-                data['data'][dataNum]['images'][0]
-            ])
-        };
-        for(dataNum = 0; dataNum < datalength; dataNum++){
-            insertImg(attractionsPool, dataNum);
-        };
-        /* 清空，讓下一頁資料填進來 */
-        attractionsPool = [];
-        isloading = false
+        /* 如果資料為 [] 代表查無此資料 */
+        if(data["data"].length === 0){
+            let attractionsContainer = document.querySelector("#grid-attractions-container");
+            /* 取消Grid 讓資料能順利排列與置中 */
+            errorContainerEmptyGrid = document.querySelector("#grid-attractions-container"); /* 注意是全域變數 */
+            errorContainerEmptyGrid.style.display = "block";
+            /* 查無此資料 */
+            let error_empty =
+                `<div id = "error-containerEmpty-grid">
+                    <img src="https://i.imgur.com/qIufhof.png" />
+                    <h1>
+                        <span>Data is not founded</span> <br />
+                        Internal server error
+                    </h1>
+
+                    <p>We are currently trying to fix the problem.</p>
+
+                </div>`;
+            /* 渲染 errorEmpty 到前端畫面 */
+            attractionsContainer.insertAdjacentHTML("beforeend", error_empty);
+            /* 清空，讓下一頁資料填進來 */
+            attractionsPool = [];
+        }else{
+            /* 替換nextPage (type = var)非 let */
+            nextPage = [];
+            nextPage.push(data['nextPage']);
+            console.log("nextPage: " + nextPage);
+            /* 取得該頁有幾筆資料 */
+            let datalength = Object.keys(data['data']).length;
+            for(let dataNum = 0; dataNum < datalength ;dataNum++){
+                attractionsPool.push(
+                    [data['data'][dataNum]['name'], 
+                    data['data'][dataNum]['mrt'], 
+                    data['data'][dataNum]['category'], 
+                    data['data'][dataNum]['images'][0]
+                ])
+            };
+            for(dataNum = 0; dataNum < datalength; dataNum++){
+                insertImg(attractionsPool, dataNum);
+            };
+            /* 清空，讓下一頁資料填進來 */
+            attractionsPool = [];
+            /* 可以繼續下一次的fetch */
+            isloading = false
+        }
     })
 };
 
