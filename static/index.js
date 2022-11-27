@@ -189,25 +189,21 @@ function fetchPage(){
 
 /* 創造 Intersection Observer */
 const options = {
-    root : document.querySelector('flex-col'),
-    rootMargin: '10px',
-    threshold: 1,
+    threshold: 0,
 };
 
 /* callback 函式 */
-const callback = ([entry]) => {
-    if (entry && entry.isIntersecting && isloading == false){
+const callback = (entries) => {
+    console.log(entries);
+    console.log(entries[0].isIntersecting && isloading == false);
+    if(entries[0].isIntersecting){
         fetchPage();
-        console.log("observer");
-        console.log(entry)
     }
-};
+}
 
 /* 創建一個 observer */
 const observer = new IntersectionObserver(callback, options);
 
 /* 觀察 target */
-const target = document.querySelector('footer');
+const target = document.querySelector('#observer');
 observer.observe(target);
-
-/* 每回呼完我就關閉觀察對象，進到fetch函式後我再打開觀察對象 */

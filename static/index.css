@@ -1,5 +1,5 @@
 html, body{
-    margin: 2px;
+    margin: 0px;
 }
 
 #htmlLayer-zindex50{
@@ -234,6 +234,18 @@ footer{
     justify-content: center;
     align-content: center;
     color: #FFFFFF;
+}
+
+#observer{
+    visibility: hidden;
+    position: relative;
+    opacity: 0;
+    height: 1px;
+}
+
+#c{
+    width: 100%;
+    background-color: #757575;
 }
 
 /* keyword fetch data is empty */
