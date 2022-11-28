@@ -188,22 +188,27 @@ function fetchPage(){
 /* 無限捲軸 */
 
 /* 創造 Intersection Observer */
-const options = {
-    threshold: 0,
+let options = {
+    root: null,
+    rootMargin: "0px",
+    threshold: 1,
 };
 
 /* callback 函式 */
-const callback = (entries) => {
-    console.log(entries);
-    console.log(entries[0].isIntersecting && isloading == false);
-    if(entries[0].isIntersecting){
-        fetchPage();
-    }
+let callback = (entries, observer) => {
+    entries.forEach((entry) => {
+        if(entry.isIntersecting && isloading == false){
+            console.log(entry.isIntersecting);
+            console.log(isloading);
+            console.log(observer);
+            fetchPage();
+        }
+    })
 }
 
 /* 創建一個 observer */
-const observer = new IntersectionObserver(callback, options);
+let observer = new IntersectionObserver(callback, options);
 
 /* 觀察 target */
-const target = document.querySelector('#observer');
+let target = document.querySelector('footer');
 observer.observe(target);

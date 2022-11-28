@@ -20,6 +20,18 @@ html, body{
 }
 
 #Navigation{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    position: fixed;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 0 5px black
+}
+
+#Nav-container{
+    /* 寬度 */
     width: -webkit-fill-available;
     width: -moz-available;
 }
@@ -67,6 +79,8 @@ html, body{
 }
 
 #Hero_section{
+    /* 上方Nav高度 */
+    margin-top: 60px;
     width: -webkit-fill-available;
     width: -moz-available;
 }
@@ -236,7 +250,7 @@ footer{
     color: #FFFFFF;
 }
 
-#observer{
+/* #observer{
     visibility: hidden;
     position: relative;
     opacity: 0;
@@ -246,7 +260,7 @@ footer{
 #c{
     width: 100%;
     background-color: #757575;
-}
+} */
 
 /* keyword fetch data is empty */
 #error-containerEmpty-grid{
@@ -268,7 +282,7 @@ footer{
 /* 1200px 以上 */
 @media (min-width: 1200px) {
     /* 讓這三個區塊寬度不超過 1200px */
-    #Navigation, #attractions, #slogan{
+    #Nav-container, #attractions, #slogan{
         width: 1200px;
     } 
     
