@@ -44,7 +44,7 @@ html, body{
 
 #Nav-backToIndex{
     color: #448899;
-    padding: 10px;
+    padding: 7px;
     font-size: 30px;
     font-weight: 700;
 }
@@ -80,7 +80,7 @@ html, body{
 
 #Hero_section{
     /* 上方Nav高度 */
-    margin-top: 60px;
+    margin-top: 54px;
     width: -webkit-fill-available;
     width: -moz-available;
 }
