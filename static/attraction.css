@@ -2,6 +2,10 @@ html, body{
     margin: 0px;
 }
 
+body{
+    overflow-x: hidden;
+}
+
 hr{
     border: 1px solid #E8E8E8;
     width: 1200px;
@@ -91,44 +95,130 @@ hr{
 }
 
 #hero-section-container-grid-left{
+    position: relative;
     display: flex;
     justify-content: center;
     margin-right: 10px;
 }
 
 #pic-container{
+    position: relative;
 }
 
 #pic-container > img{
+    position: relative;
     /* aspect-ratio: 540/406; */
     height: 100%;
     /* 確保圖片在不同的螢幕大小顯示都是填滿的狀態 */
     width: 100%; 
     object-fit: cover;
-    display: block;
     object-position: center center;
+    /* 測試用 */
+    display: none;
 }
 
+.slider-btn{
+    position: absolute;
+    z-index: 50;
+    height: 36px;
+    width: 36px;
+}
+
+.previous{
+    top: 50%;
+    left: 10px;
+}
+
+.next{
+    top: 50%;
+    right: 10px;
+}
+
+#dots{
+    display: flex;
+    z-index: 50;
+    justify-content: center;
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    bottom: 13px;
+    height: 12px;
+    background-color: inherit;
+    width: 100%;
+}
+
+.dot{
+    width: 10px;
+    height: 10px;
+    background-color: #FFFFFF;
+    border: 1px solid #FFFFFF;
+    border-radius: 50%;
+    cursor: pointer;
+    margin: 0px 6px 0px 6px;
+}
+
+.dot-active{
+    background: Black;
+    border: 1px solid #FFFFFF;
+    cursor: default;
+}
 
 #hero-section-container-grid-right{
     display: grid;
     grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: 33px 22px auto;
+    gap: 15px 20px;
 }
 
 #hero-section-container-grid-right-profile{
     background-color: #E8E8E8;
+    margin-top: 5px;
 }
 
 #hero-profile-book-container-grid-wrap{
     display: grid;
     grid-template-columns: auto;
     padding: 15px 20px 15px 20px;
-    gap: 20px; /* 最後要再調整 */
+    gap: 15px; /* 最後要再調整 */
 }
 
 /* #hero-profile-book-container-grid-wrap > div{
     margin-bottom: 15px;
 } */
+
+/* date time */
+.hero-right-date{
+
+}
+
+input[type="date"]{
+    background-color: #FFFFFF;
+    padding: 5px 10px 5px 10px;
+    border: none;
+    width: 171px;
+    height: 25px;
+}
+
+::-webkit-calendar-picker-indicator{
+    height: 24px;
+    width: 24px;
+
+}
+
+::-webkit-datetime-edit{
+    width: 149px;
+    padding: 1.5px 0px 1.5px 0px;
+    font-size: 14px;
+    margin-right: 31px;    
+}
+
+/* radio-btn */
+.hero-radio-btn{
+    accent-color: #448899;
+    width: 18px;
+    height: 18px;
+}
 
 #hero-profile-start-book{
     width: 114px;
@@ -138,6 +228,7 @@ hr{
     border-radius: 5px;
     color: #FFFFFF;
     font-family: 'Noto Sans TC';
+    margin-top: 10px;
 }
 
 #infors{
@@ -147,15 +238,17 @@ hr{
 
 #infors-titles-container-grid{
     padding: 10px;
+    font-family: Noto Sans TC;
 }
 
 #infors-titles-container-grid > div{
     margin-bottom: 20px;
-}
-
-#infors-title-container{
     line-height: 32px;
 }
+
+/* #infors-title-container{
+    line-height: 32px;
+} */
 
 #infors-title{
 }
