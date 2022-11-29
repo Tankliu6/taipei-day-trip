@@ -5,9 +5,9 @@ let isloading = false;
 const attractionsContainer = document.querySelector("#grid-attractions-container");
 
 // 預設為 0
-var nextPage = [0];
+let nextPage = [0];
 
-// 存放attractions的 name、mrt、category、images(只要第一個 url)
+// 存放attractions的 id、name、mrt、category、images(只要第一個 url)
 let attractionsPool = [];
 
 /* 渲染attraction section HTML函式 */
@@ -21,16 +21,16 @@ function insertImg(attractionsPool, dataNum){
 
     /* img in grid-attractions-item > wrap-attractions*/
     let img = document.createElement('img');
-    img.src = attractionsPool[dataNum][3];
+    img.src = attractionsPool[dataNum][4];
 
     /* mrt & category in grid-attractions-item > wrap-attractions*/
     let attractions_item_mrt = document.createElement('span');
     attractions_item_mrt.setAttribute("id", "attractions-item-mrt");
-    attractions_item_mrt.textContent = attractionsPool[dataNum][1];
+    attractions_item_mrt.textContent = attractionsPool[dataNum][2];
 
     let attractions_item_category = document.createElement('span');
     attractions_item_category.setAttribute("id", "attractions-item-category");
-    attractions_item_category.textContent = attractionsPool[dataNum][2];
+    attractions_item_category.textContent = attractionsPool[dataNum][3];
 
     let mrtCategory = document.createElement('div');
     mrtCategory.setAttribute("id", "attractions-item-mrt_category");
@@ -38,16 +38,23 @@ function insertImg(attractionsPool, dataNum){
     /* name in grid-attractions-item > wrap-attractions*/
     let name = document.createElement('div');
     name.setAttribute("id", "attractions-item-name");
-    name.textContent = attractionsPool[dataNum][0];
+    name.textContent = attractionsPool[dataNum][1];
+
+    /* 最外層包裹一層 <a> 讓景點圖片能跳轉至該景點*/
+    let attractionRedirectHref = document.createElement("a");
+    attractionRedirectHref.setAttribute("id", "attraction-a-redirect");
+    attractionRedirectHref.setAttribute("href", `${window.location.origin}/attraction/${attractionsPool[dataNum][0]}`)
 
     /* render on attractions section */
     /* More than one child, append is a good idea for appendChild once */
     mrtCategory.append(attractions_item_mrt, attractions_item_category);
     wrap.append(img, name, mrtCategory);
     container.appendChild(wrap);
-    attractionsContainer.appendChild(container);
+    attractionRedirectHref.appendChild(container);
+    attractionsContainer.appendChild(attractionRedirectHref);
 };
 
+/* 渲染分類搜尋框 */
 function categories(){
     /* 打開搜尋分類框 */
     let categories = document.querySelector("#slogan-search-categories")
@@ -115,7 +122,7 @@ function remove(){
 };
 
 
-/* 拿取頁面資料*/
+/* 拿取一般頁面資料*/
 function fetchPage(){  
     /* 標記工作階段 */
     if(isloading == false){
@@ -160,7 +167,7 @@ function fetchPage(){
             /* 清空，讓下一頁資料填進來 */
             attractionsPool = [];
         }else{
-            /* 替換nextPage (type = var)非 let */
+            /* 替換nextPage */
             nextPage = [];
             nextPage.push(data['nextPage']);
             console.log("nextPage: " + nextPage);
@@ -168,7 +175,8 @@ function fetchPage(){
             let datalength = Object.keys(data['data']).length;
             for(let dataNum = 0; dataNum < datalength ;dataNum++){
                 attractionsPool.push(
-                    [data['data'][dataNum]['name'], 
+                    [data['data'][dataNum]['id'],
+                    data['data'][dataNum]['name'], 
                     data['data'][dataNum]['mrt'], 
                     data['data'][dataNum]['category'], 
                     data['data'][dataNum]['images'][0]
@@ -189,22 +197,25 @@ function fetchPage(){
 
 /* 創造 Intersection Observer */
 let options = {
-    root: null,
-    rootMargin: "0px",
-    threshold: 1,
+    threshold: [0, 0.2, 0.4, 0.6, 0.8, 1]
 };
 
 /* callback 函式 */
 let callback = (entries, observer) => {
-    entries.forEach((entry) => {
-        if(entry.isIntersecting && isloading == false){
-            console.log(entry.isIntersecting);
-            console.log(isloading);
-            console.log(observer);
-            fetchPage();
-        }
-    })
-}
+    entries.forEach(entry => {
+        console.log(entry);
+        fetchPage();
+        // if(isloading == false){
+        //     console.log(entry.isIntersecting);
+        //     console.log(isloading);
+        //     console.log(observer);
+        //     fetchPage();
+        // }
+        // if(entry.isIntersecting || isloading == true){
+        // fetchPage();
+        // }
+    });
+};
 
 /* 創建一個 observer */
 let observer = new IntersectionObserver(callback, options);
@@ -212,3 +223,4 @@ let observer = new IntersectionObserver(callback, options);
 /* 觀察 target */
 let target = document.querySelector('footer');
 observer.observe(target);
+
