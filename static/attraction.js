@@ -101,7 +101,11 @@ function fetchData(){
     }).then(function(data){
         /* 將接回的資料渲染到前端畫面 */
         Name.textContent = data.data.name;
-        categoryMrt.textContent = data.data.category + "&" + data.data.mrt;
+        /* 陽明山國家公園無捷運站 */
+        if(data.data.mrt == null ){
+            data.data.mrt = "nomrt"
+        };
+        categoryMrt.textContent = `${data.data.category} at ${data.data.mrt}`;
         description.textContent = data.data.description;
         address.textContent = data.data.address;
         transport.textContent = data.data.transport;
@@ -169,9 +173,6 @@ function fetchData(){
             };
             imgNum ++;
         };
-        /* 算slide容器中圖片數量 */
-        let picContainerLength = picContainer.getElementsByTagName("img").length;
-
     })
 };
 
