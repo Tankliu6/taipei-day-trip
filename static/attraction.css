@@ -7,7 +7,11 @@ body{
 }
 
 hr{
-    border: 1px solid #E8E8E8;
+    display: block;
+    margin: 0;
+    border-width: 1px 0px;
+    border-style: solid;
+    border-color: #E8E8E8;
     width: 1200px;
 }
 
@@ -27,7 +31,7 @@ hr{
     position: fixed;
     top: 0;
     z-index: 100;
-    box-shadow: 0 0 5px black
+    box-shadow: 0 0 1px black
 }
 
 #Nav-container{
@@ -81,7 +85,7 @@ hr{
 #hero-section{
     /* Nav要空54px，與上方要再空40px */
     margin-top: 94px;
-    margin-bottom: 40px;
+    margin-bottom: 39px;
     /* 1200px 以下的RWD */
     width: 100%;
 }
@@ -90,15 +94,16 @@ hr{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     justify-content: stretch;
-    margin-left: 10px;
-    margin-right: 10px;
+    /* margin-left: 10px;
+    margin-right: 10px; */
 }
 
 #hero-section-container-grid-left{
     position: relative;
+    right: 15px;
     display: flex;
     justify-content: center;
-    margin-right: 10px;
+    /* margin-right: 10px; */
 }
 
 #pic-container{
@@ -107,14 +112,14 @@ hr{
 
 #pic-container > img{
     position: relative;
-    /* aspect-ratio: 540/406; */
+    aspect-ratio: 540/406;
     height: 100%;
     /* 確保圖片在不同的螢幕大小顯示都是填滿的狀態 */
     width: 100%; 
     object-fit: cover;
     object-position: center center;
-    /* 測試用 */
     display: none;
+    border-radius: 5px;
 }
 
 .slider-btn{
@@ -166,6 +171,8 @@ hr{
 }
 
 #hero-section-container-grid-right{
+    position: relative;
+    right: 15px;
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     grid-template-rows: 33px 22px auto;
@@ -175,6 +182,7 @@ hr{
 #hero-section-container-grid-right-profile{
     background-color: #E8E8E8;
     margin-top: 5px;
+    border-radius: 5px;
 }
 
 #hero-profile-book-container-grid-wrap{
@@ -182,15 +190,6 @@ hr{
     grid-template-columns: auto;
     padding: 15px 20px 15px 20px;
     gap: 15px; /* 最後要再調整 */
-}
-
-/* #hero-profile-book-container-grid-wrap > div{
-    margin-bottom: 15px;
-} */
-
-/* date time */
-.hero-right-date{
-
 }
 
 input[type="date"]{
@@ -233,25 +232,23 @@ input[type="date"]{
 }
 
 #infors{
-    margin: 50px 10px 50px 10px;
+    /* 算上 hr 的 border 1px */
+    margin-top: 39px;
+    margin-bottom: 40px;
     color: #666666;
 }
 
-#infors-titles-container-grid{
-    padding: 10px;
+#infors-titles-container{
     font-family: Noto Sans TC;
 }
 
-#infors-titles-container-grid > div{
-    margin-bottom: 20px;
-    line-height: 32px;
+#infors-titles-wrap{
+    padding: 10px;
 }
 
-/* #infors-title-container{
+#infors-titles-wrap > div{
+    margin-bottom: 20px;
     line-height: 32px;
-} */
-
-#infors-title{
 }
 
 footer{
@@ -269,6 +266,8 @@ footer{
     justify-content: center;
     align-content: center;
     color: #FFFFFF;
+    font-family: Noto Sans TC;
+    font-weight: 700;
 }
 
 /* font-size, font-weight */
@@ -299,7 +298,7 @@ footer{
 
 /* 1200px 以上 */
 @media (min-width: 1200px) {
-    #Nav-container, #hero-pic-profile-container-grid, #infors-titles-container-grid, #hero-section{
+    #Nav-container, #hero-pic-profile-container-grid, #infors-titles-container, #hero-section{
         width: 1200px;
     }
     #pic-container{
@@ -308,10 +307,81 @@ footer{
     }
 }
 
-/* 1100px 以下 */
+/* 1200px 以下 */
 @media (max-width: 1200px) {
     #pic-container{
-        max-height: 400px;
-        max-width: 540px;
+        /* RWD時左右留白 */
+        width: 90%;
+    }
+    #infors-titles-wrap{
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    hr{
+        width: calc(100%*0.95);
+    }
+
+}
+
+/* 1000px 以下 */
+@media (max-width: 1000px) {
+    #hero-section-container-grid-right{
+        right: 10px;
+    }
+    #hero-section-container-grid-left{
+        right: 10px;
+    }
+}
+
+/* 800px 以下 */
+@media (max-width: 800px) {
+    #hero-section-container-grid{
+        grid-template-columns: 1fr;
+        padding: 50px;
+        gap: calc(10vh*0.3);
+    }
+    #hero-section-container-grid-right{
+        right: 0px;
+    }
+    #hero-section-container-grid-left{
+        right: 0px;
+    }
+    #hero-section{
+        margin-top: 84px;
+    }  
+}
+
+/* 700px 以下 */
+@media (max-width: 700px) {
+    #hero-section{
+        margin-top: 74px;
+    }
+    #hero-section-container-grid{
+        padding: 30px;
+    }
+}
+
+/* 600px 以下 */
+@media (max-width: 600px) {
+    #hero-section-container-grid{
+        padding: 0px 10px 0px 10px; 
+        gap: 20px;
+    }
+    #hero-section{
+        margin-top: 64px;
+    }
+    #infors-titles-wrap{
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+
+/* 解決 360px 時右上方'登入/註冊'換行問題 */
+@media (max-width: 360px) {
+    #Nav-btn-right {
+        padding: 9px;
+    }
+    #hero-section{
+        margin-top: 54px;
     }
 }
