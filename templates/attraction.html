@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel = "stylesheet" type = "text/css" href = "/static/attraction.css">
+    <title>台北一日遊</title>
+</head>
+<body onload = "fetchData();">
+    <main id = "flex-col">
+        <!-- Nav -->
+        <section id = "Navigation">
+            <div id = "Nav-container">
+                <div id = "Navigation-grid">
+                    <div id = "Nav-backToIndex">
+                        台北一日遊
+                    </div>
+                    <div id = "Nav-btn-grid">
+                        <div id = "Nav-btn-left">預定行程</div>
+                        <div id = "Nav-btn-right">登入/註冊</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hero_section -->
+        <section id = "hero-section">
+            <div id = "hero-section-container-grid">
+                <div id = "hero-section-container-grid-left">
+                    <div id = "pic-container">
+                        <!-- <img src = "https://www.travel.taipei/d_upload_ttn/sceneadmin/pic/11000848.jpg"> -->
+                        <a class = "slider-btn previous" onclick = "previous();">
+                            <img src = "../static/image/btn_leftArrow.png">
+                        </a>
+                        <a class = "slider-btn next" onclick = "next();">
+                            <img src = "../static/image/btn_rightArrow.png">
+                        </a>
+                        <div id = "dots">
+                            <!-- <div class = "dot"></div>
+                            <div class = "dot"></div>
+                            <div class = "dot"></div> -->
+                        </div>
+                    </div>
+                </div>
+                <div id = "hero-section-container-grid-right">
+                    <div  id = "name" class = "fs24fw7">平安鐘</div>
+                    <div id = "category-mrt" class = "fs16fw5">公共藝術at忠孝復興</div>
+                    <div id = "hero-section-container-grid-right-profile">
+                        <div id = "hero-profile-book-container-grid-wrap">
+                            <div class = "fs16w7">訂購導覽行程</div>
+                            <div class = "fs16fw5">以此景點為中心的一日行程，帶您探索城市角落故事</div>
+                            <div>
+                                <span class = "fs16fw7" style = "margin-right: 5px;">選擇日期 :</span><input id = "hero-right-date" type="date" />
+                            </div>
+                            <div class = "fs16fw7" style = "height: 22px">
+                                <span style = "margin-right: 5px;">選擇時間 :</span>
+                                <input type = "radio" id = "hero-radio-btn-firstHalf" class = "hero-radio-btn" name = "radio-btn" checked value = "新台幣2000元" onclick = "changeRadioCharge(this);"><label for = "hero-radio-btn-firstHalf">上半天</label></input>
+                                <input type = "radio" id = "hero-radio-btn-secondHalf" class = "hero-radio-btn"  name = "radio-btn" value = "新台幣2500元" onclick = "changeRadioCharge(this);"><label for = "hero-radio-btn-secondHalf">下半天</label></input>
+                            </div>
+                            <div class = "fs16fw7">
+                                <span  style = "margin-right: 5px;">導覽費用 :</span> 
+                                <span id = "chargeBox">新台幣2000元</span>
+                            </div>
+                            <div>
+                                <div id = "hero-profile-start-book" class = "fs16fw4">開始預約行程</div>
+                            </div> 
+                        </div>       
+                    </div>
+                </div>
+            </div>
+        </section>
+        <hr />
+        <!-- Infors -->
+        <section id = "infors">
+            <div id = "infors-titles-container">
+                <div id = "infors-titles-wrap">
+                    <div id = "description">平安鐘祈求大家的平安，這是為了紀念921地震週年的設計，在喧鬧的廣場上每個小時鳴鐘，保佑平安，祈禱臺灣不會再發生這樣的天災。雙手合十加上108個黃色的琉璃乳丁，隨著緩緩流下的水，在底下的一個小噴泉噴出。雙手合十的意義，一個是祈福，一個是包容，教我們要包容這樣的改變，撫平這樣的傷口。下面的水緩緩流出，代表著人的生命力是不斷地延續下去。緩緩地鐘聲，卻帶來心中的寧靜。 這個平安鐘是由建築師姚仁喜與琉璃創作家王俠軍共同設計，長6公尺、寬5公尺，以鑄銅製成，由法鼓山文教基金會全額出資。平安鐘點綴都市景觀，不時提醒大家，面對刻骨銘心的災難痛苦，更應該有謙卑的一顆心。</div>
+                    <div id = "infors-title-container">
+                        <div id = "infors-title" class = "fs16fw7">景點地址：</div>
+                        <div id = "address">臺北市 大安區忠孝東路4段</div>
+                    </div>
+                    <div id = "infors-title-container">
+                        <div id = "infors-title" class = "fs16fw7">交通方式：</div>
+                        <div id = "transport">捷運站名：忠孝復興站4號出口1.公車：204、212、212直、232、232副、262、262(區間)、278、299、521、605、605(副)、605(新台五線)、667、903、忠孝新幹線至頂好市場站 2.車位：太平洋崇光百貨地下停車場或市民大道附近地下停車場</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div id = "text-container">
+                <p>COPYRIGHT © 2022 台北一日遊</p>
+            </div>
+        </footer>
+    </main>
+    <script type = "text/javascript" src = "/static/attraction.js"></script>
+</body>
+</html>
