@@ -122,6 +122,7 @@ hr{
     z-index: 50;
     height: 36px;
     width: 36px;
+    cursor: pointer;
 }
 
 .previous{
