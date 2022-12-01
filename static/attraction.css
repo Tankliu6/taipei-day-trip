@@ -384,4 +384,13 @@ footer{
     #hero-section{
         margin-top: 54px;
     }
+    #pic-container{
+        width: 100%;
+    }
+    #hero-section-container-grid{
+        padding: 0px;
+    }
+    #hero-section-container-grid-right{
+        padding: 0px 10px 0px 10px;
+    }
 }
