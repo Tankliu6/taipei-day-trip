@@ -186,3 +186,5 @@ function changeRadioCharge(radioBtn){
     const charge = radioBtn.value;
     chargeBoxOnHtml.textContent = charge;
 }
+
+fetchData();
