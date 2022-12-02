@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<head lang = "en">
+    <meta charset = "utf-8" />
+    <meta http-equiv = "X-UA-Compatible" content = "IE=edge">
+    <meta name = "viewport" content="width=device-width, initial-scale = 1.0" />
+    <title>台北一日遊</title>
+    {% block css %}{% endblock %}
+</head>
+
+<body>
+    <!-- 跳脫搜尋框的黑色覆蓋層 -->
+    <div style = "display: none" id = "htmlLayer-zindex50" onclick = "layerNone();"></div>
+    <main id = "flex-col">
+        <!-- Navigation -->
+        <section id = "Navigation">
+            <div id = "Nav-container">
+                <div id = "Navigation-grid">
+                    <div id = "Nav-backToIndex">
+                        台北一日遊
+                    </div>
+                    <div id = "Nav-btn-grid">
+                        <div id = "Nav-btn-left">預定行程</div>
+                        <div id = "Nav-btn-right">登入/註冊</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% block content %}{% endblock %}
+        <!-- Footer -->
+        <footer>
+            <div id = "text-container">
+                <p>COPYRIGHT © 2022 台北一日遊</p>
+            </div>
+        </footer>
+        <!-- <div id = "c"><div id = "observer"></div></div> -->
+    </main>
+    {% block javascript %}{% endblock %}
+</body>
+</html>
