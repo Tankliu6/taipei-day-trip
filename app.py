@@ -10,19 +10,6 @@ app.config["JSON_SORT_KEYS"] = False
 app.config["DEBUG"] = True
 
 
-# 連線(connection)到資料庫
-# dbconfig = {
-#     "user" : "root",
-#     "password" : '12345678',
-#     "database" : "taipei_day_trip",
-# }
-# cnxpool = mysql.connector.pooling.MySQLConnectionPool (
-#     pool_name = "taipei-day-trip-pool",
-#     host = "localhost",
-#     pool_size = 5,
-#     **dbconfig
-# )
-
 # Pages
 @app.route("/")
 def index():

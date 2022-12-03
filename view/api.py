@@ -1,6 +1,6 @@
 from flask import *
 import mysql.connector, mysql.connector.pooling
-from view.api_fun import *
+import view.api_fun
 
 api_blueprint = Blueprint("api_attraction", __name__)
 
@@ -26,8 +26,6 @@ def attractions():
         keyword = request.args.get("keyword", None)
         nextPage = page+1
         mycursor = cnx.cursor()
-		# attractions 的 list
-        data = []
 		# 進入 keyword 查詢
         if keyword != None:
             print(keyword)
@@ -38,35 +36,41 @@ def attractions():
             results = mycursor.fetchall()
             mycursor.close()
             # 將景點資料取出放進 data(list)
-            getResults_attractions(results, data)
+            data = view.api_fun.getAttractionsData(results)
             # < 13 代表取回的 results 小於 13 個景點，沒下一頁
             if len(results) < 13 :
                 nextPage = None
-            return jsonify({
+            return jsonify(
+                {
 				"nextPage":nextPage,
 				"data":data
-			}), 200
+                }
+            ), 200
         # 單 Page 查詢
         sql = "select * from attraction limit %s, %s "
         value = (page*12, 13)
         mycursor.execute(sql, value)
         # results 為一個由資料庫回傳的 tuple
         results = mycursor.fetchall()
-        getResults_attractions(results, data)
+        data = view.api_fun.getAttractionsData(results)
         mycursor.close()
         # < 13 代表取回的 results 小於 13 個景點，沒下一頁
         if len(results) < 13 :
             nextPage = None
-        return jsonify({
+        return jsonify(
+            {
             "nextPage":nextPage,
             "data":data
-		}), 200
+            }
+        ), 200
     except:
         print("pass")
-        return jsonify({
+        return jsonify(
+            {
             "error":True,
             "message":"Internal Server Error 500"
-        }), 500
+            }
+        ), 500
     finally:
         cnx.close()
 
@@ -80,7 +84,8 @@ def attractionld(attractionId):
         mycursor.execute(sql, value)
         results = mycursor.fetchone()
         mycursor.close()
-        return jsonify({
+        return jsonify(
+            {
             "data" : {
 			"id" : results[0],
 			"name" : results[1],
@@ -92,19 +97,24 @@ def attractionld(attractionId):
 			"lat" : results[7],
 			"lng" : results[8],
 			"images" : results[9].split(',')
-			}
-		})
+                }
+            }
+        )
     except:
 		# 注意 attractionId 是 string，isnumeric() 可以確認字串中是否全為數字
         if attractionId.isnumeric():
-            return jsonify({
+            return jsonify(
+                {
 				"error" : True,
 				"message" : "id number is not correct"
-			}), 400
-        return jsonify({
+                }
+            ), 400
+        return jsonify(
+            {
 			"error" : True,
 			"message" : f"invalid literal for int() with base 10: {attractionId} "
-		}), 500
+            }
+        ), 500
     finally:
         cnx.close()
 
@@ -120,13 +130,17 @@ def categories():
         mycursor.close()
         for CAT in results:
             categories_list.append(''.join(CAT))
-        return jsonify({
+        return jsonify(
+            {
             "data" : categories_list
-        })
+            }
+        )
     except:
-        return jsonify({
+        return jsonify(
+            {
 			"error" : True,
 			"message" : "Internal Server Error"
-		}), 500
+            }
+        ), 500
     finally:
          cnx.close()
