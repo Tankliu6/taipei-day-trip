@@ -6,7 +6,7 @@ const description = document.querySelector("#description");
 const address = document.querySelector("#address");
 const transport = document.querySelector("#transport");
 const dots = document.querySelector("#dots");
-
+const title = document.querySelector("title")
 
 /* 向左按鈕 */
 function previous(){
@@ -99,12 +99,13 @@ function fetchData(){
     fetch(url).then(function(response){
         return response.json();
     }).then(function(data){
-        /* 將接回的資料渲染到前端畫面 */
-        Name.textContent = data.data.name;
         /* 陽明山國家公園無捷運站 */
         if(data.data.mrt == null ){
             data.data.mrt = "nomrt"
         };
+        /* 將接回的資料渲染到前端畫面 */
+        title.textContent = data.data.name;
+        Name.textContent = data.data.name;
         categoryMrt.textContent = `${data.data.category} at ${data.data.mrt}`;
         description.textContent = data.data.description;
         address.textContent = data.data.address;

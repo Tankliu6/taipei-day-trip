@@ -5,7 +5,7 @@ let isloading = false;
 const attractionsContainer = document.querySelector("#grid-attractions-container");
 
 // 預設為 0
-let nextPage = [0];
+let nextPage = 0;
 
 // 存放attractions的 id、name、mrt、category、images(只要第一個 url)
 let attractionsPool = [];
@@ -88,10 +88,6 @@ function categories(){
     })
 };
 
-// function show(this){
-//     document.querySelector(this).style.display = "block";
-// }
-
 /* 分類搜尋框關閉相關 */
 function layerNone(){
     /* 關閉分類框的隱形遮罩 */
@@ -108,8 +104,7 @@ function remove(){
     /* 點擊搜尋btn時排除無法讀取景點資料的可能性 */
     isloading = false; 
     /* 將下一頁歸零 */
-    nextPage = [];
-    nextPage.push(0);
+    nextPage = 0;
     console.log("remove's loading Page: "+ nextPage);
     let first = document.querySelector("#grid-attractions-container").firstElementChild
     while (first) {
@@ -135,9 +130,9 @@ function fetchPage(){
     let keyword = document.querySelector("#slogan-search-bar").value;
     console.log("keyword: " + keyword + "typeof: " + typeof keyword + "keyword-length: " + keyword.length);
     if(keyword.length == 0){
-        url = `/api/attractions?page=${nextPage[0]}`
+        url = `/api/attractions?page=${nextPage}`
     }else{
-        url = `/api/attractions?page=${nextPage[0]}&keyword=${keyword}`
+        url = `/api/attractions?page=${nextPage}&keyword=${keyword}`
     };
     /* 第一次載入時的 nextPage = 0 */
     fetch(url)
@@ -168,8 +163,7 @@ function fetchPage(){
             attractionsPool = [];
         }else{
             /* 替換nextPage */
-            nextPage = [];
-            nextPage.push(data['nextPage']);
+            nextPage = data.nextPage;
             console.log("nextPage: " + nextPage);
             /* 取得該頁有幾筆資料 */
             let datalength = Object.keys(data['data']).length;
@@ -201,19 +195,10 @@ let options = {
 };
 
 /* callback 函式 */
-let callback = (entries, observer) => {
+let callback = (entries) => {
     entries.forEach(entry => {
         console.log(entry);
         fetchPage();
-        // if(isloading == false){
-        //     console.log(entry.isIntersecting);
-        //     console.log(isloading);
-        //     console.log(observer);
-        //     fetchPage();
-        // }
-        // if(entry.isIntersecting || isloading == true){
-        // fetchPage();
-        // }
     });
 };
 
