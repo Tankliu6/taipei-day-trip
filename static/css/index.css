@@ -38,7 +38,7 @@ a:hover{
 
 #wrapSlogan{
     display: grid;
-    background-image: url('image/welcome.png');
+    background-image: url('/static/image/welcome.png');
     background-color: #cccccc;
     background-size: cover;
     background-repeat: space;
@@ -115,6 +115,7 @@ a:hover{
 }
 
 #slogan-search-categories-item{
+    cursor: pointer;
     padding: 10px 15px 10px 15px;
 }
 
@@ -146,10 +147,21 @@ a:hover{
 
 
 #wrap-attractions > img{
+    position: relative;
     width: 100%;
     aspect-ratio: 270/197;
 }
 
+#wrap-attractions > img:hover{
+    animation-duration: 1s;
+    animation-name: bounding;
+    animation-timing-function: ease-out;
+}
+
+@keyframes bounding{
+    from{filter: blur(1px) brightness(70%)};
+    to{filter: blur(0px) brightness(100%)};
+}
 
 #attractions-item-name{
     display: grid;
