@@ -251,7 +251,7 @@ a:hover{
 }
 
 /* 解決 360px 時右上方'登入/註冊'換行問題 */
-@media (width: 360px) {
+@media (max-width: 360px) {
     #Nav-btn-right {
         padding: 9px;
     }

@@ -21,11 +21,36 @@
                     </div>
                     <div id = "Nav-btn-grid">
                         <div id = "Nav-btn-left">預定行程</div>
-                        <div id = "Nav-btn-right">登入/註冊</div>
+                        <div id = "Nav-btn-right" onclick = "showSignIn();">登入/註冊</div>
                     </div>
                 </div>
             </div>
         </section>
+        <!-- 登入會員帳號 -->
+        <div id = "member-signin" class = "member" style = "display: none;">
+            <img id = "member-items-wrap-roof" src = "/static/image/decorator bar.png">
+            <div id = "member-items-wrap">
+                <img id = "member-icon-close" src = "/static/image/icon_close.png"/>
+                <div class = "member-title">登入會員帳號</div>
+                <input id = "member-email-input" class = "member-input" placeholder = "輸入電子信箱"></input>
+                <input id = "member-email-input" class = "member-input" placeholder = "輸入密碼"></input>
+                <button class = "member-submit">登入帳戶</button>
+                <div class = "member-hint">還沒有帳戶?<span id = "member-signUp-activate" onclick = "switchToSignUp();" class = "pointer">點此註冊<span></div>
+            </div>
+        </div>
+        <!-- 註冊會員帳號 -->
+        <div id = "member-signup" class = "member" style = "display: none;">
+            <img id = "member-items-wrap-roof" src = "/static/image/decorator bar.png">
+            <div id = "member-items-wrap">
+                <img id = "member-icon-close" src = "/static/image/icon_close.png"/>
+                <div class = "member-title">登入會員帳號</div>
+                <input id = "member-email-input" class = "member-input" placeholder = "輸入姓名"></input>
+                <input id = "member-email-input" class = "member-input" placeholder = "輸入電子信箱"></input>
+                <input id = "member-email-input" class = "member-input" placeholder = "輸入密碼"></input>
+                <button class = "member-submit">登入帳戶</button>
+                <div class = "member-hint">已經有帳戶了?<span id = "member-signIn-activate" onclick = "switchToSignIn();" class = "pointer">點此登入<span></div>
+            </div>
+        </div>
         {% block content %}{% endblock %}
         <!-- Footer -->
         <footer>
