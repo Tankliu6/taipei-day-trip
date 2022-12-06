@@ -89,14 +89,13 @@ function categories(){
 };
 
 /* 分類搜尋框關閉相關 */
-function layerNone(){
+function clearCategories(){
     /* 關閉分類框的隱形遮罩 */
-    let htmlLayer = document.querySelector("#htmlLayer-zindex50");
+    const htmlLayer = document.querySelector("#htmlLayer-zindex50");
     htmlLayer.style.display = "none";
     /* 關閉搜尋分類框 */
-    let categories = document.querySelector("#slogan-search-categories")
+    const categories = document.querySelector("#slogan-search-categories")
     categories.style.display = "none";
-
 };
 
 /* 刪除 attractions 中的資料 */
