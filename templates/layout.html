@@ -10,7 +10,7 @@
 
 <body>
     <!-- 跳脫搜尋框的黑色覆蓋層 -->
-    <div style = "display: none" id = "htmlLayer-zindex50" onclick = "layerNone();"></div>
+    <div style = "display: none" id = "htmlLayer-zindex50" onclick = "clearCategories(); clearLoginSignup();"></div>
     <main id = "flex-col">
         <!-- Navigation -->
         <section id = "Navigation">
@@ -27,14 +27,15 @@
             </div>
         </section>
         <!-- 登入會員帳號 -->
-        <div id = "member-signin" class = "member" style = "display: none;">
+        <div id = "member-login" class = "member" style = "display: none;">
             <img id = "member-items-wrap-roof" src = "/static/image/decorator bar.png">
             <div id = "member-items-wrap">
                 <img id = "member-icon-close" src = "/static/image/icon_close.png"/>
                 <div class = "member-title">登入會員帳號</div>
-                <input id = "member-email-input" class = "member-input" placeholder = "輸入電子信箱"></input>
-                <input id = "member-email-input" class = "member-input" placeholder = "輸入密碼"></input>
-                <button class = "member-submit">登入帳戶</button>
+                <input id = "login-email-input" class = "member-input" placeholder = "輸入電子信箱" onclick = "clearMemberAlert();"></input>
+                <input id = "login-password-input" class = "member-input" placeholder = "輸入密碼" onclick = "clearMemberAlert();"></input>
+                <button class = "login-submit member-submit">登入帳戶</button>
+                <div id = "member-login-alert" class = "member-alert"></div>
                 <div class = "member-hint">還沒有帳戶?<span id = "member-signUp-activate" onclick = "switchToSignUp();" class = "pointer">點此註冊<span></div>
             </div>
         </div>
@@ -43,11 +44,12 @@
             <img id = "member-items-wrap-roof" src = "/static/image/decorator bar.png">
             <div id = "member-items-wrap">
                 <img id = "member-icon-close" src = "/static/image/icon_close.png"/>
-                <div class = "member-title">登入會員帳號</div>
-                <input id = "member-email-input" class = "member-input" placeholder = "輸入姓名"></input>
-                <input id = "member-email-input" class = "member-input" placeholder = "輸入電子信箱"></input>
-                <input id = "member-email-input" class = "member-input" placeholder = "輸入密碼"></input>
-                <button class = "member-submit">登入帳戶</button>
+                <div class = "member-title">註冊會員帳號</div>
+                <input id = "signup-name-input" class = "member-input" placeholder = "輸入姓名" onclick = "clearMemberAlert();"></input>
+                <input id = "signup-email-input" class = "member-input" placeholder = "輸入電子信箱" onclick = "clearMemberAlert();"></input>
+                <input id = "signup-password-input" class = "member-input" placeholder = "輸入密碼" onclick = "clearMemberAlert();"></input>
+                <button class = "signup-submit member-submit">註冊新帳戶</button>
+                <div id = "member-signup-alert" class = "member-alert"></div>
                 <div class = "member-hint">已經有帳戶了?<span id = "member-signIn-activate" onclick = "switchToSignIn();" class = "pointer">點此登入<span></div>
             </div>
         </div>
