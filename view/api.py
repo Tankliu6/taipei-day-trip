@@ -2,7 +2,7 @@ from flask import *
 import mysql.connector, mysql.connector.pooling
 import view.api_fun
 
-api_blueprint = Blueprint("api_attraction", __name__)
+api_attraction = Blueprint("api_attraction", __name__)
 
 # 連線(connection)到資料庫
 dbconfig = {
@@ -17,7 +17,7 @@ cnxpool = mysql.connector.pooling.MySQLConnectionPool (
     **dbconfig
 )
 
-@api_blueprint.route("/api/attractions")
+@api_attraction.route("/api/attractions")
 def attractions():
     try:
         cnx = cnxpool.get_connection()
@@ -74,7 +74,7 @@ def attractions():
     finally:
         cnx.close()
 
-@api_blueprint.route("/api/attraction/<attractionId>")
+@api_attraction.route("/api/attraction/<attractionId>")
 def attractionld(attractionId):
     try:
         cnx = cnxpool.get_connection()
@@ -118,7 +118,7 @@ def attractionld(attractionId):
     finally:
         cnx.close()
 
-@api_blueprint.route("/api/categories")
+@api_attraction.route("/api/categories")
 def categories():
     try:
         cnx = cnxpool.get_connection()
