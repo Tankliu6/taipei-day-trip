@@ -21,7 +21,8 @@
                     </div>
                     <div id = "Nav-btn-grid">
                         <div id = "Nav-btn-left">預定行程</div>
-                        <div id = "Nav-btn-right" onclick = "showSignIn();">登入/註冊</div>
+                        <div id = "Nav-btn-signin-signup" class = "Nav-btn-right" style="display: none;" onclick = "showSignIn();" >登入/註冊</div>
+                        <div id = "Nav-btn-logout" class = "Nav-btn-right" style = "display: none;" onclick = "logoutBtn();">登出系統</div>
                     </div>
                 </div>
             </div>
@@ -35,7 +36,7 @@
                 <input id = "login-email-input" class = "member-input" placeholder = "輸入電子信箱" onclick = "clearMemberAlert();"></input>
                 <input id = "login-password-input" class = "member-input" placeholder = "輸入密碼" onclick = "clearMemberAlert();"></input>
                 <button class = "login-submit member-submit">登入帳戶</button>
-                <div id = "member-login-alert" class = "member-alert"></div>
+                <div id = "member-login-alert" class = "member-alert" style = "display: none;"></div>
                 <div class = "member-hint">還沒有帳戶?<span id = "member-signUp-activate" onclick = "switchToSignUp();" class = "pointer">點此註冊<span></div>
             </div>
         </div>
@@ -49,7 +50,7 @@
                 <input id = "signup-email-input" class = "member-input" placeholder = "輸入電子信箱" onclick = "clearMemberAlert();"></input>
                 <input id = "signup-password-input" class = "member-input" placeholder = "輸入密碼" onclick = "clearMemberAlert();"></input>
                 <button class = "signup-submit member-submit">註冊新帳戶</button>
-                <div id = "member-signup-alert" class = "member-alert"></div>
+                <div id = "member-signup-alert" class = "member-alert" style = "display: none;"></div>
                 <div class = "member-hint">已經有帳戶了?<span id = "member-signIn-activate" onclick = "switchToSignIn();" class = "pointer">點此登入<span></div>
             </div>
         </div>

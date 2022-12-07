@@ -1,6 +1,7 @@
 /* 全域變數 */
-const layer = document.querySelector("#htmlLayer-zindex50")
-
+const layer = document.querySelector("#htmlLayer-zindex50");
+const signinAndSignup = document.querySelector("#Nav-btn-signin-signup");
+const logout = document.querySelector("#Nav-btn-logout");
 
 /* 跳轉至首頁 */
 function homepage(){
@@ -10,6 +11,44 @@ function homepage(){
     });
 };
 
+/* 確認登入狀態 */
+function checkMemberStatus(){
+    fetch("/api/user/auth", {
+        method : "GET",
+        credentials: "include",
+        cache: "no-cache",
+        headers: new Headers({
+            "content-type": "application/json"
+        })
+    }).then(function(response){
+        return response.json();
+    }).then(function(responseJsonData){
+        if(responseJsonData.data != null){
+            logout.style.display = "block";
+            signinAndSignup.style.display = "none"
+        }else{
+            logout.style.display = "none";
+            signinAndSignup.style.display = "block"
+        };
+    });
+};
+
+/* 登出會員系統 */
+function logoutBtn(){
+    fetch("/api/user/auth", {
+        method : "DELETE",
+        credentials : "include",
+        cache : "no-cache",
+    }).then(function(response){
+        return response.json();
+    }).then(function(responseJsonData){
+        if(responseJsonData.ok === true){
+            window.location.reload();
+        }else{
+            window.location.assign("/");
+        }
+    })
+}
 
 /* 會員登入/註冊 */
 const loginInInterface = document.querySelector("#member-login");
@@ -68,33 +107,30 @@ function handleUserSignupValidation(){
     let nameValidation = (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(userSignupData.name));
     let emailValidation = (/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(userSignupData.email));
     let passwordValidation = (/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/.test(userSignupData.password));
-    console.log("name validation : " + /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(userSignupData.name));
-    console.log("email validation : " + /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(userSignupData.email));
-    console.log("password validation : " + /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/.test(userSignupData.password));
     if(nameValidation === false){
         return {
             valid : false,
-            alertToUser : "姓名 : 至少8碼，要有大寫英文、小寫英文和數字"
+            message : "姓名 : 至少8碼，要有大寫英文、小寫英文和數字"
         }
     }else if(emailValidation === false){
         return {
             valid : false,
-            alertToUser : "郵件地址 : 請輸入正確的郵件地址"
+            message : "郵件地址 : 請輸入正確的郵件地址"
         }
     }else if(passwordValidation === false){
         return {
             valid : false,
-            alertToUser : "密碼 : 至少8碼，要有大寫英文、小寫英文、數字，和特殊符號"
+            message : "密碼 : 至少8碼，要有大寫英文、小寫英文、數字，和特殊符號"
         }
     }else if(nameValidation && emailValidation && passwordValidation){
         return {
             valid : true,
-            alertToUser : "註冊成功，請登入系統"
+            message : "註冊成功，請登入系統"
         }
     }else{
         return {
             valid : false,
-            alertToUser : "請確認會員資料填寫完整"
+            message : "請確認會員資料填寫完整"
         }
     }
 };
@@ -120,7 +156,7 @@ function signUp(){
             }).then(function(response){
                 responseStatus = response.status;
                 return response.json();
-            }).then(async function(responseJsonData){
+            }).then(function(responseJsonData){
                 console.log(responseJsonData);
                 if(responseStatus == 400){
                     console.log("here", responseJsonData.message);
@@ -142,8 +178,8 @@ function signUp(){
                 }
             })
         }else{ /* 註冊會員格式不正確 */
-            console.log(handleUserSignupValidation().alertToUser);
-            memberSignupAlert.textContent = handleUserSignupValidation().alertToUser;
+            console.log(handleUserSignupValidation().message);
+            memberSignupAlert.textContent = handleUserSignupValidation().message;
             memberSignupAlert.style.color = "red";
             memberSignupAlert.style.display = "block";
         }
@@ -154,6 +190,76 @@ function signUp(){
 function clearMemberAlert(){
     memberLoginAlert.style.display = "none";
     memberSignupAlert.style.display = "none";
+}
+
+/* 登入會員 */
+function signIn(){
+    const loginSubmit = document.querySelector(".login-submit");
+    let loginStatus;
+    console.log("signIn");
+    loginSubmit.addEventListener("click", function(){
+        if(handleUserSigninValidation().valid){
+            let data = handleUserSigninValidation().loginData;
+            fetch("/api/user/auth", {
+                method: "PUT",
+                credentials: "include",
+                body: JSON.stringify(data),
+                cache: "no-cache",
+                headers: new Headers({
+                    "content-type": "application/json"
+                })
+            }).then(function(response){
+                loginStatus = response.status;
+                return response.json();
+            }).then(function(responseJsonData){
+                console.log(responseJsonData);
+                console.log(loginStatus);
+                if(loginStatus == 200){
+                    memberLoginAlert.textContent = "登入成功，轉至會員頁面";
+                    memberLoginAlert.style.color = "green";
+                    memberLoginAlert.style.display = "block";
+                    window.location.reload();
+                    /* 尚未處理JWT */
+                }else if(loginStatus == 400){
+                    memberLoginAlert.textContent = responseJsonData.message;
+                    memberLoginAlert.style.color = "red";
+                    memberLoginAlert.style.display = "block" 
+                }else{
+                    memberLoginAlert.textContent = responseJsonData.message;
+                    memberLoginAlert.style.color = "red";
+                    memberLoginAlert.style.display = "block" 
+                }
+            });
+        }else{
+            memberLoginAlert.textContent = handleUserSigninValidation().message;
+            memberLoginAlert.style.color = "red";
+            memberLoginAlert.style.display = "block"
+        }        
+    })
+}
+
+/* 確認登入會員信箱及密碼格式 */
+function handleUserSigninValidation(){
+    let emailValidation = (/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(loginInEmail.value));
+    let passwordValidation = (/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/.test(loginInpassword.value));
+    if(emailValidation && passwordValidation){
+        return{
+            "valid" : true,
+            "loginData" : {
+                "email" : loginInEmail.value,
+                "password" : loginInpassword.value
+            }
+        }
+    }else if(emailValidation === false){
+        return{
+            "valid" : false,
+            "message" : "郵件地址 : 請輸入正確的郵件地址"
+        }
+    }else if(passwordValidation === false)
+        return{
+            "valid" : false,
+            "message" : "密碼 : 至少8碼，要有大寫英文、小寫英文、數字，和特殊符號"
+        }
 }
 
 /* 登入/註冊會員下方反黑部分 */
@@ -169,3 +275,5 @@ homepage();
 closeMemberInterface();
 clearLoginSignup();
 signUp();
+signIn();
+checkMemberStatus();

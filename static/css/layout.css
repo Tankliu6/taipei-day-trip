@@ -63,7 +63,7 @@
     cursor: pointer;
 }
 
-#Nav-btn-right{
+.Nav-btn-right{
     padding: 10px;
     color: #666666;
     /* item 本身內部 */
