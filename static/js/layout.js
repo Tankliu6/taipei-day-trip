@@ -104,9 +104,9 @@ function signUpData(){
 
 function handleUserSignupValidation(){
     const userSignupData = signUpData();
-    let nameValidation = (/^[a-zA-Z0-9_-]{8,}$/.test(userSignupData.name));
+    let nameValidation = (/^[\w]([^<>\s]){8,20}$/.test(userSignupData.name));
     let emailValidation = (/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(userSignupData.email));
-    let passwordValidation = (/^[a-zA-Z0-9_-]{8,}$/.test(userSignupData.password));
+    let passwordValidation = (/^[\w]([^<>\s]){8,20}$/.test(userSignupData.password));
     if(userSignupData.name === userSignupData.password){
         return{
             "valid" : false,
@@ -115,7 +115,7 @@ function handleUserSignupValidation(){
     }else if(nameValidation === false){
         return {
             "valid" : false,
-            "message" : "使用者名稱 : 至少8碼，不含特殊字元及空格"
+            "message" : "使用者名稱 : 8碼至20碼，不含'<''>'及空格"
         }
     }else if(emailValidation === false){
         return {
@@ -125,7 +125,7 @@ function handleUserSignupValidation(){
     }else if(passwordValidation === false){
         return {
             "valid" : false,
-            "message" : "密碼 : 至少8碼，不含特殊字元及空格"
+            "message" : "密碼 : 8碼至20碼，不含'<''>'及空格"
         }
     }else if(nameValidation && emailValidation && passwordValidation){
         return {
@@ -246,7 +246,7 @@ function signIn(){
 /* 確認登入會員信箱及密碼格式 */
 function handleUserSigninValidation(){
     let emailValidation = (/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(loginInEmail.value));
-    let passwordValidation = (/^[a-zA-Z0-9_-]{8,}$/.test(loginInpassword.value));
+    let passwordValidation = (/^[\w]([^<>\s]){8,20}$/.test(loginInpassword.value));
     if(emailValidation && passwordValidation){
         return{
             "valid" : true,
@@ -263,7 +263,7 @@ function handleUserSigninValidation(){
     }else if(passwordValidation === false)
         return{
             "valid" : false,
-            "message" : "密碼 : 至少8碼，不含特殊字元及空格"
+            "message" : "密碼 : 8碼至20碼，不含'<''>'及空格"
         }
 }
 
