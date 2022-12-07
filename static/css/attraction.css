@@ -140,12 +140,13 @@ input[type="date"]{
     border: none;
     width: 171px;
     height: 25px;
+    cursor: text;
 }
 
 ::-webkit-calendar-picker-indicator{
     height: 24px;
     width: 24px;
-
+    cursor: pointer;
 }
 
 ::-webkit-datetime-edit{
@@ -160,6 +161,7 @@ input[type="date"]{
     accent-color: #448899;
     width: 18px;
     height: 18px;
+    cursor: pointer;
 }
 
 #hero-profile-start-book{
