@@ -104,9 +104,9 @@ function signUpData(){
 
 function handleUserSignupValidation(){
     const userSignupData = signUpData();
-    let nameValidation = (/^[\w]([^<>\s]){8,20}$/.test(userSignupData.name));
+    let nameValidation = (/^[\w\u4E00-\u9FFF]([^<>\s]){1,20}$/g.test(userSignupData.name));
     let emailValidation = (/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(userSignupData.email));
-    let passwordValidation = (/^[\w]([^<>\s]){8,20}$/.test(userSignupData.password));
+    let passwordValidation = (/^[\w]([^<>\s]){7,20}$/.test(userSignupData.password));
     if(userSignupData.name === userSignupData.password){
         return{
             "valid" : false,
@@ -115,7 +115,7 @@ function handleUserSignupValidation(){
     }else if(nameValidation === false){
         return {
             "valid" : false,
-            "message" : "使用者名稱 : 8碼至20碼，不含'<''>'及空格"
+            "message" : "使用者名稱 : 2碼至20碼，不可含'<''>'及空格"
         }
     }else if(emailValidation === false){
         return {
@@ -246,7 +246,7 @@ function signIn(){
 /* 確認登入會員信箱及密碼格式 */
 function handleUserSigninValidation(){
     let emailValidation = (/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(loginInEmail.value));
-    let passwordValidation = (/^[\w]([^<>\s]){8,20}$/.test(loginInpassword.value));
+    let passwordValidation = (/^[\w]([^<>\s]){7,20}$/.test(loginInpassword.value));
     if(emailValidation && passwordValidation){
         return{
             "valid" : true,
