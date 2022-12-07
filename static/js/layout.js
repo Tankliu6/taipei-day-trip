@@ -104,33 +104,38 @@ function signUpData(){
 
 function handleUserSignupValidation(){
     const userSignupData = signUpData();
-    let nameValidation = (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(userSignupData.name));
+    let nameValidation = (/^[a-zA-Z0-9_-]{8,}$/.test(userSignupData.name));
     let emailValidation = (/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(userSignupData.email));
-    let passwordValidation = (/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/.test(userSignupData.password));
-    if(nameValidation === false){
+    let passwordValidation = (/^[a-zA-Z0-9_-]{8,}$/.test(userSignupData.password));
+    if(userSignupData.name === userSignupData.password){
+        return{
+            "valid" : false,
+            "message" : "使用者名稱不可與密碼相同"
+        }
+    }else if(nameValidation === false){
         return {
-            valid : false,
-            message : "姓名 : 至少8碼，要有大寫英文、小寫英文和數字"
+            "valid" : false,
+            "message" : "使用者名稱 : 至少8碼，不含特殊字元及空格"
         }
     }else if(emailValidation === false){
         return {
-            valid : false,
-            message : "郵件地址 : 請輸入正確的郵件地址"
+            "valid" : false,
+            "message" : "郵件地址 : 請輸入正確的郵件地址"
         }
     }else if(passwordValidation === false){
         return {
-            valid : false,
-            message : "密碼 : 至少8碼，要有大寫英文、小寫英文、數字，和特殊符號"
+            "valid" : false,
+            "message" : "密碼 : 至少8碼，不含特殊字元及空格"
         }
     }else if(nameValidation && emailValidation && passwordValidation){
         return {
-            valid : true,
-            message : "註冊成功，請登入系統"
+            "valid" : true,
+            "message" : "註冊成功，請登入系統"
         }
     }else{
         return {
-            valid : false,
-            message : "請確認會員資料填寫完整"
+            "valid" : false,
+            "message" : "請確認會員資料填寫完整"
         }
     }
 };
@@ -241,7 +246,7 @@ function signIn(){
 /* 確認登入會員信箱及密碼格式 */
 function handleUserSigninValidation(){
     let emailValidation = (/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(loginInEmail.value));
-    let passwordValidation = (/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/.test(loginInpassword.value));
+    let passwordValidation = (/^[a-zA-Z0-9_-]{8,}$/.test(loginInpassword.value));
     if(emailValidation && passwordValidation){
         return{
             "valid" : true,
@@ -258,7 +263,7 @@ function handleUserSigninValidation(){
     }else if(passwordValidation === false)
         return{
             "valid" : false,
-            "message" : "密碼 : 至少8碼，要有大寫英文、小寫英文、數字，和特殊符號"
+            "message" : "密碼 : 至少8碼，不含特殊字元及空格"
         }
 }
 
