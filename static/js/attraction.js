@@ -182,7 +182,6 @@ function fetchData(){
 /* 轉換花費 */
 function changeRadioCharge(radioBtn){
     /* radioBtn 會回傳div */
-    console.log(radioBtn.value);
     const chargeBoxOnHtml = document.querySelector("#chargeBox");
     const charge = radioBtn.value;
     chargeBoxOnHtml.textContent = charge;
