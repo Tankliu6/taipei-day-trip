@@ -195,6 +195,7 @@ function clearMemberAlert(){
 /* 登入會員 */
 function signIn(){
     const loginSubmit = document.querySelector(".login-submit");
+    console.log(loginSubmit);
     let loginStatus;
     console.log("signIn");
     loginSubmit.addEventListener("click", function(){
@@ -219,7 +220,6 @@ function signIn(){
                     memberLoginAlert.style.color = "green";
                     memberLoginAlert.style.display = "block";
                     window.location.reload();
-                    /* 尚未處理JWT */
                 }else if(loginStatus == 400){
                     memberLoginAlert.textContent = responseJsonData.message;
                     memberLoginAlert.style.color = "red";

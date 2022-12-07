@@ -19,7 +19,7 @@ cnxpool = mysql.connector.pooling.MySQLConnectionPool (
 )
 
 @api_auth.route("/api/user", methods = ["POST"])
-def signUp(): #要用regex阻擋奇怪帳號密碼~~~~
+def signUp():
         try:
             cnx = cnxpool.get_connection()
             mycursor = cnx.cursor()
@@ -57,13 +57,12 @@ def signUp(): #要用regex阻擋奇怪帳號密碼~~~~
             cnx.close()
 
 @api_auth.route("/api/user/auth", methods = ["GET", "PUT", "DELETE"])
-def auth(): #要用regex阻擋奇怪帳號密碼~~~~
+def auth():
     try:
         cnx = cnxpool.get_connection()
         mycursor = cnx.cursor()
         if request.method == "GET":
             cookieFromRequest = request.cookies.get("Set-Cookie")
-            print(cookieFromRequest)
             if(cookieFromRequest == None):
                 return jsonify(
                     {
@@ -71,10 +70,6 @@ def auth(): #要用regex阻擋奇怪帳號密碼~~~~
                     }
                 )
             else:
-                print("else")
-                decode_token(cookieFromRequest)
-                print("decode")
-                print(decode_token(cookieFromRequest))
                 decode_token_json = decode_token(cookieFromRequest).popitem()
                 return jsonify(
                     {
@@ -84,12 +79,17 @@ def auth(): #要用regex阻擋奇怪帳號密碼~~~~
         if request.method == "PUT":
             requestPutData = request.get_json()
             sql = "select * from membership where email = %s and password = %s"
-            value = (requestPutData["email"], requestPutData["password"], )
+            value = (requestPutData["email"], requestPutData["password"])
             mycursor.execute(sql, value)
             result = mycursor.fetchone()
-            print(make_token(result))
-            print(result)
-            if result:
+            if result == None:
+                return jsonify(
+                    {
+                        "error" : True,
+                        "message" : "登入失敗，帳號或密碼錯誤或其他原因"
+                    }
+                ), 400
+            elif result != None:
                 resp = make_response(jsonify(
                     {
                         "ok" : True
@@ -98,20 +98,6 @@ def auth(): #要用regex阻擋奇怪帳號密碼~~~~
                 print(resp)
                 resp.set_cookie("Set-Cookie", make_token(result), expires = time.time()+60*60*24*7)
                 return resp, 200
-            elif len(result) == 0:
-                return jsonify(
-                    {
-                        "error" : True,
-                        "message" : "登入失敗，帳號或密碼錯誤或其他原因"
-                    }
-                ), 400
-            else:
-                return jsonify(
-                    {
-                        "error" : True,
-                        "message" : "伺服器內部錯誤"
-                    }
-                ), 500
         if request.method == "DELETE":
             res = make_response(
                 jsonify(
@@ -123,14 +109,12 @@ def auth(): #要用regex阻擋奇怪帳號密碼~~~~
             res.set_cookie("Set-Cookie", "", expires=0)
             return res, 200
     except:
-        print("except")
         return jsonify(
             {
                 "error" : True,
-                "message" : "伺服器內部錯誤或網路連線不穩定"
+                "message" : "伺服器內部錯誤"
             }
-        )
+        ), 500
     finally:        
-        mycursor.close()
         cnx.close()
 
