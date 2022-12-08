@@ -1,23 +1,11 @@
 from flask import *
 import mysql.connector, mysql.connector.pooling
-import re, jwt, time, os
+import re, jwt, time, os, view.db_conncetion
 from view.token import make_token, decode_token
 from dotenv import load_dotenv
 api_auth = Blueprint("api_auth", __name__)
 load_dotenv()
-
-dbconfig = {
-    "user" : "root",
-    "password" : os.getenv('DBKEY'),
-    "database" : "taipei_day_trip",
-}
-
-cnxpool = mysql.connector.pooling.MySQLConnectionPool (
-    pool_name = "taipei-day-trip-pool",
-    host = "localhost",
-    pool_size = 5,
-    **dbconfig
-)
+cnxpool = view.db_conncetion.db_connection_pool()
 
 @api_auth.route("/api/user", methods = ["POST"])
 def signUp():

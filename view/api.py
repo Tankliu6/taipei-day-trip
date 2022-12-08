@@ -1,22 +1,12 @@
 from flask import *
 import mysql.connector, mysql.connector.pooling
-import view.api_fun
+import view.api_fun, view.db_conncetion
 import os
 from dotenv import load_dotenv
 api_attraction = Blueprint("api_attraction", __name__)
 load_dotenv()
 # 連線(connection)到資料庫
-dbconfig = {
-    "user" : "root",
-    "password" : os.getenv('DBKEY'),
-    "database" : "taipei_day_trip",
-}
-cnxpool = mysql.connector.pooling.MySQLConnectionPool (
-    pool_name = "taipei-day-trip-pool",
-    host = "localhost",
-    pool_size = 5,
-    **dbconfig
-)
+cnxpool = view.db_conncetion.db_connection_pool()
 
 @api_attraction.route("/api/attractions")
 def attractions():
