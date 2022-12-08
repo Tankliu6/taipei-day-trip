@@ -80,7 +80,7 @@ function categories(){
                 categoryInputValue.value = this.textContent;
             })
             // 放入關閉分類收尋框功能
-            categoryItemDiv.addEventListener("click", layerNone);
+            categoryItemDiv.addEventListener("click", clearCategories);
             // 將各分類放進分類搜尋框中
             let itemsContainer = document.querySelector("#slogan-search-categories");
             itemsContainer.appendChild(categoryItemDiv); 
@@ -89,7 +89,7 @@ function categories(){
 };
 
 /* 分類搜尋框關閉相關 */
-function clearCategories(){
+const clearCategories = function clearCategories(){
     /* 關閉分類框的隱形遮罩 */
     const htmlLayer = document.querySelector("#htmlLayer-zindex50");
     htmlLayer.style.display = "none";
