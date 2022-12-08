@@ -1,5 +1,5 @@
 # 產生 /api/attractions 的 JSON 格式資料
-def getAttractionsData(results):
+def getAttractionsJsonData(results):
 	data = []
 	round = 0
 	for list in results:

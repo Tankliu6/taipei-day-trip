@@ -1,6 +1,7 @@
-import jwt
+import jwt, os
 from datetime import datetime, timedelta
-
+from dotenv import load_dotenv
+load_dotenv()
 def make_token(dbData):
     token = jwt.encode(
     {
@@ -8,14 +9,14 @@ def make_token(dbData):
         "name" : dbData[1],
         "email" : dbData[2],
     },
-    "BA1D43F21E93570D2F2B569570813D591C2FD38E8C8E52B195B4C6712B676B36",
+    os.getenv('JWTSECRET'),
     algorithm = "HS256")
     return token
 
 def decode_token(dbToken):
     decodeToken = jwt.decode(
         dbToken,
-        "BA1D43F21E93570D2F2B569570813D591C2FD38E8C8E52B195B4C6712B676B36",
+        os.getenv('JWTSECRET'),
         algorithms = "HS256"
     )
     return decodeToken 

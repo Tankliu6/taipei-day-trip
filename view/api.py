@@ -1,13 +1,14 @@
 from flask import *
 import mysql.connector, mysql.connector.pooling
 import view.api_fun
-
+import os
+from dotenv import load_dotenv
 api_attraction = Blueprint("api_attraction", __name__)
-
+load_dotenv()
 # 連線(connection)到資料庫
 dbconfig = {
     "user" : "root",
-    "password" : '12345678',
+    "password" : os.getenv('DBKEY'),
     "database" : "taipei_day_trip",
 }
 cnxpool = mysql.connector.pooling.MySQLConnectionPool (
@@ -36,7 +37,7 @@ def attractions():
             results = mycursor.fetchall()
             mycursor.close()
             # 將景點資料取出放進 data(list)
-            data = view.api_fun.getAttractionsData(results)
+            data = view.api_fun.getAttractionsJsonData(results)
             # < 13 代表取回的 results 小於 13 個景點，沒下一頁
             if len(results) < 13 :
                 nextPage = None
@@ -52,7 +53,7 @@ def attractions():
         mycursor.execute(sql, value)
         # results 為一個由資料庫回傳的 tuple
         results = mycursor.fetchall()
-        data = view.api_fun.getAttractionsData(results)
+        data = view.api_fun.getAttractionsJsonData(results)
         mycursor.close()
         # < 13 代表取回的 results 小於 13 個景點，沒下一頁
         if len(results) < 13 :

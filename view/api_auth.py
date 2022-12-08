@@ -1,13 +1,14 @@
 from flask import *
 import mysql.connector, mysql.connector.pooling
-import re, jwt, time
+import re, jwt, time, os
 from view.token import make_token, decode_token
-
+from dotenv import load_dotenv
 api_auth = Blueprint("api_auth", __name__)
+load_dotenv()
 
 dbconfig = {
     "user" : "root",
-    "password" : '12345678',
+    "password" : os.getenv('DBKEY'),
     "database" : "taipei_day_trip",
 }
 
