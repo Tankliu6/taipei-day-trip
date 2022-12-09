@@ -1,3 +1,7 @@
+html, body{
+    margin: 0px;
+}
+
 /* 螢幕反黑覆蓋層 */
 #htmlLayer-zindex50{
     width: 100%;

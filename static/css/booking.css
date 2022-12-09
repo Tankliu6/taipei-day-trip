@@ -1,0 +1,15 @@
+main{
+    margin-top: calc(54px + 46px);
+}
+
+/* items section */
+
+.items-attraction{
+    display: flex;
+}
+
+.attraction-img{
+    width: 100%;
+    object-fit: cover;
+    object-position: center center;
+}
