@@ -1,10 +1,10 @@
 from flask import *
-import mysql.connector, mysql.connector.pooling
-import re, jwt, time, os, view.db_conncetion
+import mysql.connector.pooling
+import  time, view.db_conncetion
 from view.token import make_token, decode_token
-from dotenv import load_dotenv
+# Blueprint
 api_auth = Blueprint("api_auth", __name__)
-load_dotenv()
+# 資料庫連線
 cnxpool = view.db_conncetion.db_connection_pool()
 
 @api_auth.route("/api/user", methods = ["POST"])
@@ -59,7 +59,7 @@ def auth():
                     }
                 )
             else:
-                decode_token_json = decode_token(cookieFromRequest).popitem()
+                decode_token_json = decode_token(cookieFromRequest)
                 return jsonify(
                     {
                         "data" : decode_token_json

@@ -1,6 +1,7 @@
 from flask import *
 import mysql.connector, mysql.connector.pooling
 import view.api_fun, view.db_conncetion
+from view.api_fun import getAttractionsJsonData
 import os
 from dotenv import load_dotenv
 api_attraction = Blueprint("api_attraction", __name__)
@@ -27,14 +28,14 @@ def attractions():
             results = mycursor.fetchall()
             mycursor.close()
             # 將景點資料取出放進 data(list)
-            data = view.api_fun.getAttractionsJsonData(results)
+            data = getAttractionsJsonData(results)
             # < 13 代表取回的 results 小於 13 個景點，沒下一頁
             if len(results) < 13 :
                 nextPage = None
             return jsonify(
                 {
-				"nextPage":nextPage,
-				"data":data
+                    "nextPage" : nextPage,
+                    "data" : data
                 }
             ), 200
         # 單 Page 查詢

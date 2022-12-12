@@ -1,5 +1,4 @@
 import jwt, os
-from datetime import datetime, timedelta
 from dotenv import load_dotenv
 load_dotenv()
 def make_token(dbData):
