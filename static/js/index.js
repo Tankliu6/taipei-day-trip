@@ -11,7 +11,7 @@ let nextPage = 0;
 let attractionsPool = [];
 
 /* 渲染attraction section HTML函式 */
-function insertImg(attractionsPool, dataNum){
+function renderAttractionsOnPage(attractionsPool, dataNum){
     /* grid-attractions-item */ 
     let container = document.createElement('div');
     container.setAttribute("id", "grid-attractions-item");
@@ -104,7 +104,6 @@ function remove(){
     isloading = false; 
     /* 將下一頁歸零 */
     nextPage = 0;
-    console.log("remove's loading Page: "+ nextPage);
     let first = document.querySelector("#grid-attractions-container").firstElementChild
     while (first) {
         first.remove();
@@ -124,28 +123,28 @@ function fetchPage(){
     }else{
         return
     }
-    console.log("fetchPage's loading Page: "+nextPage);
+    let responseStatus;
     /* 取得關鍵字搜尋 */
     let keyword = document.querySelector("#slogan-search-bar").value;
-    console.log("keyword: " + keyword + "typeof: " + typeof keyword + "keyword-length: " + keyword.length);
     if(keyword.length == 0){
         url = `/api/attractions?page=${nextPage}`
     }else{
         url = `/api/attractions?page=${nextPage}&keyword=${keyword}`
-    };
+    }
     /* 第一次載入時的 nextPage = 0 */
     fetch(url)
     .then(function(response){
+        responseStatus = response.status;
         return response.json(); // 讀取為 JSON 格式
     }).then(function(data){
-        /* 如果資料為 [] 代表查無此資料 */
-        if(data["data"].length === 0){
-            let attractionsContainer = document.querySelector("#grid-attractions-container");
+        /* 關鍵字查詢無資料時的回應，還需要優化 */
+        if(false){
+            const attractionsContainer = document.querySelector("#grid-attractions-container");
             /* 取消Grid 讓資料能順利排列與置中 */
             errorContainerEmptyGrid = document.querySelector("#grid-attractions-container"); /* 注意是全域變數 */
             errorContainerEmptyGrid.style.display = "block";
             /* 查無此資料 */
-            let error_empty =
+            const error_empty =
                 `<div id = "error-containerEmpty-grid">
                     <img src="https://i.imgur.com/qIufhof.png" />
                     <h1>
@@ -163,20 +162,20 @@ function fetchPage(){
         }else{
             /* 替換nextPage */
             nextPage = data.nextPage;
-            console.log("nextPage: " + nextPage);
             /* 取得該頁有幾筆資料 */
             let datalength = Object.keys(data['data']).length;
             for(let dataNum = 0; dataNum < datalength ;dataNum++){
                 attractionsPool.push(
-                    [data['data'][dataNum]['id'],
-                    data['data'][dataNum]['name'], 
-                    data['data'][dataNum]['mrt'], 
-                    data['data'][dataNum]['category'], 
-                    data['data'][dataNum]['images'][0]
+                    [
+                    data.data[dataNum].id,
+                    data.data[dataNum].name, 
+                    data.data[dataNum].mrt, 
+                    data.data[dataNum].category, 
+                    data.data[dataNum].images[0]
                 ])
             };
             for(dataNum = 0; dataNum < datalength; dataNum++){
-                insertImg(attractionsPool, dataNum);
+                renderAttractionsOnPage(attractionsPool, dataNum);
             };
             /* 清空，讓下一頁資料填進來 */
             attractionsPool = [];
@@ -196,7 +195,6 @@ let options = {
 /* callback 函式 */
 let callback = (entries) => {
     entries.forEach(entry => {
-        console.log(entry);
         fetchPage();
     });
 };
