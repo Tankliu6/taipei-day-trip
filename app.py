@@ -3,10 +3,11 @@ import mysql.connector, mysql.connector.pooling
 from view.api import api_attraction
 from view.api_auth import api_auth
 
+
 # from mySQL import getPassword
 app=Flask(__name__)
-app.config["JSON_AS_ASCII"] = False
-app.config["TEMPLATES_AUTO_RELOAD"] = True
+app.config["JSON_AS_ASCII"]=False
+app.config["TEMPLATES_AUTO_RELOAD"]=True
 app.config["JSON_SORT_KEYS"] = False
 app.config["DEBUG"] = True
 
@@ -28,8 +29,10 @@ def booking():
 def thankyou():
 	return render_template("thankyou.html")
 
+
 app.register_blueprint(api_attraction)
 app.register_blueprint(api_auth)
+
 
 if  __name__ == "__main__":
     app.run(host = "0.0.0.0", port=3000)
