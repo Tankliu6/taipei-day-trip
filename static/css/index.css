@@ -11,15 +11,6 @@ a:hover{
     color: #448899;
 }
 
-#htmlLayer-zindex50{
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    z-index: 50;
-    background-color: #000000;
-    opacity: 0.1;
-}
-
 #flex-col{
     display: flex;
     flex-direction: column;
@@ -28,65 +19,7 @@ a:hover{
     height: 100vh;
 }
 
-#Navigation{
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    background-color: rgb(255, 255, 255);
-    position: fixed;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 0 5px black
-}
-
-#Nav-container{
-    /* 寬度 */
-    width: -webkit-fill-available;
-    width: -moz-available;
-}
-
-#Navigation-grid{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    /* background-color: #2196F3; */
-}
-
-#Nav-backToIndex{
-    color: #448899;
-    padding: 7px;
-    font-size: 30px;
-    font-weight: 700;
-}
-
-#Nav-btn-grid{
-    display: grid;
-    /* 讓最右邊2格隨著內容自由變寬 */
-    grid-template-columns: repeat(6, 1fr) auto auto;
-    font-size: 16px;
-    /* 不換行 */
-    grid-auto-flow: dense;
-}
-
-#Nav-btn-left{
-    padding: 10px;
-    color: #666666;
-    /* item 本身內部 */
-    align-self: center;
-    justify-self: center;
-    /* 開始格子/佔據幾格(未用到) */
-    grid-column: 9;
-}
-
-#Nav-btn-right{
-    padding: 10px;
-    color: #666666;
-    /* item 本身內部 */
-    align-self: center;
-    justify-self: center;
-    /* 開始格子/佔據幾格(未用到) */
-    grid-column: 7;
-}
-
+/* Hero section */
 #Hero_section{
     /* 上方Nav高度 */
     margin-top: 54px;
@@ -96,7 +29,7 @@ a:hover{
 
 #wrapSlogan{
     display: grid;
-    background-image: url('image/welcome.png');
+    background-image: url('/static/image/welcome.png');
     background-color: #cccccc;
     background-size: cover;
     background-repeat: space;
@@ -143,6 +76,7 @@ a:hover{
     border: 0;
     height: 26px;
     width: 334px;
+    outline: none;
 }
 
 #slogan-search-icon{
@@ -150,21 +84,22 @@ a:hover{
     background-color: #448899;
     height: 26px;
     border-radius: 0 5px 5px 0;
+    cursor: pointer;
 }
 
 #slogan-search-categories{
     display: grid;
     /* 下方彈出功能 */
     position: absolute;
-    top: 165px;
+    top: 170px;
     left: 10px;
-    grid-template-columns: repeat(3, minmax(96px, 120px));
+    grid-template-columns: repeat(3, minmax(auto, 104px));
     justify-content: start;
     gap: 20px;
     background-color: #FFFFFF;
     border-radius: 5px;
     margin-top: 2px;
-    box-shadow: 0 0 3px #666666;
+    box-shadow: 0 0 10px #666666;
     z-index: 51; /* 高於htmlLayer-zindex50 */
 }
 
@@ -173,9 +108,11 @@ a:hover{
 }
 
 #slogan-search-categories-item{
+    cursor: pointer;
     padding: 10px 15px 10px 15px;
 }
 
+/* Attractions section */
 #attractions{
     height: auto;
     margin-top: 40px; margin-bottom: 40px;
@@ -203,10 +140,21 @@ a:hover{
 
 
 #wrap-attractions > img{
+    position: relative;
     width: 100%;
     aspect-ratio: 270/197;
 }
 
+#wrap-attractions > img:hover{
+    animation-duration: 1s;
+    animation-name: bounding;
+    animation-timing-function: ease-out;
+}
+
+@keyframes bounding{
+    from{filter: blur(1px) brightness(70%)};
+    to{filter: blur(0px) brightness(100%)};
+}
 
 #attractions-item-name{
     display: grid;
@@ -241,37 +189,7 @@ a:hover{
     text-align: end;
 }
 
-footer{
-    width: -webkit-fill-available;
-    width: -moz-available;
-    /*RWD 時 footer 置底元件二*/
-    margin-top: auto; 
-}
-
-#text-container{
-    display: grid;
-    height: 104px;
-    background-color: #757575;
-    width: -webkit-fill-available;
-    width: -moz-available;
-    justify-content: center;
-    align-content: center;
-    color: #FFFFFF;
-}
-
-/* #observer{
-    visibility: hidden;
-    position: relative;
-    opacity: 0;
-    height: 1px;
-}
-
-#c{
-    width: 100%;
-    background-color: #757575;
-} */
-
-/* keyword fetch data is empty */
+/* Keyword fetch data is empty */
 #error-containerEmpty-grid{
     display: grid;
     grid-template-columns: repeat(auto);
@@ -323,10 +241,14 @@ footer{
     #slogan-search-bar{
         width: auto;
     }
+    #slogan-search-categories{
+        max-width: 298px;
+        gap: 0px; 
+    }
 }
 
 /* 解決 360px 時右上方'登入/註冊'換行問題 */
-@media (width: 360px) {
+@media (max-width: 360px) {
     #Nav-btn-right {
         padding: 9px;
     }

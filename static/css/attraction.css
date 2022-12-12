@@ -23,65 +23,7 @@ hr{
     height: 100vh;
 }
 
-#Navigation{
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    background-color: rgb(255, 255, 255);
-    position: fixed;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 0 1px black
-}
-
-#Nav-container{
-    /* 寬度 */
-    width: -webkit-fill-available;
-    width: -moz-available;
-}
-
-#Navigation-grid{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    /* background-color: #2196F3; */
-}
-
-#Nav-backToIndex{
-    color: #448899;
-    padding: 7px;
-    font-size: 30px;
-    font-weight: 700;
-}
-
-#Nav-btn-grid{
-    display: grid;
-    /* 讓最右邊2格隨著內容自由變寬 */
-    grid-template-columns: repeat(6, 1fr) auto auto;
-    font-size: 16px;
-    /* 不換行 */
-    grid-auto-flow: dense;
-}
-
-#Nav-btn-left{
-    padding: 10px;
-    color: #666666;
-    /* item 本身內部 */
-    align-self: center;
-    justify-self: center;
-    /* 開始格子/佔據幾格(未用到) */
-    grid-column: 9;
-}
-
-#Nav-btn-right{
-    padding: 10px;
-    color: #666666;
-    /* item 本身內部 */
-    align-self: center;
-    justify-self: center;
-    /* 開始格子/佔據幾格(未用到) */
-    grid-column: 7;
-}
-
+/* Hero section */
 #hero-section{
     /* Nav要空54px，與上方要再空40px */
     margin-top: 94px;
@@ -198,12 +140,13 @@ input[type="date"]{
     border: none;
     width: 171px;
     height: 25px;
+    cursor: text;
 }
 
 ::-webkit-calendar-picker-indicator{
     height: 24px;
     width: 24px;
-
+    cursor: pointer;
 }
 
 ::-webkit-datetime-edit{
@@ -218,6 +161,7 @@ input[type="date"]{
     accent-color: #448899;
     width: 18px;
     height: 18px;
+    cursor: pointer;
 }
 
 #hero-profile-start-book{
@@ -231,6 +175,7 @@ input[type="date"]{
     margin-top: 10px;
 }
 
+/* Infors section */
 #infors{
     /* 算上 hr 的 border 1px */
     margin-top: 39px;
@@ -249,25 +194,6 @@ input[type="date"]{
 #infors-titles-wrap > div{
     margin-bottom: 20px;
     line-height: 32px;
-}
-
-footer{
-    width: 100%;
-    /*RWD 時 footer 置底元件二*/
-    margin-top: auto; 
-}
-
-#text-container{
-    display: grid;
-    height: 104px;
-    background-color: #757575;
-    width: -webkit-fill-available;
-    width: -moz-available;
-    justify-content: center;
-    align-content: center;
-    color: #FFFFFF;
-    font-family: Noto Sans TC;
-    font-weight: 700;
 }
 
 /* font-size, font-weight */

@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+
+{% block title %}booking{% endblock %}
+
+{% block css %}<link rel = "stylesheet" type = "text/css" href = "/static/css/booking.css">{% endblock %}
+
+{% block content %}
+<main>
+<!-- main -->
+<!-- welcome -->
+    <div id = "welcome" class = "welcome-style">
+        您好<span id = "welcome-name"></span>，待預定的行程如下 :
+    </div>
+<!-- welcome end -->
+<!-- items -->
+    <div id = "items" class = "items-style">
+        <div class = "items-attraction">
+            <div id = "items-attraction-left" class = "items-attraction-item">
+                <img class = "attraction-img" src="https://www.travel.taipei/d_upload_ttn/sceneadmin/pic/11000340.jpg">
+            </div>
+            <div id = "items-attraction-right" class = "items-attraction-item">
+                <div class = "">台北一日遊 : 大稻埕碼頭</div>
+                <div>日期 : 2022-12-15</div>
+                <div>時間 : 早上9點到下午4點</div>
+                <div>費用 : 新台幣2000元</div>
+                <div>地點 : 北市 大同區環河北路一段</div>
+                <div>預定編號 : 100</div>
+            </div>
+        </div>
+    </div>
+<!-- items end -->
+<!-- contact -->
+    <div id = "contact">
+        <div class = "contact-items-wrap">
+            <div class = "section-title-style">您的聯絡資訊</div>
+            <div>聯絡姓名：<input></input></div>
+            <div>聯絡信箱：<input></input></div>
+            <div>手機號碼：<input></input></div>
+            <div>請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</div>
+        </div>
+    </div>
+<!-- contact end -->
+<!-- payment -->
+    <div id = "payment">
+        <div class = "payment-items-wrap">
+            <div>卡片號碼：<input placeholder = "**** **** **** ****"></input></div>
+            <div>過期時間：<input type="text" pattern="\d{2}\/\d{2}" placeholder = "MM/DD"></input></div>
+            <div>驗證密碼：<input type = "text" pattern = "\d{3}" placeholder = "ccv"></input></div>
+        </div>
+    </div>
+<!-- payment end -->
+    <div id = "total-info">
+        <div class = "total-payment">總價 : 新台幣 2000 元</div>
+        <div class = "check-order-pay">確認訂購並付款</div>
+    </div>
+<!-- main end -->
+</main>
+
+{% endblock %}
+
+
+{% block javascript %}<script type = "text/javascript" src = "/static/js/booking.js"></script>{% endblock %}

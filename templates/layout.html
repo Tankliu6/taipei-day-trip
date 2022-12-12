@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<head lang = "en">
+    <meta charset = "utf-8" />
+    <meta http-equiv = "X-UA-Compatible" content = "IE=edge">
+    <meta name = "viewport" content="width=device-width, initial-scale = 1.0" />
+    <link rel = "stylesheet" type = "text/css" href = "/static/css/layout.css"></link>
+    <title>{% block title %}{% endblock %}</title>
+    {% block css %}{% endblock %}
+</head>
+
+<body>
+    <!-- 跳脫搜尋框的黑色覆蓋層 -->
+    <div style = "display: none" id = "htmlLayer-zindex50" onclick = "clearCategories(); clearLoginSignup();"></div>
+    <main id = "flex-col">
+        <!-- Navigation -->
+        <section id = "Navigation">
+            <div id = "Nav-container">
+                <div id = "Navigation-grid">
+                    <div id = "Nav-backToIndex">
+                        台北一日遊
+                    </div>
+                    <div id = "Nav-btn-grid">
+                        <div id = "Nav-btn-left">預定行程</div>
+                        <div id = "Nav-btn-signin-signup" class = "Nav-btn-right" style="display: none;" onclick = "showSignIn();" >登入/註冊</div>
+                        <div id = "Nav-btn-logout" class = "Nav-btn-right" style = "display: none;" onclick = "logoutBtn();">登出系統</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- 登入會員帳號 -->
+        <div id = "member-login" class = "member" style = "display: none;">
+            <img id = "member-items-wrap-roof" src = "/static/image/decorator bar.png">
+            <div id = "member-items-wrap">
+                <img id = "member-icon-close" src = "/static/image/icon_close.png"/>
+                <div class = "member-title">登入會員帳號</div>
+                <input id = "login-email-input" class = "member-input" placeholder = "輸入電子信箱" onclick = "clearMemberAlert();"></input>
+                <input id = "login-password-input" class = "member-input" placeholder = "輸入密碼" onclick = "clearMemberAlert();" type = "password"></input>
+                <button class = "login-submit member-submit">登入帳戶</button>
+                <div id = "member-login-alert" class = "member-alert" style = "display: none;"></div>
+                <div class = "member-hint">還沒有帳戶?<span id = "member-signUp-activate" onclick = "switchToSignUp();" class = "pointer">點此註冊<span></div>
+            </div>
+        </div>
+        <!-- 註冊會員帳號 -->
+        <div id = "member-signup" class = "member" style = "display: none;">
+            <img id = "member-items-wrap-roof" src = "/static/image/decorator bar.png">
+            <div id = "member-items-wrap">
+                <img id = "member-icon-close" src = "/static/image/icon_close.png"/>
+                <div class = "member-title">註冊會員帳號</div>
+                <input id = "signup-name-input" class = "member-input" placeholder = "輸入姓名" onclick = "clearMemberAlert();"></input>
+                <input id = "signup-email-input" class = "member-input" placeholder = "輸入電子信箱" onclick = "clearMemberAlert();"></input>
+                <input id = "signup-password-input" class = "member-input" placeholder = "輸入密碼" onclick = "clearMemberAlert();" type = "password"></input>
+                <button class = "signup-submit member-submit">註冊新帳戶</button>
+                <div id = "member-signup-alert" class = "member-alert" style = "display: none;"></div>
+                <div class = "member-hint">已經有帳戶了?<span id = "member-signIn-activate" onclick = "switchToSignIn();" class = "pointer">點此登入<span></div>
+            </div>
+        </div>
+        {% block content %}{% endblock %}
+        <!-- Footer -->
+        <footer>
+            <div id = "text-container">
+                <p>COPYRIGHT © 2022 台北一日遊</p>
+            </div>
+        </footer>
+        <!-- <div id = "c"><div id = "observer"></div></div> -->
+    </main>
+    <script type = "text/javascript" src = "/static/js/layout.js"></script>
+    {% block javascript %}{% endblock %}
+</body>
+</html>
