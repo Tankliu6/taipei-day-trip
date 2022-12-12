@@ -19,5 +19,5 @@ def getAttractionsJsonData(results):
 		data.append(data_item)
 		# 計算次數，因為從資料庫取13筆資料，但只想放入12筆資料
 		round += 1
-		if round == len(results) -1 :
+		if round == len(results):
 			return data

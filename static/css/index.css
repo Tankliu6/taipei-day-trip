@@ -76,6 +76,7 @@ a:hover{
     border: 0;
     height: 26px;
     width: 334px;
+    outline: none;
 }
 
 #slogan-search-icon{
@@ -90,15 +91,15 @@ a:hover{
     display: grid;
     /* 下方彈出功能 */
     position: absolute;
-    top: 165px;
+    top: 170px;
     left: 10px;
-    grid-template-columns: repeat(3, minmax(96px, 120px));
+    grid-template-columns: repeat(3, minmax(auto, 104px));
     justify-content: start;
     gap: 20px;
     background-color: #FFFFFF;
     border-radius: 5px;
     margin-top: 2px;
-    box-shadow: 0 0 3px #666666;
+    box-shadow: 0 0 10px #666666;
     z-index: 51; /* 高於htmlLayer-zindex50 */
 }
 
@@ -239,6 +240,10 @@ a:hover{
     /* 搜尋框配合頁面縮小 */
     #slogan-search-bar{
         width: auto;
+    }
+    #slogan-search-categories{
+        max-width: 298px;
+        gap: 0px; 
     }
 }
 
