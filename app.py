@@ -6,8 +6,8 @@ from view.api_booking import api_booking
 
 # from mySQL import getPassword
 app=Flask(__name__)
-app.config["JSON_AS_ASCII"]=False
-app.config["TEMPLATES_AUTO_RELOAD"]=True
+app.config["JSON_AS_ASCII"] = False
+app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["JSON_SORT_KEYS"] = False
 app.config["DEBUG"] = True
 
