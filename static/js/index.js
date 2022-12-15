@@ -1,6 +1,9 @@
 // isloading for infinite scroll
 let isloading = false;
 
+// htmlLayer for closing category-search-bar & login-and-signup-interface
+const htmlLayer = document.querySelector("#htmlLayer-zindex50");
+
 // HTML attractions section
 const attractionsContainer = document.querySelector("#grid-attractions-container");
 
@@ -88,10 +91,9 @@ function categories(){
     })
 };
 
-/* 分類搜尋框關閉相關 */
+/* 關閉分類搜尋框及下方 htmlLayer */
 const clearCategories = function clearCategories(){
     /* 關閉分類框的隱形遮罩 */
-    const htmlLayer = document.querySelector("#htmlLayer-zindex50");
     htmlLayer.style.display = "none";
     /* 關閉搜尋分類框 */
     const categories = document.querySelector("#slogan-search-categories")
@@ -206,3 +208,5 @@ let observer = new IntersectionObserver(callback, options);
 let target = document.querySelector('footer');
 observer.observe(target);
 
+/* 載入時觸發 */
+htmlLayer.addEventListener("click", clearCategories);

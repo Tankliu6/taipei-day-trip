@@ -2,7 +2,7 @@ from flask import *
 import mysql.connector, mysql.connector.pooling
 from view.api import api_attraction
 from view.api_auth import api_auth
-
+from view.api_booking import api_booking
 
 # from mySQL import getPassword
 app=Flask(__name__)
@@ -32,6 +32,7 @@ def thankyou():
 
 app.register_blueprint(api_attraction)
 app.register_blueprint(api_auth)
+app.register_blueprint(api_booking)
 
 
 if  __name__ == "__main__":

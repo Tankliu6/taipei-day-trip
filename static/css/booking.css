@@ -1,15 +1,196 @@
-main{
+hr{
+    display: block;
+    border-width: 1px 0px;
+    border-style: solid;
+    border-color: #E8E8E8;
+    margin: 40px 0 40px 0;
+}
+
+input{
+    padding: 10px;
+}
+
+label{
+    cursor: pointer;
+}
+
+.hr-forRWD{
+    padding: 0 10px 0 10px;
+}
+
+.booking-content-container{
     margin-top: calc(54px + 46px);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.booking-content-container > section{
+    padding: 0 10px 0 10px;
+}
+
+#welcome{
+    font-size: 19px;
+    font-weight: 700;
+    color: #666666;
+    margin-bottom: 30px;
+}
+
+/* noBooking section */
+#noBooking{
+    margin: auto;
+    top: 0; right: 0; left: 0; bottom: 0;
+}
+
+.noBooking-text-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.noBooking-text-container > div{
+    font-size: calc(1rem + 4vw);
+    color: cadetblue;
+
+}
+
+.noBooking-text-container > a{
+    font-size: 30px;
+    color: cornflowerblue;
 }
 
 /* items section */
+#items{
+    margin-top: 20px;
+}
 
 .items-attraction{
+    position: relative;
     display: flex;
+    gap: 22px;
+}
+
+#items-attraction-left-imgContainer{
+    width: 266px;
+    height: 200px;
 }
 
 .attraction-img{
     width: 100%;
+    height: 100%;
     object-fit: cover;
     object-position: center center;
+    padding: 0 10px 0 10px;
+    box-sizing: border-box;
+}
+
+#items-attraction-right-bookingInfo{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    line-height: 14px;
+}
+
+.items-attraction-right-bookingInfo-title{
+    font-size: 16px;
+    font-weight: 700;
+    color: #448899;
+    margin-bottom: 10px;
+}
+
+.booking-attraction-delete-active{
+    position: absolute;
+    right: 100px;
+    max-width: 30px;
+    max-height: 30px;
+    cursor: pointer;
+}
+
+.booking-attraction-delete-active:hover{
+    margin-top: 1px;
+    box-shadow: 0px 0px 10px #CCCCCC;
+    background-color: #e6e6e6c7;
+    opacity: 0.8;
+    border-radius: 5px;
+}
+
+/* contact & payment wrap-style */
+.contact-items-wrap, .payment-items-wrap{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    color: #666666;
+}
+
+.section-title-style{
+    margin-bottom: 9px;
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 16px;
+}
+
+/* total-info section */
+#total-info{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-end;
+}
+
+.total-payment{
+    color: #666666;
+    font-weight: 700;
+}
+
+.check-order-to-pay{
+    color: #FFFFFF;
+    text-align: center;
+    background-color: #448899;
+    width: fit-content;
+    padding: 10px 20px 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 60px;
+}
+
+
+/* 1200px 以上 */
+@media (min-width: 1200px) {
+    /* 讓這三個區塊寬度不超過 1200px */
+    #Nav-container{
+        width: 1200px;
+    } 
+    .wrap-content-forRWD{
+        width: 1200px;
+    }
+}
+
+/* 1200px 以下 */
+@media (max-width: 1200px) {
+    .wrap-content-forRWD{
+        width: 100%;
+    }
+}
+
+
+
+
+/* 700px 以下 */
+@media (max-width: 700px) {
+    #items-attraction-left-imgContainer{
+        width: 340px;
+        height: 200px;
+    }
+    .items-attraction{
+        flex-direction: column;
+    }
+}
+
+/* 500px 以下 */
+@media (max-width: 500px) {
+    .booking-attraction-delete-active{
+        position: relative;
+        right: 0;
+        align-self: flex-end;
+    }
 }

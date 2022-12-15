@@ -77,14 +77,15 @@ function switchToSignIn(){
     signUpInterface.style.display = "none";
 };
 
-function closeMemberInterface(){
-    for(icon of closeIcon){
-        icon.addEventListener("click", function(){
-            loginInInterface.style.display = "none";
-            signUpInterface.style.display = "none";
-            clearLoginSignup();
-        });
-    };
+/* 點擊註冊&登入右上角叉叉進行關閉 */
+const closeMemberInterface = function closeMemberInterface(){  
+    loginInInterface.style.display = "none";
+    signUpInterface.style.display = "none";
+    clearLoginSignup();
+}
+/* 頁面載入時賦予登入&註冊頁叉叉關閉功能 */
+for(icon of closeIcon){
+    icon.addEventListener("click", closeMemberInterface);
 };
 
 function signUpData(){
@@ -200,9 +201,7 @@ function clearMemberAlert(){
 /* 登入會員 */
 function signIn(){
     const loginSubmit = document.querySelector(".login-submit");
-    console.log(loginSubmit);
     let loginStatus;
-    console.log("signIn");
     loginSubmit.addEventListener("click", function(){
         if(handleUserSigninValidation().valid){
             let data = handleUserSigninValidation().loginData;
@@ -274,6 +273,138 @@ function clearLoginSignup(){
     signUpInterface.style.display = "none";
 }
 
+/* 預定行程 */
+const bookingBtn = document.querySelector("#Nav-btn-left")
+function booking(){
+    bookingBtn.addEventListener("click", function(){
+        fetch("/api/user/auth", {
+            method : "GET",
+            credentials: "include",
+            cache: "no-cache",
+            headers: new Headers({
+                "content-type": "application/json"
+            })
+        }).then(function(response){
+            return response.json();
+        }).then(function(responseJsonData){
+            if(responseJsonData.data != null){
+                let pathname = window.location.pathname;
+                if(pathname === "/booking"){
+                    logout.style.display = "block";
+                    signinAndSignup.style.display = "none";
+                    window.location.reload();
+                }else{
+                    popUpMessage(`網頁即將跳轉至<a href = ${window.location.origin}/booking>預定行程頁</a>`);
+                    setTimeout(() =>{
+                        logout.style.display = "block";
+                        signinAndSignup.style.display = "none";
+                        window.location.assign(`${window.location.origin}/booking`);
+                    }, 1500)    
+                }
+            }else{
+                showSignIn();
+                logout.style.display = "none";
+                signinAndSignup.style.display = "block"
+            };
+        });
+    });
+}
+
+/* popUpMessage */
+function popUpMessage(message){
+    const body = document.getElementById("body");
+    body.disabled = true;
+    body.insertAdjacentHTML("beforebegin",         
+    `
+    <div id = "member-login" class = "member" style = "margin: auto; right: 0; left: 0; top: 50vh; box-shadow: 0 0 10px #CCCCCC">
+        <img id = "member-items-wrap-roof" style = "display: block; position: relative; bottom: 0;" src = "/static/image/decorator bar.png">
+        <div id = "member-items-wrap" style = "word-break: break-all">
+            <div class = "popUpMessage">${message}</div>
+        </div>
+    </div>
+    `
+    );
+};
+
+/* make a booking in pathname : /attraction/<id>  */
+function getBookingInfo(){
+    const attractionId = window.location.pathname.split("/")[2];
+    const date = document.querySelector("#hero-right-date").value;
+    const checkTheMorning = document.querySelector("#hero-radio-btn-firstHalf").checked;
+    const checkTheAfternoon = document.querySelector("#hero-radio-btn-secondHalf").checked;
+    const price = document.querySelector("#chargeBox").textContent.slice(3, 7);
+    if(checkTheMorning){
+        return {
+            attractionId : attractionId,
+            date : date,
+            time : "上半天",
+            price : price
+        }
+    }else if(checkTheAfternoon){
+        return {
+            attractionId : attractionId,
+            date : date,
+            time : "下半天",
+            price : price
+        }
+    }else{
+        alert("getBookingInfo function Error test")
+    }
+};
+
+
+function makeABooking(){
+    if(window.location.pathname.split("/")[1] != "attraction"){
+        return
+    }
+    const makeABookingBtn = document.querySelector("#hero-profile-booking-active");
+    makeABookingBtn.addEventListener("click", function(){
+        fetch("/api/user/auth")
+        .then(function(response){
+            return response.json();
+        })
+        .then(function(data){
+            console.log(data);
+            if(data.data == null){
+                showSignIn();
+            }else if(data.data){
+                let responseStatus;
+                const BookingData = getBookingInfo();
+                console.log(BookingData);
+                fetch("/api/booking", 
+                {
+                    method : "POST",
+                    credentials : "include",
+                    body: JSON.stringify(BookingData),
+                    cache : "no-cache",
+                    headers : new Headers({
+                        "content-type": "application/json"
+                    })
+                }).then(function(response){
+                    responseStatus = response.status;
+                    return response.json();
+                }).then(function(data){
+                    if(responseStatus != 200){
+                        const emptyDateMsg = document.querySelector(".dateEmptyMsg");
+                        emptyDateMsg.style.color = "red";
+                        emptyDateMsg.textContent = `   尚未選擇日期!`;
+                        emptyDateMsg.style.display = "inline";
+                        setTimeout(() =>{
+                            emptyDateMsg.style.display = "none"
+                        }, 1500);
+                    }else if(responseStatus === 200){
+                        popUpMessage(`預定成功跳轉至<a href = ${window.location.origin}/booking>預定行程頁</a>`);
+                        setTimeout(() =>{
+                            logout.style.display = "block";
+                            signinAndSignup.style.display = "none";
+                            window.location.assign(`${window.location.origin}/booking`);
+                        }, 2000)    
+                    }
+                })
+            }
+        })
+    })
+}
 
 /* 載入時觸發 */
 homepage();
@@ -282,3 +413,5 @@ clearLoginSignup();
 signUp();
 signIn();
 checkMemberStatus();
+booking();
+makeABooking();
