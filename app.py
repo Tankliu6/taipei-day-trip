@@ -1,6 +1,6 @@
 from flask import *
 import mysql.connector, mysql.connector.pooling
-from controller.api import api_attraction
+from controller.api_attraction import api_attraction
 from controller.api_auth import api_auth
 from controller.api_booking import api_booking
 
