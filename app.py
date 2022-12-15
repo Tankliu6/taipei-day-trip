@@ -1,8 +1,8 @@
 from flask import *
 import mysql.connector, mysql.connector.pooling
-from view.api import api_attraction
-from view.api_auth import api_auth
-from view.api_booking import api_booking
+from controller.api import api_attraction
+from controller.api_auth import api_auth
+from controller.api_booking import api_booking
 
 # from mySQL import getPassword
 app=Flask(__name__)

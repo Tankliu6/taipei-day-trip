@@ -1,13 +1,13 @@
 from flask import *
 import mysql.connector.pooling
-import  time, view.db_conncetion
-from view.token import make_token, decode_token
-from view.utils import regexDigitalNumber, regexDate, regexTime
+import  time, controller.db_conncetion
+from controller.token import make_token, decode_token
+from controller.utils import regexDigitalNumber, regexDate, regexTime
 
 # Blueprint
 api_booking = Blueprint("api_booking", __name__)
 # 資料庫連線
-cnxpool = view.db_conncetion.db_connection_pool()
+cnxpool = controller.db_conncetion.db_connection_pool()
 
 @api_booking.route("/api/booking", methods = ["GET", "POST", "DELETE"])
 def booking():
