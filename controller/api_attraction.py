@@ -17,7 +17,7 @@ def attractions():
         page = int(request.args.get("page", None))
         keyword = request.args.get("keyword", None)
         nextPage = page+1
-        mycursor = cnx.cursor()
+        mycursor = cnx.cursor(dictionary = True)
 		# 進入 keyword 查詢
         if keyword != None:
             print(keyword)
@@ -44,7 +44,7 @@ def attractions():
         mycursor.execute(sql, value)
         # results 為一個由資料庫回傳的 tuple
         results = mycursor.fetchall()
-        data = controller.api_fun.getAttractionsJsonData(results)
+        data = getAttractionsJsonData(results)
         mycursor.close()
         # < 13 代表取回的 results 小於 13 個景點，沒下一頁
         if len(results) < 13 :
@@ -70,7 +70,7 @@ def attractions():
 def attractionld(attractionId):
     try:
         cnx = cnxpool.get_connection()
-        mycursor = cnx.cursor()
+        mycursor = cnx.cursor(dictionary = True)
         sql = "select * from attraction where id = %s"
         value = (attractionId, )
         mycursor.execute(sql, value)
@@ -79,17 +79,17 @@ def attractionld(attractionId):
         return jsonify(
             {
             "data" : {
-			"id" : results[0],
-			"name" : results[1],
-			"category" : results[2],
-			"description" : results[3],
-			"address" : results[4],
-			"transport" : results[5],
-			"mrt" : results[6],
-			"lat" : results[7],
-			"lng" : results[8],
-			"images" : results[9].split(',')
-                }
+			"id" : results["id"],
+			"name" : results["name"],
+			"category" : results["category"],
+			"description" : results["description"],
+			"address" : results["address"],
+			"transport" : results["transport"],
+			"mrt" : results["mrt"],
+			"lat" : results["lat"],
+			"lng" : results["lng"],
+			"images" : results["images"].split(',')
+                }                
             }
         )
     except:

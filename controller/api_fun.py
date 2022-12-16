@@ -9,16 +9,16 @@ def getAttractionsJsonData(results):
 	for list in results:
 		# 讀取 tuple 資料裝進 dic
 		data_item = {
-			"id":list[0],
-			"name":list[1],
-			"category":list[2],
-			"description":list[3],
-			"address":list[4],
-			"transport":list[5],
-			"mrt":list[6],
-			"lat":list[7],
-			"lng":list[8],
-			"images":list[9].split(",")
+			"id":list["id"],
+			"name":list["name"],
+			"category":list["category"],
+			"description":list["description"],
+			"address":list["address"],
+			"transport":list["transport"],
+			"mrt":list["mrt"],
+			"lat":list["lat"],
+			"lng":list["lng"],
+			"images":list["images"].split(",")
 		}
 		data.append(data_item)
 		# 計算次數，因為從資料庫取13筆資料，但只想放入12筆資料

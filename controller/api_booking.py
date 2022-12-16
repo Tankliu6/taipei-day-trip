@@ -14,7 +14,7 @@ def booking():
     try:
         print("backend")
         cnx = cnxpool.get_connection()
-        mycursor = cnx.cursor()
+        mycursor = cnx.cursor(dictionary = True)
         cookie = request.cookies.get("Set-Cookie")
         memberInfo = decode_token(cookie)
         if(request.method == "GET"):
@@ -37,16 +37,17 @@ def booking():
                 mycursor.execute(sql, value)
                 print("GET, 200-3")
                 bookingData = mycursor.fetchall()
+                print(bookingData)
                 bookingInfoResponseToFrontEnd = []
                 for bookingInfo in bookingData:
                     attraction = {
-                        "booking_id" : bookingInfo[0],
-                        "name" : bookingInfo[5],
-                        "address" : bookingInfo[6],
-                        "image" : bookingInfo[7].split(",")[0],
-                        "date" : bookingInfo[2],
-                        "time" : bookingInfo[3],
-                        "price" : bookingInfo[4],
+                        "booking_id" : bookingInfo["id"],
+                        "name" : bookingInfo["name"],
+                        "address" : bookingInfo["address"],
+                        "image" : bookingInfo["images"].split(",")[0],
+                        "date" : bookingInfo["date"],
+                        "time" : bookingInfo["time"],
+                        "price" : bookingInfo["price"],
                     }
                     bookingInfoResponseToFrontEnd.append(attraction)
                 return jsonify(
