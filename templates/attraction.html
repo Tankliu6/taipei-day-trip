@@ -10,11 +10,20 @@
     <div id = "hero-section-container-grid">
         <div id = "hero-section-container-grid-left">
             <div id = "pic-container">
+                <div class = "lds-ring-wrap">
+                    <div class="lds-ring">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <span class = "loading-percent">0%</span>
+                    </div>
+                </div>
                 <!-- <img src = "https://www.travel.taipei/d_upload_ttn/sceneadmin/pic/11000848.jpg"> -->
-                <a class = "slider-btn previous" onclick = "previous();">
+                <a class = "slider-btn previous" onclick = "previous();" style = "display: none;">
                     <img src = "../static/image/btn_leftArrow.png">
                 </a>
-                <a class = "slider-btn next" onclick = "next();">
+                <a class = "slider-btn next" onclick = "next();" style = "display: none;"> 
                     <img src = "../static/image/btn_rightArrow.png">
                 </a>
                 <div id = "dots">
