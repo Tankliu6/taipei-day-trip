@@ -20,7 +20,6 @@ def attractions():
         mycursor = cnx.cursor(dictionary = True)
 		# 進入 keyword 查詢
         if keyword != None:
-            print(keyword)
             sql = "select * from attraction where category = %s or name like concat ('%', %s, '%') limit %s, %s"
             value = (keyword, keyword, page*12, 13)
             mycursor.execute(sql, value)
@@ -56,7 +55,6 @@ def attractions():
             }
         ), 200
     except:
-        print("pass")
         return jsonify(
             {
             "error":True,

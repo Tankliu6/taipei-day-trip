@@ -84,7 +84,6 @@ def auth():
                         "ok" : True
                     }
                 ))
-                print(resp)
                 resp.set_cookie("Set-Cookie", make_token(result), expires = time.time()+60*60*24*7)
                 return resp, 200
         if request.method == "DELETE":

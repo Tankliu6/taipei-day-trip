@@ -144,13 +144,10 @@ function handleUserSignupValidation(){
 function signUp(){
     const submit = document.querySelector(".signup-submit");
     submit.addEventListener("click", function(){
-        console.log("click");
-        console.log(handleUserSignupValidation().valid);
         let responseStatus;
         /* 註冊會員格式正確 */
         if(handleUserSignupValidation().valid){
             let data = signUpData();
-            console.log(data);
             fetch(`/api/user`, {
                 method: "POST",
                 credentials: "include",
@@ -163,9 +160,7 @@ function signUp(){
                 responseStatus = response.status;
                 return response.json();
             }).then(function(responseJsonData){
-                console.log(responseJsonData);
                 if(responseStatus == 400){
-                    console.log("here", responseJsonData.message);
                     memberSignupAlert.textContent = responseJsonData.message;
                     memberSignupAlert.style.color = "red";
                     memberSignupAlert.style.display = "block";
@@ -176,7 +171,6 @@ function signUp(){
                     memberSignupAlert.style.display = "block";
                     return responseJsonData
                 }else{
-                    console.log("here", responseJsonData.message);
                     memberSignupAlert.textContent = responseJsonData.message;
                     memberSignupAlert.style.color = "red";
                     memberSignupAlert.style.display = "block";
@@ -184,7 +178,6 @@ function signUp(){
                 }
             })
         }else{ /* 註冊會員格式不正確 */
-            console.log(handleUserSignupValidation().message);
             memberSignupAlert.textContent = handleUserSignupValidation().message;
             memberSignupAlert.style.color = "red";
             memberSignupAlert.style.display = "block";
@@ -217,8 +210,6 @@ function signIn(){
                 loginStatus = response.status;
                 return response.json();
             }).then(function(responseJsonData){
-                console.log(responseJsonData);
-                console.log(loginStatus);
                 if(loginStatus == 200){
                     memberLoginAlert.textContent = "登入成功，轉至會員頁面";
                     memberLoginAlert.style.color = "green";
@@ -364,13 +355,11 @@ function makeABooking(){
             return response.json();
         })
         .then(function(data){
-            console.log(data);
             if(data.data == null){
                 showSignIn();
             }else if(data.data){
                 let responseStatus;
                 const BookingData = getBookingInfo();
-                console.log(BookingData);
                 fetch("/api/booking", 
                 {
                     method : "POST",
@@ -415,3 +404,4 @@ signIn();
 checkMemberStatus();
 booking();
 makeABooking();
+layer.addEventListener("click", clearLoginSignup)
