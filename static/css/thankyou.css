@@ -1,0 +1,58 @@
+#flex-col{
+    background-color: aliceblue;
+}
+
+.background-image{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 54px;
+    width: 100%;
+    height: 100%;
+    background-image: url("../image/thankyoupage.png");
+    background-size: auto;
+    background-position: center;
+    background-attachment: scroll;
+    background-repeat: no-repeat;
+}
+
+.welcome{
+    box-sizing: border-box;
+    width: 100%;
+    padding: 40px;
+}
+
+.welcome-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    opacity: 0.95;
+    box-shadow: 0 0 40px #a06347;
+    background-color: #ceb094;
+    width: 100%;
+    height: calc(50vw * 0.8);
+}
+
+.welcome-content-title{
+    font-size: 30px;
+    color: #8f5b19;
+    margin-bottom: 20px;
+}
+
+.welcome-content-text{
+    text-align: center;
+}
+
+/* 700px 以上 */
+@media (min-width: 701px) {
+    .welcome{
+        width: 660px;
+        height: 400px;
+    }
+    .welcome-content{
+        height: 100%;
+    }
+    
+}
