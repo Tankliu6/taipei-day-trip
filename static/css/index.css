@@ -39,6 +39,7 @@ a:hover{
     justify-content: start;
     align-content: center;
     padding: 10px;
+    box-sizing: border-box;
 }
 
 #slogan-title1{
@@ -197,6 +198,12 @@ a:hover{
 #error-containerEmpty-grid > h1{
     line-height: 40px;
 }
+
+#error-containerEmpty-grid > p{
+    line-height: 40px;
+    color: #666666;
+}
+
 
 /* 1200px 以上 */
 @media (min-width: 1200px) {
