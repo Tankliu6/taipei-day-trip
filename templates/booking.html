@@ -5,6 +5,11 @@
 {% block css %}<link rel = "stylesheet" type = "text/css" href = "/static/css/booking.css">{% endblock %}
 
 {% block content %}
+<!-- Layer for payment loading -->
+<section class = "layer-payment-loading" style = "display: none;">
+    <div class="lds-facebook"><div></div><div></div><div></div></div>
+</section>
+<!-- Layer for payment loading END -->
 <!-- No-Booking Section -->
     <section id = "noBooking" style = "display: none;">
         <div class = "noBooking-text-container">
@@ -18,7 +23,7 @@
     <!-- content -->
     <!-- welcome -->
         <section id = "welcome" class = "welcome-style">
-            您好，<span id = "welcome-name">Yakko</span>，待預定的行程如下 :
+            您好，<span id = "welcome-name"></span>，待預定的行程如下 :
         </section>
     <!-- welcome end -->
     <!-- items -->
@@ -56,16 +61,19 @@
         <section id = "payment">
             <div class = "payment-items-wrap">
                 <div class = "section-title-style">信用卡付款資訊</div>
-                <div><label for = "payment-creditCardNumber">卡片號碼：</label><input id = "payment-creditCardNumber" placeholder = "**** **** **** ****"></input></div>
+                <!-- <div><label for = "payment-creditCardNumber">卡片號碼：</label><input id = "payment-creditCardNumber" placeholder = "**** **** **** ****"></input></div>
                 <div><label for = "payment-expiration">過期時間：</label><input id = "payment-expiration" type="text" pattern="\d{2}\/\d{2}" placeholder = "MM/DD"></input></div>
-                <div><label for = "payment-ccv">驗證密碼：</label><input id = "payment-ccv" type = "text" pattern = "\d{3}" placeholder = "ccv"></input></div>
+                <div><label for = "payment-ccv">驗證密碼：</label><input id = "payment-ccv" type = "text" pattern = "\d{3}" placeholder = "ccv"></input></div> -->
+                <div class = "credit-field"><label for = "card-number">卡片號碼：</label><div class="tpfield" id="card-number"></div></div>
+                <div class = "credit-field"><label for = "card-expiration-date">過期時間：</label><div class="tpfield" id="card-expiration-date"></div></div>
+                <div class = "credit-field"><label for = "card-ccv">驗證密碼：</label><div class="tpfield" id="card-ccv"></div></div>
             </div>
         </section>
     <!-- payment end -->
     <div class = "hr-forRWD"><hr/></div>
     <!-- total-info -->
         <section id = "total-info">
-            <div class = "total-payment">總價 : 新台幣 2000 元</div>
+            <div class = "total-payment">總價 : 新台幣 <span class = "total-cost-in-dollars">2000</span> 元</div>
             <div class = "check-order-to-pay">確認訂單並付款</div>
         </section>
     <!-- total-info-end -->
@@ -75,4 +83,8 @@
 {% endblock %}
 
 
-{% block javascript %}<script type = "text/javascript" src = "/static/js/booking.js"></script>{% endblock %}
+{% block javascript %}
+    <script src="https://js.tappaysdk.com/sdk/tpdirect/v5.14.0"></script>
+    <script>TPDirect.setupSDK(126932, 'app_hsc41rw6Ip6kuL6VHvOOOG9t9vweW3oQz4Egv4U06niMyS9VgcNWlas9PhiD', 'sandbox')</script>
+    <script type = "text/javascript" src = "/static/js/booking.js"></script>
+{% endblock %}

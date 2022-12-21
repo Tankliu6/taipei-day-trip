@@ -36,6 +36,15 @@ label{
     margin-bottom: 30px;
 }
 
+.layer-payment-loading{
+    background: #000000;
+    position: fixed;
+    z-index: 150;
+    height: 100%;
+    width: 100%;
+    opacity: 0.1;
+}
+
 /* noBooking section */
 #noBooking{
     margin: auto;
@@ -153,6 +162,20 @@ label{
     margin-bottom: 60px;
 }
 
+/* tappay css */
+.credit-field{
+    display: flex;
+    align-items: center;
+    height: 39px;
+}
+
+.tpfield {
+    height: 40px;
+    width: 193px;
+    border: 1px solid #666666;
+    padding: 0 0 0 10px;
+    box-sizing: border-box;
+}
 
 /* 1200px 以上 */
 @media (min-width: 1200px) {
