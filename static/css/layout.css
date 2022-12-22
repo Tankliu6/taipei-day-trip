@@ -10,18 +10,6 @@ html, body{
     height: 100vh;
 }
 
-/* popUpmessage */
-.popUpMessage{
-    font-size: 18px;
-    font-weight: 900;
-    font-family: 'Work Sans', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 80px;
-}
-
-
 /* 螢幕反黑覆蓋層 */
 #htmlLayer-zindex50{
     width: 100%;
@@ -98,8 +86,8 @@ html, body{
     cursor: pointer;
 }
 
-/* member */
-.member{
+/* dialog member */
+.dialog{
     position: absolute;
     z-index: 60;
     width: 340px;
@@ -107,8 +95,8 @@ html, body{
 }
 
 #member-items-wrap-roof{
+    display: block;
     position: relative;
-    bottom: -4px;
     border-radius: 5px 5px 0 0;
 }
 
@@ -179,6 +167,28 @@ html, body{
     font-weight: 500;
     color: #666666;
     text-align: center;
+}
+
+/* dialog pop-up-message */
+.pop-up-message{
+    position: fixed;
+    top: 50%;
+    /* margin: auto; 
+    right: 0; 
+    left: 0; 
+    top: 50vh;  */
+    box-shadow: 0 0 10px #CCCCCC;    
+}
+
+.dialog-pop-up-message-text{
+    text-align: center;
+    font-size: 18px;
+    font-weight: 900;
+    font-family: 'Work Sans', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80px;
 }
 
 /* footer */

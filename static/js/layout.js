@@ -28,7 +28,7 @@ function checkMemberStatus(){
             signinAndSignup.style.display = "none"
         }else{
             logout.style.display = "none";
-            signinAndSignup.style.display = "block"
+            signinAndSignup.style.display = "block";
         };
     });
 };
@@ -53,6 +53,7 @@ function logoutBtn(){
 /* 會員登入/註冊 */
 const loginInInterface = document.querySelector("#member-login");
 const signUpInterface = document.querySelector("#member-signup");
+const popUpDialog = document.querySelector("#dialog-pop-up-message");
 const closeIcon = document.querySelectorAll("#member-icon-close");
 const loginInEmail = document.querySelector("#login-email-input");
 const loginInpassword = document.querySelector("#login-password-input");
@@ -78,9 +79,10 @@ function switchToSignIn(){
 };
 
 /* 點擊註冊&登入右上角叉叉進行關閉 */
-const closeMemberInterface = function closeMemberInterface(){  
+function closeMemberInterface(){  
     loginInInterface.style.display = "none";
     signUpInterface.style.display = "none";
+    popUpDialog.style.display = "none";
     clearLoginSignup();
 }
 /* 頁面載入時賦予登入&註冊頁叉叉關閉功能 */
@@ -303,18 +305,12 @@ function booking(){
 
 /* popUpMessage */
 function popUpMessage(message){
-    const body = document.getElementById("body");
-    body.disabled = true;
-    body.insertAdjacentHTML("beforebegin",         
-    `
-    <div id = "member-login" class = "member" style = "margin: auto; right: 0; left: 0; top: 50vh; box-shadow: 0 0 10px #CCCCCC">
-        <img id = "member-items-wrap-roof" style = "display: block; position: relative; bottom: 0;" src = "/static/image/decorator bar.png">
-        <div id = "member-items-wrap" style = "word-break: break-all">
-            <div class = "popUpMessage">${message}</div>
-        </div>
-    </div>
-    `
-    );
+    const popMsg = document.querySelector("#dialog-pop-up-message");
+    popMsg.style.display = "block"
+    const popMsgText = document.querySelector(".dialog-pop-up-message-text");
+    popMsgText.textContent = "";
+    popMsgText.insertAdjacentHTML("afterbegin", message);
+    // popMsgText.textContent = message;
 };
 
 /* make a booking in pathname : /attraction/<id>  */

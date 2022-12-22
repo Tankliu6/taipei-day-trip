@@ -28,7 +28,7 @@
             </div>
         </section>
         <!-- 登入會員帳號 -->
-        <div id = "member-login" class = "member" style = "display: none;">
+        <div id = "member-login" class = "dialog" style = "display: none;">
             <img id = "member-items-wrap-roof" src = "/static/image/decorator bar.png">
             <div id = "member-items-wrap">
                 <img id = "member-icon-close" src = "/static/image/icon_close.png"/>
@@ -41,7 +41,7 @@
             </div>
         </div>
         <!-- 註冊會員帳號 -->
-        <div id = "member-signup" class = "member" style = "display: none;">
+        <div id = "member-signup" class = "dialog" style = "display: none;">
             <img id = "member-items-wrap-roof" src = "/static/image/decorator bar.png">
             <div id = "member-items-wrap">
                 <img id = "member-icon-close" src = "/static/image/icon_close.png"/>
@@ -54,6 +54,14 @@
                 <div class = "member-hint">已經有帳戶了?<span id = "member-signIn-activate" onclick = "switchToSignIn();" class = "pointer">點此登入<span></div>
             </div>
         </div>
+        <!-- Dialog 對話框 -->
+        <div id = "dialog-pop-up-message" class = "dialog pop-up-message" style = "display: none;">
+            <img id = "member-items-wrap-roof" src = "/static/image/decorator bar.png">
+            <div id = "member-items-wrap" style = "word-break: break-all">
+                <div class = "dialog-pop-up-message-text"></div>
+            </div>
+            <img id = "member-icon-close" src = "/static/image/icon_close.png"/>
+        </div>    
         {% block content %}{% endblock %}
         <!-- Footer -->
         <footer>
