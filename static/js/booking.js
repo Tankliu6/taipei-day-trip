@@ -257,14 +257,16 @@ function onSubmit(event) {
 
     // 確認是否可以 getPrime
     if (tappayStatus.canGetPrime === false) {
-        alert('can not get prime')
+        const message = "請確認輸入資料正確"
+        popUpMessage(message)
         return
     }
 
     // Get prime
     TPDirect.card.getPrime((result) => {
         if (result.status !== 0) {
-            // alert('get prime error ' + result.msg)
+            const message = result.msg
+            popUpMessage(message)
             return
         }
         const prime = result.card.prime;
@@ -312,7 +314,7 @@ function onSubmit(event) {
 
 function loadingStart(){
     const loadingLayer = document.querySelector(".layer-payment-loading");
-    loadingLayer.style.display = "block";
+    loadingLayer.style.display = "flex";
 }
 
 function loadingComplete(){
