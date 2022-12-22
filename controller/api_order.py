@@ -75,33 +75,34 @@ def processOrderStatus(orderNumber):
             orderNumber["message"] = "付款失敗"
             return True
 
-        mycursor3 = cnx.cursor()
-        sql3 = "INSERT INTO history (user_id, date, price, status, booking_id) values(%s, NOW(), %s, %s, %s)"
-        value3 = (memberInfo["id"], bookingData["order"]["totalPrice"], order_status, json.dumps(bookingData["order"]["bookingId"]))
-        mycursor3.execute(sql3, value3)
-        cnx.commit()
-        mycursor3.close()
-
-        mycursor4 = cnx.cursor(dictionary=True)
-        sql4 = "SELECT id, booking_id, date FROM history WHERE user_id = 1 ORDER BY date DESC LIMIT 1"
-        mycursor4.execute(sql4)
-        orderHistory = mycursor4.fetchall()
-        shoppingCartBookingId = tuple(int(x.strip('" ')) for x in orderHistory[0]["booking_id"].strip("[]''").split(','))
-
-        for booking_id in shoppingCartBookingId:
-            mycursor5 = cnx.cursor()
-            sql5 = "update orders set order_status = %s where booking_id = %s"
-            value5 = (order_status, booking_id)
-            mycursor5.execute(sql5, value5)
+        elif order_status == 0:
+            mycursor3 = cnx.cursor()
+            sql3 = "INSERT INTO history (user_id, date, price, status, booking_id) values(%s, NOW(), %s, %s, %s)"
+            value3 = (memberInfo["id"], bookingData["order"]["totalPrice"], order_status, json.dumps(bookingData["order"]["bookingId"]))
+            mycursor3.execute(sql3, value3)
             cnx.commit()
-            mycursor5.close()
+            mycursor3.close()
 
-        order_date = orderHistory[0]["date"].strftime('%Y%m%d')
-        orderNumber["orderNumber"] = f"{orderHistory[0]['id']}TPDT{order_date}"
-        orderNumber["orderStatus"] = order_status
-        orderNumber["message"] = "付款成功，旅途愉快"
+            mycursor4 = cnx.cursor(dictionary=True)
+            sql4 = "SELECT id, booking_id, date FROM history WHERE user_id = %s ORDER BY date DESC LIMIT 1"
+            value4 = (memberInfo["id"], )
+            mycursor4.execute(sql4, value4)
+            orderHistory = mycursor4.fetchall()
+            shoppingCartBookingId = tuple(int(x.strip('" ')) for x in orderHistory[0]["booking_id"].strip("[]''").split(','))
 
-        return True
+            for booking_id in shoppingCartBookingId:
+                mycursor5 = cnx.cursor()
+                sql5 = "update orders set order_status = %s where booking_id = %s"
+                value5 = (order_status, booking_id)
+                mycursor5.execute(sql5, value5)
+                cnx.commit()
+                mycursor5.close()
+
+            order_date = orderHistory[0]["date"].strftime('%Y%m%d')
+            orderNumber["orderNumber"] = f"{orderHistory[0]['id']}TPDT{order_date}"
+            orderNumber["orderStatus"] = order_status
+            orderNumber["message"] = "付款成功，旅途愉快"
+            return True
     finally:
         mycursor2.close()
         cnx.close()
@@ -139,7 +140,7 @@ def orders():
     except Exception as e:
         return {
             "error" : True,
-            "message" : "伺服器內部錯誤"
+            "message" : "伺服器內部錯誤，請聯繫客服人員"
         }, 500
 
 @api_order.route("/api/order/<orderNumber>", methods = ["GET"])
