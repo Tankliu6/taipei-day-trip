@@ -132,3 +132,29 @@ def booking():
     finally:
         mycursor.close()
         cnx.close()
+
+@api_booking.route("/api/booking/count", methods = ["GET"])
+def shoppingCartCount():
+    try:
+        cookie = request.cookies.get("Set-Cookie")
+        memberInfo = decode_token(cookie)
+        cnx = cnxpool.get_connection()
+        mycursor = cnx.cursor()
+        sql = "select * from booking where user_id = %s"
+        value = (memberInfo["id"], )
+        mycursor.execute(sql, value)
+        bookingInShoopingCart = mycursor.fetchall()
+        countTripInShoopingCart = len(bookingInShoopingCart)
+        print(countTripInShoopingCart)
+        return {
+            "count" : countTripInShoopingCart
+        }, 200
+    except Exception as e:
+        print(e)
+        return {
+            "error" : True
+        }, 500
+    finally:
+        mycursor.close()
+        cnx.close()
+        

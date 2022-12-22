@@ -391,6 +391,56 @@ function makeABooking(){
     })
 }
 
+/* dialog show-close-password */
+function passwordShowClose(){
+    const show = document.querySelectorAll(".password-show");
+    const close = document.querySelectorAll(".password-close");
+    show.forEach(closeIcon => {
+        closeIcon.addEventListener("click", function(){
+            const closeIcon = document.querySelectorAll(".password-close-icon");
+            closeIcon.forEach(icon => {
+                icon.style.display = "none";
+            });
+            const showIcon = document.querySelectorAll(".password-show-icon");
+            showIcon.forEach(icon => {
+                icon.style.display = "block";
+            });
+            const loginPassword = document.querySelector("#login-password-input");
+            const signUpPassword = document.querySelector("#signup-password-input");
+            loginPassword.type = "text";
+            signUpPassword.type = "text";
+            })
+        });
+    close.forEach(showIcon => {
+        showIcon.addEventListener("click", function(){
+            const closeIcon = document.querySelectorAll(".password-close-icon");
+            closeIcon.forEach(icon => {
+                icon.style.display = "block";
+            });
+            const showIcon = document.querySelectorAll(".password-show-icon");
+            showIcon.forEach(icon => {
+                icon.style.display = "none";
+            });
+            const loginPassword = document.querySelector("#login-password-input");
+            const signUpPassword = document.querySelector("#signup-password-input");
+            loginPassword.type = "password";
+            signUpPassword.type = "password";
+        })    
+    })
+};
+
+/* shopping-cart-count */
+function shoppingCartCount() {
+    fetch('/api/booking/count')
+    .then(response => {
+        return response.json()
+    })
+    .then(data => {
+        const shoppingCartCount = document.querySelector(".shopping-cart-count");
+        shoppingCartCount.textContent = data.count;
+    });
+};
+    
 /* 載入時觸發 */
 homepage();
 closeMemberInterface();
@@ -400,4 +450,6 @@ signIn();
 checkMemberStatus();
 booking();
 makeABooking();
-layer.addEventListener("click", clearLoginSignup)
+layer.addEventListener("click", clearLoginSignup);
+passwordShowClose();
+shoppingCartCount();
