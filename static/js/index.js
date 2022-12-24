@@ -14,7 +14,7 @@ let nextPage = 0;
 let attractionsPool = [];
 
 /* 渲染attraction section HTML函式 */
-function renderAttractionsOnPage(attractionsPool, dataNum){
+function renderAttractionsOnPage(attraction){
     /* grid-attractions-item */ 
     const container = document.createElement('div');
     container.setAttribute("id", "grid-attractions-item");
@@ -24,16 +24,16 @@ function renderAttractionsOnPage(attractionsPool, dataNum){
 
     /* img in grid-attractions-item > wrap-attractions*/
     const img = document.createElement('img');
-    img.src = attractionsPool[dataNum][4];
+    img.src = attraction.images[0];
 
     /* mrt & category in grid-attractions-item > wrap-attractions*/
     const attractions_item_mrt = document.createElement('span');
     attractions_item_mrt.setAttribute("id", "attractions-item-mrt");
-    attractions_item_mrt.textContent = attractionsPool[dataNum][2];
+    attractions_item_mrt.textContent = attraction.mrt;
 
     const attractions_item_category = document.createElement('span');
     attractions_item_category.setAttribute("id", "attractions-item-category");
-    attractions_item_category.textContent = attractionsPool[dataNum][3];
+    attractions_item_category.textContent = attraction.category;
 
     const mrtCategory = document.createElement('div');
     mrtCategory.setAttribute("id", "attractions-item-mrt_category");
@@ -41,12 +41,12 @@ function renderAttractionsOnPage(attractionsPool, dataNum){
     /* name in grid-attractions-item > wrap-attractions*/
     const name = document.createElement('div');
     name.setAttribute("id", "attractions-item-name");
-    name.textContent = attractionsPool[dataNum][1];
+    name.textContent = attraction.name;
 
     /* 最外層包裹一層 <a> 讓景點圖片能跳轉至該景點*/
     const attractionRedirectHref = document.createElement("a");
     attractionRedirectHref.setAttribute("id", "attraction-a-redirect");
-    attractionRedirectHref.setAttribute("href", `${window.location.origin}/attraction/${attractionsPool[dataNum][0]}`)
+    attractionRedirectHref.setAttribute("href", `${window.location.origin}/attraction/${attraction.id}`)
 
     /* render on attractions section */
     /* More than one child, append is a good idea for appendChild once */
@@ -71,23 +71,26 @@ function categories(){
     fetch("/api/categories")
     .then(function(response){
         return response.json();
-    }).then(function(data){
-        const datalength = Object.keys(data['data']).length;
-        for(let dataNum = 0; dataNum < datalength; dataNum++){
+    })
+    .then(function(data){
+        console.log(data)
+        const categories = data.data;
+        categories.forEach(category => {
             const categoryItemDiv = document.createElement("div");
             categoryItemDiv.setAttribute("id", "slogan-search-categories-item");
-            categoryItemDiv.textContent = data['data'][dataNum];
+            categoryItemDiv.textContent = category;
             // 點擊分類，將文字放入搜尋框中
             categoryItemDiv.addEventListener("click", function (){
-                const categoryInputValue = document.querySelector("#slogan-search-bar");
-                categoryInputValue.value = this.textContent;
-            })
+            const categoryInputValue = document.querySelector("#slogan-search-bar");
+            categoryInputValue.value = this.textContent;
+            });
             // 放入關閉分類收尋框功能
             categoryItemDiv.addEventListener("click", clearCategories);
             // 將各分類放進分類搜尋框中
             const itemsContainer = document.querySelector("#slogan-search-categories");
             itemsContainer.appendChild(categoryItemDiv); 
-        }
+            }
+        )
     })
 };
 
@@ -103,6 +106,7 @@ function clearCategories(){
 /* 刪除 attractions 中的資料 */
 function remove(){
     /* 關閉查無搜尋的頁面 */
+    const keywordNotFoundPage = document.querySelector("#error-containerEmpty-grid");
     keywordNotFoundPage.style.display = "none";
     /* 點擊搜尋btn時排除無法讀取景點資料的可能性 */
     isloading = false; 
@@ -115,9 +119,9 @@ function remove(){
     };
 };
 
-const keywordNotFoundPage = document.querySelector("#error-containerEmpty-grid");
 /* 拿取一般頁面資料*/
 function fetchPage(){
+    const keywordNotFoundPage = document.querySelector("#error-containerEmpty-grid");
     keywordNotFoundPage.style.display = "none";  
     /* 標記工作階段 */
     if(isloading == false){
@@ -149,22 +153,10 @@ function fetchPage(){
             /* 替換nextPage */
             nextPage = data.nextPage;
             /* 取得該頁有幾筆資料 */
-            const datalength = Object.keys(data['data']).length;
-            for(let dataNum = 0; dataNum < datalength ;dataNum++){
-                attractionsPool.push(
-                    [
-                    data.data[dataNum].id,
-                    data.data[dataNum].name, 
-                    data.data[dataNum].mrt, 
-                    data.data[dataNum].category, 
-                    data.data[dataNum].images[0]
-                ])
-            };
-            for(dataNum = 0; dataNum < datalength; dataNum++){
-                renderAttractionsOnPage(attractionsPool, dataNum);
-            };
-            /* 清空，讓下一頁資料填進來 */
-            attractionsPool = [];
+            const attractions = data.data
+            attractions.forEach(attraction => {
+                renderAttractionsOnPage(attraction)
+            });
             /* 可以繼續下一次的fetch */
             isloading = false
         }
@@ -181,9 +173,9 @@ const options = {
 /* callback 函式 */
 const callback = (entries) => {
     entries.forEach(entry => {
-        fetchPage();
-        if(nextPage){
+        if(nextPage != null && !isloading){
             observer.observe(target);
+            fetchPage();
         }else if(nextPage === null){
             observer.unobserve(target);
         }
