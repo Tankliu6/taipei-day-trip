@@ -10,9 +10,6 @@ const attractionsContainer = document.querySelector("#grid-attractions-container
 // 預設為 0
 let nextPage = 0;
 
-// 存放attractions的 id、name、mrt、category、images(只要第一個 url)
-let attractionsPool = [];
-
 /* 渲染attraction section HTML函式 */
 function renderAttractionsOnPage(attraction){
     /* grid-attractions-item */ 
