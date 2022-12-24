@@ -266,7 +266,7 @@ function clearLoginSignup(){
     signUpInterface.style.display = "none";
 }
 
-/* 預定行程 */
+/* shopping-cart-icon btn */
 const bookingBtn = document.querySelector("#Nav-btn-left")
 function booking(){
     bookingBtn.addEventListener("click", function(){
@@ -313,7 +313,7 @@ function popUpMessage(message){
     // popMsgText.textContent = message;
 };
 
-/* make a booking in pathname : /attraction/<id>  */
+/* make a booking id from in url's pathname : /attraction/<id>  */
 function getBookingInfo(){
     const attractionId = window.location.pathname.split("/")[2];
     const date = document.querySelector("#hero-right-date").value;

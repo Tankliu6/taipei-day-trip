@@ -145,6 +145,8 @@ def shoppingCartCount():
         mycursor.execute(sql, value)
         bookingInShoopingCart = mycursor.fetchall()
         countTripInShoopingCart = len(bookingInShoopingCart)
+        mycursor.close()
+        cnx.close()
         print(countTripInShoopingCart)
         return {
             "count" : countTripInShoopingCart
@@ -152,9 +154,7 @@ def shoppingCartCount():
     except Exception as e:
         print(e)
         return {
-            "error" : True
-        }, 500
-    finally:
-        mycursor.close()
-        cnx.close()
+            "count" : 0
+        }, 200
+
         

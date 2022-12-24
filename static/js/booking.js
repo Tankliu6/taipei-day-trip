@@ -293,16 +293,17 @@ function onSubmit(event) {
                 "content-type" : "application/json"
             })
         }).then(function(response){
-            responseStatus = response.status;
+            // responseStatus = response.status;
             return response.json()
         }).then(function(orderData){
-            if(responseStatus === 200){
-                const orderNumber = orderData.data.orderNumber;
+            if(orderData.data.payment.status === 0){
+                const orderNumber = orderData.data.orderNumber;                popUpMessage(`${orderData.data.payment.message}`)
+                popUpMessage(`${orderData.data.payment.message}`)
                 window.location.assign(`${window.location.origin}/thankyou?number=${orderNumber}`)
             }
             else{
                 loadingComplete();
-                popUpMessage(`${orderData.message}`)
+                popUpMessage(`${orderData.data.payment.message}`)
             }
         })
 

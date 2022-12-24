@@ -10,7 +10,7 @@
     width: 100%;
     height: 100%;
     background-image: url("../image/thankyoupage.png");
-    background-size: auto;
+    background-size: cover;
     background-position: center;
     background-attachment: scroll;
     background-repeat: no-repeat;

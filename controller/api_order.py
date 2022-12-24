@@ -35,12 +35,6 @@ def processOrderStatus(orderNumberData):
         mycursor1.execute(sql, value1)
         cnx.commit()
 
-        sql2 = "DELETE FROM booking WHERE user_id = %s"
-        value2 = (memberInfo["id"], )
-        mycursor2 = cnx.cursor() 
-        mycursor2.execute(sql2, value2)
-        cnx.commit()
-
         tappayUrl = "https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime"
         partnerKey = os.getenv("PARTNERKEY")
         headers = {
@@ -65,18 +59,36 @@ def processOrderStatus(orderNumberData):
         # responseFromTappay = await asyncio.wait_for(requests.post(tappayUrl, json=payload, headers=headers), timeout=90)       
         responseFromTappay = requests.post(tappayUrl, json = payload, headers = headers)
         order_status = responseFromTappay.json()["status"]
-        if order_status == 1:
-            orderNumberData["orderNumber"] = orderNumber
-            orderNumberData["orderStatus"] = order_status
-            orderNumberData["message"] = "訂單付款失敗"
-            return True
-
-        elif order_status == 0:
+        print(responseFromTappay.json())
+        if order_status != 0:
             mycursor3 = cnx.cursor()
             sql3 = "update orders set order_status = %s where order_id = %s"
             value3 = (order_status, orderNumber)
             mycursor3.execute(sql3, value3)
             cnx.commit()
+            mycursor3.close()
+
+
+            orderNumberData["orderNumber"] = orderNumber
+            orderNumberData["orderStatus"] = order_status
+            orderNumberData["message"] = "訂單付款失敗"
+            return False
+
+        elif order_status == 0:
+            sql2 = "DELETE FROM booking WHERE user_id = %s"
+            value2 = (memberInfo["id"], )
+            mycursor2 = cnx.cursor() 
+            mycursor2.execute(sql2, value2)
+            cnx.commit()
+            mycursor2.close()
+
+            mycursor3 = cnx.cursor()
+            sql3 = "update orders set order_status = %s where order_id = %s"
+            value3 = (order_status, orderNumber)
+            mycursor3.execute(sql3, value3)
+            cnx.commit()
+            mycursor3.close()
+
 
             orderNumberData["orderNumber"] = orderNumber
             orderNumberData["orderStatus"] = order_status
@@ -87,8 +99,6 @@ def processOrderStatus(orderNumberData):
         return False
     finally:
         mycursor1.close()
-        mycursor2.close()
-        mycursor3.close()
         cnx.close()
 
 
@@ -103,9 +113,14 @@ def orders():
         if request.method == "POST":
             if checkLoginStatus() != True:
                 return {
-                    "error" : True,
-                    "message" : "未登入系統，拒絕存取"
-                }, 403
+                    "data" : {
+                        "orderNumber" : orderNumberData["orderNumber"],
+                        "payment" : {
+                            "status" : orderNumberData["orderStatus"],
+                            "message" : "未登入系統，拒絕存取"
+                        }
+                    }
+                }, 403    
             elif processOrderStatus(orderNumberData):
                 return {
                     "data" : {
@@ -115,18 +130,28 @@ def orders():
                             "message" : orderNumberData["message"]
                         }
                     }
-                }, 200    
+                }, 201    
             else:
                 return {
-                    "error" : True,
-                    "message" : "訂單建立失敗，輸入不正確或其他原因"
-                }, 400
+                    "data" : {
+                        "orderNumber" : orderNumberData["orderNumber"],
+                        "payment" : {
+                            "status" : orderNumberData["orderStatus"],
+                            "message" : orderNumberData["message"]
+                        }
+                    }
+                }, 200    
     except Exception as e:
         print(e)
         return {
-            "error" : True,
-            "message" : "伺服器內部錯誤，請聯繫客服人員"
-        }, 500
+            "data" : {
+                "orderNumber" : orderNumberData["orderNumber"],
+                "payment" : {
+                    "status" : orderNumberData["orderStatus"],
+                    "message" : "伺服器內部錯誤，請聯繫客服人員"
+                }
+            }
+        }, 500    
 
 @api_order.route("/api/order/<orderNumber>", methods = ["GET"])
 def order(orderNumber):
