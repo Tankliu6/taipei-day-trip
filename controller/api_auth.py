@@ -1,6 +1,7 @@
 from flask import *
-import mysql.connector.pooling
+import mysql.connector.pooling, re
 import  time, controller.db_conncetion
+from controller.utils import regexName, regexEmail, regexPassword
 from controller.token import make_token, decode_token
 # Blueprint
 api_auth = Blueprint("api_auth", __name__)
@@ -13,27 +14,28 @@ def signUp():
             cnx = cnxpool.get_connection()
             mycursor = cnx.cursor()
             signUpData = request.get_json()
-            sql = "select * from membership where email = %s "
-            value = (signUpData["email"], )
-            mycursor.execute(sql, value)
-            result = mycursor.fetchone()
-            if(result):
-                return jsonify(
-                    {
-                       "error" : True,
-                       "message" : "註冊失敗，重複的 Email 或其他原因"
-                    }
-                ), 400
-            else:
-                sql = "insert into membership(name, email, password) values (%s, %s, %s)"
-                value = (signUpData["name"], signUpData["email"], signUpData["password"])
-                mycursor.execute(sql, value)
-                cnx.commit()
-                return jsonify(
-                    {
-                        "ok" : True
-                    }
-                ), 200
+            valid = validateSignUpData(signUpData)
+            if valid["valid"]: 
+                if(emailAlreadyExist(mycursor, signUpData)):
+                    return jsonify(
+                        {
+                        "error" : True,
+                        "message" : "註冊失敗，重複的 Email 或其他原因"
+                        }
+                    ), 400
+                else:
+                    signUpSuccess(mycursor, cnx, signUpData)
+                    return jsonify(
+                        {
+                            "ok" : True,
+                            "message" : "註冊成功，請登入系統"
+                        }
+                    ), 200
+            elif valid["valid"] == False:
+                return {
+                    "error" : True,
+                    "message" : valid["message"]
+                }, 200
         except:
             return jsonify(
                 {
@@ -59,10 +61,10 @@ def auth():
                     }
                 )
             else:
-                decode_token_json = decode_token(cookieFromRequest)
+                memberInfo = decode_token(cookieFromRequest)
                 return jsonify(
                     {
-                        "data" : decode_token_json
+                        "data" : memberInfo
                     }
                 ), 200
         if request.method == "PUT":
@@ -106,3 +108,50 @@ def auth():
     finally:        
         cnx.close()
 
+def validateSignUpData(signUpData):
+    name = signUpData["name"]
+    email = signUpData["email"]
+    password = signUpData["password"]
+    if name == password:
+        return {
+            "error" : True,
+            "message" : "使用者名稱不可與密碼相同",
+            "valid" : False
+        }
+    elif regexName(name) != True:
+        return {
+            "error" : True,
+            "message" : "使用者名稱 : 2碼至20碼，不可含'<''>'及空格",
+            "valid" : False
+        }
+    elif regexEmail(email) != True:
+        return {
+            "error" : True,
+            "message" : "郵件地址 : 請輸入正確的郵件地址",
+            "valid" : False
+        }
+    elif regexPassword(password) != True:
+        return {
+            "error" : True,
+            "message" : "密碼 : 8碼至20碼，不含'<''>'及空格",
+            "valid" : False
+        }
+    elif regexName(name) and regexEmail(email) and regexPassword(password):
+        return {
+            "error" : False,
+            "message" : "註冊成功，請登入系統",
+            "valid" : True
+        }
+
+def emailAlreadyExist(mycursor, signUpData):
+    sql = "select * from membership where email = %s "
+    value = (signUpData["email"], )
+    mycursor.execute(sql, value)
+    result = mycursor.fetchone()
+    return result
+
+def signUpSuccess(mycursor, cnx, signUpData):
+    sql = "insert into membership(name, email, password) values (%s, %s, %s)"
+    value = (signUpData["name"], signUpData["email"], signUpData["password"])
+    mycursor.execute(sql, value)
+    cnx.commit()

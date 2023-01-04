@@ -129,7 +129,22 @@ label{
     line-height: 16px;
 }
 
+.contact-field{
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 39px;
+    gap: 5px;
+}
+
 /* total-info section */
+.valid-invalid-img{
+    position: absolute;
+    left: 290px;
+    width: 20px;
+    height: 20px;
+}
+
 #total-info{
     display: flex;
     flex-direction: column;
@@ -155,9 +170,11 @@ label{
 
 /* tappay css */
 .credit-field{
+    position: relative;
     display: flex;
     align-items: center;
     height: 39px;
+    gap: 5px;
 }
 
 .tpfield {
