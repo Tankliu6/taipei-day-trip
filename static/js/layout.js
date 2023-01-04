@@ -26,6 +26,8 @@ function checkMemberStatus(){
         if(responseJsonData.data != null){
             logout.style.display = "block";
             signinAndSignup.style.display = "none"
+            logout.classList.remove("Nav-btn-right")
+            logout.classList.add("Nav-btn-right-active")
         }else{
             logout.style.display = "none";
             signinAndSignup.style.display = "block";
@@ -91,7 +93,7 @@ for(icon of closeIcon){
 };
 
 function signUpData(){
-    let data = {
+    const data = {
         "name" : null,
         "email" : null,
         "password" : null,
@@ -107,25 +109,25 @@ function signUpData(){
 
 function handleUserSignupValidation(){
     const userSignupData = signUpData();
-    let nameValidation = (/^[\w\u4E00-\u9FFF]([^<>\s]){1,20}$/g.test(userSignupData.name));
-    let emailValidation = (/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(userSignupData.email));
-    let passwordValidation = (/^[\w]([^<>\s]){7,20}$/.test(userSignupData.password));
+    const nameValidation = (/^[\w\u4E00-\u9FFF]([^<>\s]){1,20}$/g.test(userSignupData.name));
+    const emailValidation = (/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(userSignupData.email));
+    const passwordValidation = (/^[\w]([^<>\s]){7,20}$/.test(userSignupData.password));
     if(userSignupData.name === userSignupData.password){
         return{
             "valid" : false,
             "message" : "使用者名稱不可與密碼相同"
         }
-    }else if(nameValidation === false){
+    }else if(!nameValidation){
         return {
             "valid" : false,
             "message" : "使用者名稱 : 2碼至20碼，不可含'<''>'及空格"
         }
-    }else if(emailValidation === false){
+    }else if(!emailValidation){
         return {
             "valid" : false,
             "message" : "郵件地址 : 請輸入正確的郵件地址"
         }
-    }else if(passwordValidation === false){
+    }else if(!passwordValidation){
         return {
             "valid" : false,
             "message" : "密碼 : 8碼至20碼，不含'<''>'及空格"
@@ -149,7 +151,7 @@ function signUp(){
         let responseStatus;
         /* 註冊會員格式正確 */
         if(handleUserSignupValidation().valid){
-            let data = signUpData();
+            const data = signUpData();
             fetch(`/api/user`, {
                 method: "POST",
                 credentials: "include",
@@ -168,7 +170,7 @@ function signUp(){
                     memberSignupAlert.style.display = "block";
                     return responseJsonData
                 }else if(responseStatus == 200){
-                    memberSignupAlert.textContent = "註冊成功，請登入系統";
+                    memberSignupAlert.textContent = responseJsonData.message;
                     memberSignupAlert.style.color = "green";
                     memberSignupAlert.style.display = "block";
                     return responseJsonData
@@ -237,8 +239,8 @@ function signIn(){
 
 /* 確認登入會員信箱及密碼格式 */
 function handleUserSigninValidation(){
-    let emailValidation = (/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(loginInEmail.value));
-    let passwordValidation = (/^[\w]([^<>\s]){7,20}$/.test(loginInpassword.value));
+    const emailValidation = (/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(loginInEmail.value));
+    const passwordValidation = (/^[\w]([^<>\s]){7,20}$/.test(loginInpassword.value));
     if(emailValidation && passwordValidation){
         return{
             "valid" : true,
@@ -267,9 +269,9 @@ function clearLoginSignup(){
 }
 
 /* shopping-cart-icon btn */
-const bookingBtn = document.querySelector("#Nav-btn-left")
 function booking(){
-    bookingBtn.addEventListener("click", function(){
+    const shoppingCartBtn = document.querySelector("#Nav-btn-left")
+    shoppingCartBtn.addEventListener("click", function(){
         fetch("/api/user/auth", {
             method : "GET",
             credentials: "include",
@@ -292,7 +294,7 @@ function booking(){
                         logout.style.display = "block";
                         signinAndSignup.style.display = "none";
                         window.location.assign(`${window.location.origin}/booking`);
-                    }, 1500)    
+                    }, 500)    
                 }
             }else{
                 showSignIn();
@@ -310,86 +312,8 @@ function popUpMessage(message){
     const popMsgText = document.querySelector(".dialog-pop-up-message-text");
     popMsgText.textContent = "";
     popMsgText.insertAdjacentHTML("afterbegin", message);
-    // popMsgText.textContent = message;
 };
 
-/* make a booking id from in url's pathname : /attraction/<id>  */
-function getBookingInfo(){
-    const attractionId = window.location.pathname.split("/")[2];
-    const date = document.querySelector("#hero-right-date").value;
-    const checkTheMorning = document.querySelector("#hero-radio-btn-firstHalf").checked;
-    const checkTheAfternoon = document.querySelector("#hero-radio-btn-secondHalf").checked;
-    const price = document.querySelector("#chargeBox").textContent.slice(3, 7);
-    if(checkTheMorning){
-        return {
-            attractionId : attractionId,
-            date : date,
-            time : "上半天",
-            price : price
-        }
-    }else if(checkTheAfternoon){
-        return {
-            attractionId : attractionId,
-            date : date,
-            time : "下半天",
-            price : price
-        }
-    }else{
-        alert("getBookingInfo function Error test")
-    }
-};
-
-
-function makeABooking(){
-    if(window.location.pathname.split("/")[1] != "attraction"){
-        return
-    }
-    const makeABookingBtn = document.querySelector("#hero-profile-booking-active");
-    makeABookingBtn.addEventListener("click", function(){
-        fetch("/api/user/auth")
-        .then(function(response){
-            return response.json();
-        })
-        .then(function(data){
-            if(data.data == null){
-                showSignIn();
-            }else if(data.data){
-                let responseStatus;
-                const BookingData = getBookingInfo();
-                fetch("/api/booking", 
-                {
-                    method : "POST",
-                    credentials : "include",
-                    body: JSON.stringify(BookingData),
-                    cache : "no-cache",
-                    headers : new Headers({
-                        "content-type": "application/json"
-                    })
-                }).then(function(response){
-                    responseStatus = response.status;
-                    return response.json();
-                }).then(function(data){
-                    if(responseStatus != 200){
-                        const emptyDateMsg = document.querySelector(".dateEmptyMsg");
-                        emptyDateMsg.style.color = "red";
-                        emptyDateMsg.textContent = `   尚未選擇日期!`;
-                        emptyDateMsg.style.display = "inline";
-                        setTimeout(() =>{
-                            emptyDateMsg.style.display = "none"
-                        }, 1500);
-                    }else if(responseStatus === 200){
-                        popUpMessage(`預定成功跳轉至<a href = ${window.location.origin}/booking>預定行程頁</a>`);
-                        setTimeout(() =>{
-                            logout.style.display = "block";
-                            signinAndSignup.style.display = "none";
-                            window.location.assign(`${window.location.origin}/booking`);
-                        }, 2000)    
-                    }
-                })
-            }
-        })
-    })
-}
 
 /* dialog show-close-password */
 function passwordShowClose(){
@@ -440,7 +364,45 @@ function shoppingCartCount() {
         shoppingCartCount.textContent = data.count;
     });
 };
-    
+
+/* dropdown list */
+function openDropDownList(){
+    const dropdownList = document.querySelector(".wrap-dropdown-list-item-group");
+    const dropdownListArrow = document.querySelector(".dropdown-arrow");
+    const bodyLayer = document.querySelector("#htmlLayer-opacity0-zindex50");
+
+    bodyLayer.addEventListener("click", closeDropdownList);
+    bodyLayer.style.display = "block"
+
+    dropdownList.classList.remove("close");
+    dropdownListArrow.classList.remove("close");
+    dropdownList.classList.add("open-block");
+    dropdownListArrow.classList.add("open-block");
+}
+
+function closeDropdownList(){
+    const dropdownList = document.querySelector(".wrap-dropdown-list-item-group");
+    const dropdownListArrow = document.querySelector(".dropdown-arrow");
+    const bodyLayer = document.querySelector("#htmlLayer-opacity0-zindex50");
+
+    dropdownList.classList.remove("open-block");
+    dropdownListArrow.classList.remove("open-block");
+    dropdownList.classList.add("close");
+    dropdownListArrow.classList.add("close");
+
+    bodyLayer.style.display = "none";
+}
+
+function memberBasicInfoSetting(){
+    const memberCenter = document.querySelector(".dropdown-list-item-member-basic-setting");
+    memberCenter.href = `${window.location.origin}/member`;
+}
+
+function memberHistoryOrder(){
+    const memberHistoryOrder = document.querySelector(".dropdown-list-item-member-history-orders");
+    memberHistoryOrder.href = `${window.location.origin}/member`;
+}
+
 /* 載入時觸發 */
 homepage();
 closeMemberInterface();
@@ -449,7 +411,9 @@ signUp();
 signIn();
 checkMemberStatus();
 booking();
-makeABooking();
 layer.addEventListener("click", clearLoginSignup);
+logout.addEventListener("click", openDropDownList);
 passwordShowClose();
 shoppingCartCount();
+memberBasicInfoSetting();
+memberHistoryOrder();

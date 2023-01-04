@@ -27,3 +27,27 @@ def regexTime(time):
         return True
     else:
         return False
+
+# regular expression for sign-up-name
+def regexName(name):
+    name_regex = r"^[\w\u4E00-\u9FFF]([^<>\s]){1,20}$"
+    regexResult = bool(re.match(name_regex, name))
+    return regexResult
+
+# regular expression for sign-up-email
+def regexEmail(email):
+    email_regex = r"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$"
+    regexResult = bool(re.match(email_regex, email))
+    return regexResult
+
+# regular expression for sign-up-password
+def regexPassword(password):
+    password_regex = r"^[\w]([^<>\s]){7,20}$"
+    regexResult = bool(re.match(password_regex, password))
+    return regexResult
+
+# regular expression for phone
+def regexPhone(phone):
+    phone_regex = r'^\d{10}$'
+    regexResult = bool(re.match(phone_regex, phone))
+    return regexResult

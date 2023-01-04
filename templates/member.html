@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+
+{% block title %}會員中心{% endblock %}
+
+{% block css %}<link rel = "stylesheet" type = "text/css" href = "/static/css/member.css">{% endblock %}
+
+{% block content %}
+<section class = "page-wrap">
+    <div class = "page-container">
+        <div class ="page-container-aside">
+            <div class = "aside-member-img">
+                <div class = "member-img"><img src = "/static/image/user.png" class = "member-img-edit"></div>
+                <div class = "member-name">會員中心</div>
+            </div>
+            <ul class = "list-item-group">
+                <a href = "/member" class = "list-item-url item-url-active"><li class = "list-item"><img src = "/static/image/settings.png">帳號設定</li></a>
+                <a class = "list-item-url list-item-orders"><li class = "list-item"><img src = "/static/image/shopping-list.png">歷史訂單</li></a>
+                <!-- <a class = "list-item-url "><li class = "list-item"><img src = "/static/image/heart.png">我的收藏</li></a> -->
+                <a class = "list-item-url " onclick = "logoutBtn();"><li class = "list-item"><img src = "/static/image/logout.png">登出</li></a>
+            </ul>
+        </div>
+        <div class = "page-container-aside-member-info">
+            <div class = "wrap-order-loading-icon" style = "display: none;">
+                <div class="loadingio-spinner-bean-eater-xx9uo61s46j order-loading-icon ">
+                    <div class="ldio-74gbpxqt96"><div><div></div><div></div><div></div></div><div><div></div><div></div><div></div></div></div>
+                </div> 
+            </div>           
+            <h1 class = "member-info-basic-title">帳號設定</h1>
+            <div class = "member-info-divider"></div>
+            <div class="member-info-basic wrap-member-info">使用者名稱 : <span class = "basic-info-must-icon"></span>
+                <input class = "member-info-basic-input basic-info-name" placeholder = "使用者名稱"></input>
+                <img class = "valid-invalid-icon member-info-name-valid-img" style = "display: none;" src = "/static/image/valid.png">
+                <img class = "valid-invalid-icon member-info-name-invalid-img" style = "display: none;" src = "/static/image/invalid.png">
+            </div>
+            <div class = "member-info-basic wrap-member-info">聯絡電話 : <span class = "basic-info-must-icon-phone"></span>
+                <input class = "member-info-basic-input basic-info-phone" placeholder = "聯絡電話" maxlength = "10"></input>
+                <img class = "valid-invalid-icon member-info-phone-valid-img" style = "display: none;" src = "/static/image/valid.png">
+                <img class = "valid-invalid-icon member-info-phone-invalid-img" style = "display: none;" src = "/static/image/invalid.png">
+            </div>
+            <div class = "member-info-basic wrap-member-info">修改密碼 : <span class = "basic-info-must-icon-password"></span>
+                <input class = "member-info-basic-input basic-info-password" type = "password" placeholder = "密碼"></input>
+                <img class = "valid-invalid-icon member-info-password-valid-img" style = "display: none;" src = "/static/image/valid.png">
+                <img class = "valid-invalid-icon member-info-password-invalid-img" style = "display: none;" src = "/static/image/invalid.png">
+            </div>
+            <div class = "member-info-basic basic-submit-text-right wrap-update-submit-button"><span class = "member-info-basic-submit">儲存</span></div>
+        </div>
+    </div>
+    <div class = "lds-ellipsis loading-icon" style = "display: none;"><div></div><div></div><div></div><div></div></div>
+</section>
+
+
+
+
+
+
+{% endblock %}
+
+{% block javascript %}<script type = "text/javascript" src = "/static/js/member.js"></script>{% endblock %}
