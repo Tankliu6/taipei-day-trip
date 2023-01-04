@@ -1,13 +1,13 @@
 from flask import *
 import mysql.connector, mysql.connector.pooling
-from view.api import api_attraction
-from view.api_auth import api_auth
-from view.api_booking import api_booking
-
+from controller.api_attraction import api_attraction
+from controller.api_auth import api_auth
+from controller.api_booking import api_booking
+from controller.api_order import api_order
 # from mySQL import getPassword
 app=Flask(__name__)
-app.config["JSON_AS_ASCII"]=False
-app.config["TEMPLATES_AUTO_RELOAD"]=True
+app.config["JSON_AS_ASCII"] = False
+app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["JSON_SORT_KEYS"] = False
 app.config["DEBUG"] = True
 
@@ -33,7 +33,7 @@ def thankyou():
 app.register_blueprint(api_attraction)
 app.register_blueprint(api_auth)
 app.register_blueprint(api_booking)
-
+app.register_blueprint(api_order)
 
 if  __name__ == "__main__":
     app.run(host = "0.0.0.0", port=3000)

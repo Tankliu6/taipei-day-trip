@@ -1,11 +1,11 @@
 from flask import *
 import mysql.connector.pooling
-import  time, view.db_conncetion
-from view.token import make_token, decode_token
+import  time, controller.db_conncetion
+from controller.token import make_token, decode_token
 # Blueprint
 api_auth = Blueprint("api_auth", __name__)
 # 資料庫連線
-cnxpool = view.db_conncetion.db_connection_pool()
+cnxpool = controller.db_conncetion.db_connection_pool()
 
 @api_auth.route("/api/user", methods = ["POST"])
 def signUp():
@@ -84,7 +84,6 @@ def auth():
                         "ok" : True
                     }
                 ))
-                print(resp)
                 resp.set_cookie("Set-Cookie", make_token(result), expires = time.time()+60*60*24*7)
                 return resp, 200
         if request.method == "DELETE":

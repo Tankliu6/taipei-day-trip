@@ -28,7 +28,7 @@ function checkMemberStatus(){
             signinAndSignup.style.display = "none"
         }else{
             logout.style.display = "none";
-            signinAndSignup.style.display = "block"
+            signinAndSignup.style.display = "block";
         };
     });
 };
@@ -53,6 +53,7 @@ function logoutBtn(){
 /* 會員登入/註冊 */
 const loginInInterface = document.querySelector("#member-login");
 const signUpInterface = document.querySelector("#member-signup");
+const popUpDialog = document.querySelector("#dialog-pop-up-message");
 const closeIcon = document.querySelectorAll("#member-icon-close");
 const loginInEmail = document.querySelector("#login-email-input");
 const loginInpassword = document.querySelector("#login-password-input");
@@ -78,9 +79,10 @@ function switchToSignIn(){
 };
 
 /* 點擊註冊&登入右上角叉叉進行關閉 */
-const closeMemberInterface = function closeMemberInterface(){  
+function closeMemberInterface(){  
     loginInInterface.style.display = "none";
     signUpInterface.style.display = "none";
+    popUpDialog.style.display = "none";
     clearLoginSignup();
 }
 /* 頁面載入時賦予登入&註冊頁叉叉關閉功能 */
@@ -144,13 +146,10 @@ function handleUserSignupValidation(){
 function signUp(){
     const submit = document.querySelector(".signup-submit");
     submit.addEventListener("click", function(){
-        console.log("click");
-        console.log(handleUserSignupValidation().valid);
         let responseStatus;
         /* 註冊會員格式正確 */
         if(handleUserSignupValidation().valid){
             let data = signUpData();
-            console.log(data);
             fetch(`/api/user`, {
                 method: "POST",
                 credentials: "include",
@@ -163,9 +162,7 @@ function signUp(){
                 responseStatus = response.status;
                 return response.json();
             }).then(function(responseJsonData){
-                console.log(responseJsonData);
                 if(responseStatus == 400){
-                    console.log("here", responseJsonData.message);
                     memberSignupAlert.textContent = responseJsonData.message;
                     memberSignupAlert.style.color = "red";
                     memberSignupAlert.style.display = "block";
@@ -176,7 +173,6 @@ function signUp(){
                     memberSignupAlert.style.display = "block";
                     return responseJsonData
                 }else{
-                    console.log("here", responseJsonData.message);
                     memberSignupAlert.textContent = responseJsonData.message;
                     memberSignupAlert.style.color = "red";
                     memberSignupAlert.style.display = "block";
@@ -184,7 +180,6 @@ function signUp(){
                 }
             })
         }else{ /* 註冊會員格式不正確 */
-            console.log(handleUserSignupValidation().message);
             memberSignupAlert.textContent = handleUserSignupValidation().message;
             memberSignupAlert.style.color = "red";
             memberSignupAlert.style.display = "block";
@@ -217,8 +212,6 @@ function signIn(){
                 loginStatus = response.status;
                 return response.json();
             }).then(function(responseJsonData){
-                console.log(responseJsonData);
-                console.log(loginStatus);
                 if(loginStatus == 200){
                     memberLoginAlert.textContent = "登入成功，轉至會員頁面";
                     memberLoginAlert.style.color = "green";
@@ -273,7 +266,7 @@ function clearLoginSignup(){
     signUpInterface.style.display = "none";
 }
 
-/* 預定行程 */
+/* shopping-cart-icon btn */
 const bookingBtn = document.querySelector("#Nav-btn-left")
 function booking(){
     bookingBtn.addEventListener("click", function(){
@@ -312,21 +305,15 @@ function booking(){
 
 /* popUpMessage */
 function popUpMessage(message){
-    const body = document.getElementById("body");
-    body.disabled = true;
-    body.insertAdjacentHTML("beforebegin",         
-    `
-    <div id = "member-login" class = "member" style = "margin: auto; right: 0; left: 0; top: 50vh; box-shadow: 0 0 10px #CCCCCC">
-        <img id = "member-items-wrap-roof" style = "display: block; position: relative; bottom: 0;" src = "/static/image/decorator bar.png">
-        <div id = "member-items-wrap" style = "word-break: break-all">
-            <div class = "popUpMessage">${message}</div>
-        </div>
-    </div>
-    `
-    );
+    const popMsg = document.querySelector("#dialog-pop-up-message");
+    popMsg.style.display = "block"
+    const popMsgText = document.querySelector(".dialog-pop-up-message-text");
+    popMsgText.textContent = "";
+    popMsgText.insertAdjacentHTML("afterbegin", message);
+    // popMsgText.textContent = message;
 };
 
-/* make a booking in pathname : /attraction/<id>  */
+/* make a booking id from in url's pathname : /attraction/<id>  */
 function getBookingInfo(){
     const attractionId = window.location.pathname.split("/")[2];
     const date = document.querySelector("#hero-right-date").value;
@@ -364,13 +351,11 @@ function makeABooking(){
             return response.json();
         })
         .then(function(data){
-            console.log(data);
             if(data.data == null){
                 showSignIn();
             }else if(data.data){
                 let responseStatus;
                 const BookingData = getBookingInfo();
-                console.log(BookingData);
                 fetch("/api/booking", 
                 {
                     method : "POST",
@@ -406,6 +391,56 @@ function makeABooking(){
     })
 }
 
+/* dialog show-close-password */
+function passwordShowClose(){
+    const show = document.querySelectorAll(".password-show");
+    const close = document.querySelectorAll(".password-close");
+    show.forEach(closeIcon => {
+        closeIcon.addEventListener("click", function(){
+            const closeIcon = document.querySelectorAll(".password-close-icon");
+            closeIcon.forEach(icon => {
+                icon.style.display = "none";
+            });
+            const showIcon = document.querySelectorAll(".password-show-icon");
+            showIcon.forEach(icon => {
+                icon.style.display = "block";
+            });
+            const loginPassword = document.querySelector("#login-password-input");
+            const signUpPassword = document.querySelector("#signup-password-input");
+            loginPassword.type = "text";
+            signUpPassword.type = "text";
+            })
+        });
+    close.forEach(showIcon => {
+        showIcon.addEventListener("click", function(){
+            const closeIcon = document.querySelectorAll(".password-close-icon");
+            closeIcon.forEach(icon => {
+                icon.style.display = "block";
+            });
+            const showIcon = document.querySelectorAll(".password-show-icon");
+            showIcon.forEach(icon => {
+                icon.style.display = "none";
+            });
+            const loginPassword = document.querySelector("#login-password-input");
+            const signUpPassword = document.querySelector("#signup-password-input");
+            loginPassword.type = "password";
+            signUpPassword.type = "password";
+        })    
+    })
+};
+
+/* shopping-cart-count */
+function shoppingCartCount() {
+    fetch('/api/booking/count')
+    .then(response => {
+        return response.json()
+    })
+    .then(data => {
+        const shoppingCartCount = document.querySelector(".shopping-cart-count");
+        shoppingCartCount.textContent = data.count;
+    });
+};
+    
 /* 載入時觸發 */
 homepage();
 closeMemberInterface();
@@ -415,3 +450,6 @@ signIn();
 checkMemberStatus();
 booking();
 makeABooking();
+layer.addEventListener("click", clearLoginSignup);
+passwordShowClose();
+shoppingCartCount();

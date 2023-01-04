@@ -1,13 +1,13 @@
 from flask import *
 import mysql.connector, mysql.connector.pooling
-import view.api_fun, view.db_conncetion
-from view.api_fun import getAttractionsJsonData
+import controller.api_fun, controller.db_conncetion
+from controller.api_fun import getAttractionsJsonData
 import os
 from dotenv import load_dotenv
 api_attraction = Blueprint("api_attraction", __name__)
 load_dotenv()
 # 連線(connection)到資料庫
-cnxpool = view.db_conncetion.db_connection_pool()
+cnxpool = controller.db_conncetion.db_connection_pool()
 
 @api_attraction.route("/api/attractions")
 def attractions():
@@ -17,10 +17,9 @@ def attractions():
         page = int(request.args.get("page", None))
         keyword = request.args.get("keyword", None)
         nextPage = page+1
-        mycursor = cnx.cursor()
+        mycursor = cnx.cursor(dictionary = True)
 		# 進入 keyword 查詢
         if keyword != None:
-            print(keyword)
             sql = "select * from attraction where category = %s or name like concat ('%', %s, '%') limit %s, %s"
             value = (keyword, keyword, page*12, 13)
             mycursor.execute(sql, value)
@@ -44,7 +43,7 @@ def attractions():
         mycursor.execute(sql, value)
         # results 為一個由資料庫回傳的 tuple
         results = mycursor.fetchall()
-        data = view.api_fun.getAttractionsJsonData(results)
+        data = getAttractionsJsonData(results)
         mycursor.close()
         # < 13 代表取回的 results 小於 13 個景點，沒下一頁
         if len(results) < 13 :
@@ -56,7 +55,6 @@ def attractions():
             }
         ), 200
     except:
-        print("pass")
         return jsonify(
             {
             "error":True,
@@ -70,7 +68,7 @@ def attractions():
 def attractionld(attractionId):
     try:
         cnx = cnxpool.get_connection()
-        mycursor = cnx.cursor()
+        mycursor = cnx.cursor(dictionary = True)
         sql = "select * from attraction where id = %s"
         value = (attractionId, )
         mycursor.execute(sql, value)
@@ -79,17 +77,17 @@ def attractionld(attractionId):
         return jsonify(
             {
             "data" : {
-			"id" : results[0],
-			"name" : results[1],
-			"category" : results[2],
-			"description" : results[3],
-			"address" : results[4],
-			"transport" : results[5],
-			"mrt" : results[6],
-			"lat" : results[7],
-			"lng" : results[8],
-			"images" : results[9].split(',')
-                }
+			"id" : results["id"],
+			"name" : results["name"],
+			"category" : results["category"],
+			"description" : results["description"],
+			"address" : results["address"],
+			"transport" : results["transport"],
+			"mrt" : results["mrt"],
+			"lat" : results["lat"],
+			"lng" : results["lng"],
+			"images" : results["images"].split(',')
+                }                
             }
         )
     except:

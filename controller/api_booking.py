@@ -1,26 +1,23 @@
 from flask import *
 import mysql.connector.pooling
-import  time, view.db_conncetion
-from view.token import make_token, decode_token
-from view.utils import regexDigitalNumber, regexDate, regexTime
+import  time, controller.db_conncetion
+from controller.token import make_token, decode_token
+from controller.utils import regexDigitalNumber, regexDate, regexTime
 
 # Blueprint
 api_booking = Blueprint("api_booking", __name__)
 # 資料庫連線
-cnxpool = view.db_conncetion.db_connection_pool()
+cnxpool = controller.db_conncetion.db_connection_pool()
 
 @api_booking.route("/api/booking", methods = ["GET", "POST", "DELETE"])
 def booking():
     try:
-        print("backend")
         cnx = cnxpool.get_connection()
-        mycursor = cnx.cursor()
+        mycursor = cnx.cursor(dictionary = True)
         cookie = request.cookies.get("Set-Cookie")
         memberInfo = decode_token(cookie)
         if(request.method == "GET"):
-            print("GET")
             if(memberInfo == None):
-                print("GET, 403")
                 return jsonify(
                     {
                         "error" : True,
@@ -28,25 +25,20 @@ def booking():
                     }
                 ), 403
             else:
-                print(memberInfo)
-                print("GET, 200")
                 sql = "select booking.id, booking.attraction_id, booking.date, booking.time, booking.price, attraction.name, attraction.address, attraction.images from booking inner join attraction on booking.attraction_id = attraction.id where booking.user_id = %s"
-                print("GET, 200-1")
                 value = (memberInfo["id"], )
-                print("GET, 200-2")
                 mycursor.execute(sql, value)
-                print("GET, 200-3")
                 bookingData = mycursor.fetchall()
                 bookingInfoResponseToFrontEnd = []
                 for bookingInfo in bookingData:
                     attraction = {
-                        "booking_id" : bookingInfo[0],
-                        "name" : bookingInfo[5],
-                        "address" : bookingInfo[6],
-                        "image" : bookingInfo[7].split(",")[0],
-                        "date" : bookingInfo[2],
-                        "time" : bookingInfo[3],
-                        "price" : bookingInfo[4],
+                        "booking_id" : bookingInfo["id"],
+                        "name" : bookingInfo["name"],
+                        "address" : bookingInfo["address"],
+                        "image" : bookingInfo["images"].split(",")[0],
+                        "date" : bookingInfo["date"],
+                        "time" : bookingInfo["time"],
+                        "price" : bookingInfo["price"],
                     }
                     bookingInfoResponseToFrontEnd.append(attraction)
                 return jsonify(
@@ -59,24 +51,15 @@ def booking():
                     }
                     ), 200
         elif(request.method == "POST"):
-            print("POST")
             # cookie = request.cookies.get("Set-Cookie")
-            print(cookie)
             # get user_id from memberInfo after decodeJWT
             memberInfo = decode_token(cookie)
-            print(memberInfo)
             bookingData = request.get_json()
-            print(bookingData)
             checkAttractionIdFormat = regexDigitalNumber(bookingData["attractionId"])
-            print(checkAttractionIdFormat)
             checkDateFormat = regexDate(bookingData["date"])
-            print(checkDateFormat)
             checkTimeFormat = regexTime(bookingData["time"])
-            print(checkTimeFormat)
             checkPriceFormat = regexDigitalNumber(bookingData["price"])
-            print(checkPriceFormat)
             if(memberInfo == None):
-                print("403")
                 return jsonify(
                     {
                         "error" : True,
@@ -89,7 +72,6 @@ def booking():
                 or checkTimeFormat == False 
                 or checkPriceFormat == False
             ):
-                print("400")
                 return jsonify(
                     {
                         "error" : True,
@@ -103,7 +85,6 @@ def booking():
                 and checkTimeFormat == True 
                 and checkPriceFormat == True
                 ):
-                    print("200")
                     sql = "insert into booking (attraction_id, date, time, price, user_id) values(%s, %s, %s, %s, %s)"
                     value = (bookingData["attractionId"], bookingData["date"], bookingData["time"], bookingData["price"], memberInfo["id"])
                     mycursor.execute(sql, value)
@@ -115,7 +96,6 @@ def booking():
                         }
                     ), 200
             else:
-                print("500")
                 return jsonify(
                     {
                         "error" : True,
@@ -131,11 +111,10 @@ def booking():
                     }
                 ), 403
             elif(memberInfo):
-                print("Delete, 200")
+                userId = memberInfo["id"]
                 bookingWantToDelete = request.get_json()
-                print(bookingWantToDelete["bookingWantToDelete"])
-                sql = "delete from booking where id = %s"
-                value = (bookingWantToDelete["bookingWantToDelete"], )
+                sql = "delete from booking where id = %s and user_id = %s"
+                value = (bookingWantToDelete["bookingWantToDelete"], userId)
                 mycursor.execute(sql, value)
                 cnx.commit()
                 return jsonify(
@@ -144,7 +123,6 @@ def booking():
                     }
                 ), 200
     except:
-        print("except")
         return jsonify(
             {
                 "error" : True,
@@ -152,6 +130,31 @@ def booking():
             }
         ), 500
     finally:
-        print("finally")
         mycursor.close()
         cnx.close()
+
+@api_booking.route("/api/booking/count", methods = ["GET"])
+def shoppingCartCount():
+    try:
+        cookie = request.cookies.get("Set-Cookie")
+        memberInfo = decode_token(cookie)
+        cnx = cnxpool.get_connection()
+        mycursor = cnx.cursor()
+        sql = "select * from booking where user_id = %s"
+        value = (memberInfo["id"], )
+        mycursor.execute(sql, value)
+        bookingInShoopingCart = mycursor.fetchall()
+        countTripInShoopingCart = len(bookingInShoopingCart)
+        mycursor.close()
+        cnx.close()
+        print(countTripInShoopingCart)
+        return {
+            "count" : countTripInShoopingCart
+        }, 200
+    except Exception as e:
+        print(e)
+        return {
+            "count" : 0
+        }, 200
+
+        

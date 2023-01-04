@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+{% block title %}booking{% endblock %}
+
+{% block css %}<link rel = "stylesheet" type = "text/css" href = "/static/css/thankyou.css">{% endblock %}
+
+{% block content %}
+<section class = "background-image">
+    <div class = "welcome">
+        <div class = "welcome-content">
+            <div class = "welcome-content-title">查詢歷史訂單及付款情況</div>
+            <div class = "welcome-content-text">您的訂單編號如下 : <span class = "order-number"></span></div>
+        </div>
+    
+    </div>    
+</section>
+{% endblock %}
+
+
+{% block javascript %}<script type = "text/javascript" src = "/static/js/thankyou.js"></script>{% endblock %}

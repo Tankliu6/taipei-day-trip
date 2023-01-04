@@ -10,18 +10,6 @@ html, body{
     height: 100vh;
 }
 
-/* popUpmessage */
-.popUpMessage{
-    font-size: 18px;
-    font-weight: 900;
-    font-family: 'Work Sans', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 80px;
-}
-
-
 /* 螢幕反黑覆蓋層 */
 #htmlLayer-zindex50{
     width: 100%;
@@ -77,6 +65,8 @@ html, body{
 }
 
 #Nav-btn-left{
+    position: relative;
+    cursor: pointer;
     padding: 10px;
     color: #666666;
     /* item 本身內部 */
@@ -84,10 +74,27 @@ html, body{
     justify-self: center;
     /* 開始格子/佔據幾格(未用到) */
     grid-column: 7;
-    cursor: pointer;
+}
+
+.shopping-cart{
+    width: 30;
+    height: 30px;
+}
+
+.shopping-cart-count{
+    position: absolute;
+    bottom: 30px;
+    right: 0;
+    background: red;
+    width: 16px;
+    border-radius: 50%;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    color: white;
 }
 
 .Nav-btn-right{
+    cursor: pointer;
     padding: 10px;
     color: #666666;
     /* item 本身內部 */
@@ -95,11 +102,10 @@ html, body{
     justify-self: center;
     /* 開始格子/佔據幾格(未用到) */
     grid-column: 9;
-    cursor: pointer;
 }
 
-/* member */
-.member{
+/* dialog member */
+.dialog{
     position: absolute;
     z-index: 60;
     width: 340px;
@@ -107,8 +113,8 @@ html, body{
 }
 
 #member-items-wrap-roof{
+    display: block;
     position: relative;
-    bottom: -4px;
     border-radius: 5px 5px 0 0;
 }
 
@@ -179,6 +185,44 @@ html, body{
     font-weight: 500;
     color: #666666;
     text-align: center;
+}
+
+.login-dialog-password-show-close{
+    position: absolute;
+    cursor: pointer;
+    height: 30px;
+    width: 30px;
+    top: 125px;
+    right: 30px;
+}
+
+.signup-dialog-password-show-close{
+    position: absolute;
+    cursor: pointer;
+    height: 30px;
+    width: 30px;
+    top: 185px;
+    right: 30px;
+}
+
+
+/* dialog pop-up-message */
+.pop-up-message{
+    position: fixed;
+    top: 50%;
+    z-index: 200;
+    box-shadow: 0 0 10px #CCCCCC;    
+}
+
+.dialog-pop-up-message-text{
+    text-align: center;
+    font-size: 18px;
+    font-weight: 900;
+    font-family: 'Work Sans', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80px;
 }
 
 /* footer */
