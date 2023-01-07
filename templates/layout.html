@@ -9,8 +9,11 @@
 </head>
 
 <body id = "body">
-    <!-- 跳脫搜尋框的黑色覆蓋層 -->
+    <!-- 黑色覆蓋層 -->
     <div style = "display: none" id = "htmlLayer-zindex50"></div>
+    <!-- 透明覆蓋層 -->
+    <div style = "display: none" id = "htmlLayer-opacity0-zindex50"></div>
+    <!-- main -->
     <main id = "flex-col">
         <!-- Navigation -->
         <section id = "Navigation">
@@ -22,7 +25,19 @@
                     <div id = "Nav-btn-grid">
                         <div id = "Nav-btn-left"><img src = "/static/image/shopping-cart.png" class = "shopping-cart"><div class = "shopping-cart-count">0</div></div>
                         <div id = "Nav-btn-signin-signup" class = "Nav-btn-right" style="display: none;" onclick = "showSignIn();" >登入/註冊</div>
-                        <div id = "Nav-btn-logout" class = "Nav-btn-right" style = "display: none;" onclick = "logoutBtn();">登出系統</div>
+                        <div id = "Nav-btn-logout" class = "Nav-btn-right" style = "display: none;">
+                            <img class = "Nav-btn-right-icon" src = "/static/image/user.png">
+                            <div class = "wrap-dropdown-list-item-group close">
+                                <ul class = "dropdown-list-item-group">
+                                    <a class = "dropdown-list-item-member-basic-setting"><li class = "dropdown-list-item"><img class = "dropdown-list-item-img" src = "/static/image/settings.png">帳號設定</li></a>
+                                    <a class = "dropdown-list-item-member-history-orders"><li class = "dropdown-list-item"><img class = "dropdown-list-item-img" src = "/static/image/shopping-list.png">歷史訂單</li></a>
+                                    <!-- <li class = "dropdown-list-item"><img class = "dropdown-list-item-img" src = "/static/image/heart.png">我的收藏</li> -->
+                                    <li class = "divider"></li>
+                                    <li class = "dropdown-list-item dropdown-list-item-logout-center" onclick = "logoutBtn();">登出</li>
+                                </ul>
+                            </div>
+                            <span class = "dropdown-arrow close"></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -75,6 +90,7 @@
         </footer>
         <!-- <div id = "c"><div id = "observer"></div></div> -->
     </main>
+    <!-- main End -->
     <script type = "text/javascript" src = "/static/js/layout.js"></script>
     {% block javascript %}{% endblock %}
 </body>

@@ -28,7 +28,7 @@ function checkMemberStatus(){
 
 /* 確認有無預定行程 */
 function checkHaveBookingOrNot(){
-    // 網頁無任何行程下有5個section
+    // 計算網頁無任何行程下的section數量
     const countSection = document.getElementsByTagName("section").length;
     const cleanTheBooking = document.querySelector(".wrap-content-forRWD");
     const sectionForNoBooking = document.querySelector("#noBooking");
@@ -191,30 +191,48 @@ TPDirect.card.onUpdate(function (update) {
     if (update.cardType === 'visa') {
         // Handle card type visa.
     }
+    const numberValidImg = document.querySelector(".card-number-valid-img");
+    const numberInvalidImg = document.querySelector(".card-number-invalid-img");
+    const expValidImg = document.querySelector(".card-exp-valid-img");
+    const expInvalidImg = document.querySelector(".card-exp-invalid-img");
+    const ccvValidImg = document.querySelector(".card-ccv-valid-img");
+    const ccvInvalidImg = document.querySelector(".card-ccv-invalid-img");
 
     // number 欄位是錯誤的
     if (update.status.number === 2) {
-        // setNumberFormGroupToError()
+        numberValidImg.style.display = "none";
+        numberInvalidImg.style.display = "block";
     } else if (update.status.number === 0) {
-        // setNumberFormGroupToSuccess()
-    } else {
-        // setNumberFormGroupToNormal()
+        numberValidImg.style.display = "block";
+        numberInvalidImg.style.display = "none";
+    } else if (update.status.number != 2 && update.status.number != 0) {
+        numberValidImg.style.display = "none";
+        numberInvalidImg.style.display = "block";
+        return
     }
 
     if (update.status.expiry === 2) {
-        // setNumberFormGroupToError()
+        expValidImg.style.display = "none";
+        expInvalidImg.style.display = "block";
     } else if (update.status.expiry === 0) {
-        // setNumberFormGroupToSuccess()
-    } else {
-        // setNumberFormGroupToNormal()
+        expValidImg.style.display = "block";
+        expInvalidImg.style.display = "none";
+    } else if (update.status.expiry != 2 && update.status.expiry != 2) {
+        expValidImg.style.display = "none";
+        expInvalidImg.style.display = "block";
+        return
     }
 
     if (update.status.ccv === 2) {
-        // setNumberFormGroupToError()
+        ccvValidImg.style.display = "none";
+        ccvInvalidImg.style.display = "block";
     } else if (update.status.ccv === 0) {
-        // setNumberFormGroupToSuccess()
-    } else {
-        // setNumberFormGroupToNormal()
+        ccvValidImg.style.display = "block";
+        ccvInvalidImg.style.display = "none";
+    } else if (update.status.ccv != 2 && update.status.ccv != 0){
+        ccvValidImg.style.display = "none";
+        ccvInvalidImg.style.display = "block";
+        return
     }
 })
 
@@ -250,6 +268,7 @@ function contactInfo(){
 const checkOrderToPayButton = document.querySelector(".check-order-to-pay");
 checkOrderToPayButton.addEventListener("click", onSubmit);
 function onSubmit(event) {
+    loadingStart();
     event.preventDefault()
 
     // 取得 TapPay Fields 的 status
@@ -257,6 +276,7 @@ function onSubmit(event) {
 
     // 確認是否可以 getPrime
     if (tappayStatus.canGetPrime === false) {
+        loadingComplete();
         const message = "請確認輸入資料正確"
         popUpMessage(message)
         return
@@ -276,8 +296,6 @@ function onSubmit(event) {
         };
         const bookingIdAndTotalCost = processOrdersData(orderDataFromPage);
         const contact = contactInfo();
-        loadingStart();
-        let responseStatus;
         fetch("/api/orders", {
             method : "POST",
             credentials : "include",
@@ -297,8 +315,8 @@ function onSubmit(event) {
             return response.json()
         }).then(function(orderData){
             if(orderData.data.payment.status === 0){
-                const orderNumber = orderData.data.orderNumber;                popUpMessage(`${orderData.data.payment.message}`)
-                popUpMessage(`${orderData.data.payment.message}`)
+                const orderNumber = orderData.data.orderNumber;
+                popUpMessage(`${orderData.data.payment.message}`);
                 window.location.assign(`${window.location.origin}/thankyou?number=${orderNumber}`)
             }
             else{
@@ -311,17 +329,74 @@ function onSubmit(event) {
         // send prime to your server, to pay with Pay by Prime API .
         // Pay By Prime Docs: https://docs.tappaysdk.com/tutorial/zh/back.html#pay-by-prime-api
     })
-}
+};
 
 function loadingStart(){
+    const wrapPayButton = document.querySelector("#total-info");
+    const payButton = document.querySelector(".check-order-to-pay");
+    wrapPayButton.style.cursor = "not-allowed";
+    payButton.style.pointerEvents = "none";
     const loadingLayer = document.querySelector(".layer-payment-loading");
     loadingLayer.style.display = "flex";
-}
+};
 
 function loadingComplete(){
+    const wrapPayButton = document.querySelector("#total-info");
+    const payButton = document.querySelector(".check-order-to-pay");
+    wrapPayButton.style.cursor = "pointer";
+    payButton.style.pointerEvents = "auto";
     const loadingLayer = document.querySelector(".layer-payment-loading");
     loadingLayer.style.display = "none";
-}
+};
+
+
+function bookingInfoFormatValid(){
+    const contactNameInput = document.querySelector("#contact-name");
+    const contactEmailInput = document.querySelector("#contact-email");
+    const contactPhoneInput = document.querySelector("#contact-phone");
+    const nameValidImg = document.querySelector(".name-valid-img");
+    const nameInvalidImg = document.querySelector(".name-invalid-img");
+    const emailValidImg = document.querySelector(".email-valid-img");
+    const emailInvalidImg = document.querySelector(".email-invalid-img");
+    const phoneValidImg = document.querySelector(".phone-valid-img");
+    const phoneInvalidImg = document.querySelector(".phone-invalid-img");
+    contactNameInput.addEventListener("input", () => {
+        const contactNameInputValue = document.querySelector("#contact-name").value;
+        const nameValidation = (/^[\w\u4E00-\u9FFF]([^<>\s]){1,20}$/g.test(contactNameInputValue));
+        if (nameValidation){
+            nameValidImg.style.display = "block";
+            nameInvalidImg.style.display = "none"
+        }else if (!nameValidation){
+            nameValidImg.style.display = "none";
+            nameInvalidImg.style.display = "block"
+        }
+    });
+    contactEmailInput.addEventListener("input", () => {
+        const contactEmailInputValue = document.querySelector("#contact-email").value;
+        const emailValidation = (/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(contactEmailInputValue));
+        if (emailValidation) {
+            emailValidImg.style.display = "block";
+            emailInvalidImg.style.display = "none"
+        }else if (!emailValidation){
+            emailValidImg.style.display = "none";
+            emailInvalidImg.style.display = "block"
+        }
+    });
+    contactPhoneInput.addEventListener("input", () => {
+        const contactPhoneInputValue = document.querySelector("#contact-phone").value;
+        const phoneValidation = (/^\d{10}$/.test(contactPhoneInputValue));
+        if (phoneValidation){
+            phoneValidImg.style.display = "block";
+            phoneInvalidImg.style.display = "none"
+        }else if (!phoneValidation){
+            phoneValidImg.style.display = "none";
+            phoneInvalidImg.style.display = "block"
+        }
+    });
+
+};
+
 
 /* 載入時啟動 */
 checkMemberStatus();
+bookingInfoFormatValid();

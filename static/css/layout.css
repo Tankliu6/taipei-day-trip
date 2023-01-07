@@ -10,6 +10,23 @@ html, body{
     height: 100vh;
 }
 
+.open-block{
+    display: block;
+}
+
+.close{
+    display: none;
+}
+
+a{
+    text-decoration: none;
+    color: initial;
+}
+
+a :visited{
+    color: initial;
+}
+
 /* 螢幕反黑覆蓋層 */
 #htmlLayer-zindex50{
     width: 100%;
@@ -18,6 +35,15 @@ html, body{
     z-index: 50;
     background-color: #000000;
     opacity: 0.1;
+}
+
+/* 透明覆蓋層 */
+#htmlLayer-opacity0-zindex50{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 50;
+    opacity: 0;
 }
 
 /* Navigation */
@@ -77,23 +103,27 @@ html, body{
 }
 
 .shopping-cart{
-    width: 30;
-    height: 30px;
+    height: 40px;
 }
 
 .shopping-cart-count{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: absolute;
-    bottom: 30px;
-    right: 0;
+    bottom: 32px;
+    right: -2px;
     background: red;
-    width: 16px;
-    border-radius: 50%;
+    width: 20px;
+    border-radius: 10px;
     text-align: center;
     font-family: 'Roboto', sans-serif;
     color: white;
 }
 
 .Nav-btn-right{
+    display: block;
+    margin: 0 10px 0 10px;
     cursor: pointer;
     padding: 10px;
     color: #666666;
@@ -102,6 +132,77 @@ html, body{
     justify-self: center;
     /* 開始格子/佔據幾格(未用到) */
     grid-column: 9;
+}
+
+.Nav-btn-right-active{
+    position: relative;
+    display: block;
+    width: 25px;
+    height: 25px;
+    background: #448899;
+    border-radius: 100%;
+    margin: 0 10px 0 10px;
+    cursor: pointer;
+    padding: 10px;
+    color: #666666;
+    /* item 本身內部 */
+    align-self: center;
+    justify-self: center;
+    /* 開始格子/佔據幾格(未用到) */
+    grid-column: 9;
+}
+
+.Nav-btn-right-icon{
+    width: 25px;
+}
+
+.dropdown-list-item-group{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+    list-style: none;
+    position: relative;
+    right: 150px;
+    min-width: 150px;
+    font-size: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 15px #cccccc;
+    background: #fff;
+}
+
+.dropdown-list-item-group :hover{
+    background-color: aliceblue;
+}
+
+.dropdown-list-item{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.dropdown-list-item-img{
+    width: 25px;
+}
+
+.divider{
+    border: 1px solid #CCCCCC;
+}
+
+.dropdown-list-item-logout-center{
+    justify-content: center;
+}
+
+.dropdown-arrow{
+    border-color: transparent transparent #fff;
+    border-style: solid;
+    border-width: 0 8px 7px;
+    margin-top: 7px;
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: 100%;
+    z-index: 1001;
 }
 
 /* dialog member */

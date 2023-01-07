@@ -49,9 +49,21 @@
         <section id = "contact">
             <div class = "contact-items-wrap">
                 <div class = "section-title-style">您的聯絡資訊</div>
-                <div><label for = "contact-name">聯絡姓名：</label><input id = "contact-name"></input></div>
-                <div><label for = "contact-email">聯絡信箱：</label><input id = "contact-email"></input></div>
-                <div><label for = "contact-phone">手機號碼：</label><input id = "contact-phone"></input></div>
+                <div class = "contact-div-name contact-field">
+                    <label for = "contact-name">聯絡姓名：</label><input id = "contact-name"></input>
+                    <img class = "valid-invalid-img name-valid-img" src = "/static/image/valid.png" style = "display: block;">
+                    <img class = "valid-invalid-img name-invalid-img" src = "/static/image/invalid.png" style = "display: none;">
+                </div>
+                <div class = "contact-div-email contact-field">
+                    <label for = "contact-email">聯絡信箱：</label><input id = "contact-email"></input>
+                    <img class = "valid-invalid-img email-valid-img" src = "/static/image/valid.png" style = "display: block;">
+                    <img class = "valid-invalid-img email-invalid-img" src = "/static/image/invalid.png" style = "display: none;">
+                </div>
+                <div class = "contact-div-phone contact-field">
+                    <label for = "contact-phone">手機號碼：</label><input id = "contact-phone" maxlength = "10"></input>
+                    <img class = "valid-invalid-img phone-valid-img" src = "/static/image/valid.png" style = "display: none;">
+                    <img class = "valid-invalid-img phone-invalid-img" src = "/static/image/invalid.png" style = "display: none;">
+                </div>
                 <div>請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</div>
             </div>
         </section>
@@ -61,12 +73,21 @@
         <section id = "payment">
             <div class = "payment-items-wrap">
                 <div class = "section-title-style">信用卡付款資訊</div>
-                <!-- <div><label for = "payment-creditCardNumber">卡片號碼：</label><input id = "payment-creditCardNumber" placeholder = "**** **** **** ****"></input></div>
-                <div><label for = "payment-expiration">過期時間：</label><input id = "payment-expiration" type="text" pattern="\d{2}\/\d{2}" placeholder = "MM/DD"></input></div>
-                <div><label for = "payment-ccv">驗證密碼：</label><input id = "payment-ccv" type = "text" pattern = "\d{3}" placeholder = "ccv"></input></div> -->
-                <div class = "credit-field"><label for = "card-number">卡片號碼：</label><div class="tpfield" id="card-number"></div></div>
-                <div class = "credit-field"><label for = "card-expiration-date">過期時間：</label><div class="tpfield" id="card-expiration-date"></div></div>
-                <div class = "credit-field"><label for = "card-ccv">驗證密碼：</label><div class="tpfield" id="card-ccv"></div></div>
+                <div class = "credit-field">
+                    <label for = "card-number">卡片號碼：</label><div class="tpfield" id="card-number"></div>
+                    <img class = "valid-invalid-img card-number-valid-img" src = "/static/image/valid.png" style = "display: none;">
+                    <img class = "valid-invalid-img card-number-invalid-img" src = "/static/image/invalid.png" style = "display: none;">
+                </div>
+                <div class = "credit-field">
+                    <label for = "card-expiration-date">過期時間：</label><div class="tpfield" id="card-expiration-date"></div>
+                    <img class = "valid-invalid-img card-exp-valid-img" src = "/static/image/valid.png" style = "display: none;">
+                    <img class = "valid-invalid-img card-exp-invalid-img" src = "/static/image/invalid.png" style = "display: none;">
+                </div>
+                <div class = "credit-field">
+                    <label for = "card-ccv">驗證密碼：</label><div class="tpfield" id="card-ccv"></div>
+                    <img class = "valid-invalid-img card-ccv-valid-img" src = "/static/image/valid.png" style = "display: none;">
+                    <img class = "valid-invalid-img card-ccv-invalid-img" src = "/static/image/invalid.png" style = "display: none;">
+                </div>
             </div>
         </section>
     <!-- payment end -->
@@ -84,7 +105,20 @@
 
 
 {% block javascript %}
-    <script src="https://js.tappaysdk.com/sdk/tpdirect/v5.14.0"></script>
-    <script>TPDirect.setupSDK(126932, 'app_hsc41rw6Ip6kuL6VHvOOOG9t9vweW3oQz4Egv4U06niMyS9VgcNWlas9PhiD', 'sandbox')</script>
-    <script type = "text/javascript" src = "/static/js/booking.js"></script>
+    <script
+        type = "text/javascript"
+        src = "/static/js/setting.js"
+    ></script>
+    <script 
+        src="https://js.tappaysdk.com/sdk/tpdirect/v5.14.0"
+    ></script>
+    <script>
+        TPDirect.setupSDK(`${APP_ID}`, `${APP_KEY}`, 'sandbox')
+    </script>
+    <script
+        type = "text/javascript" 
+        src = "/static/js/booking.js"
+        defer
+    ></script>
+
 {% endblock %}

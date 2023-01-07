@@ -122,6 +122,12 @@ a:hover{
     justify-content: center;
 }
 
+#grid-attractions-item{
+    border-radius: 10px;
+    overflow: hidden;
+    border: 0.5px solid #cccccc;
+}
+
 #wrap-attractions{
     /* 可以讓img 和下方 站名與類別div 貼齊關掉會有4px的空格 */
     display: grid;
