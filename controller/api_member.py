@@ -27,13 +27,19 @@ def member():
             if updateFormatChecking(updateMemberInfo):
                 cookie = request.cookies.get("Set-Cookie")
                 memberInfo = decode_token(cookie)
+                print(memberInfo)
+                if memberInfo["email"] == "test@test.com":
+                    return {
+                        "ok" : True,
+                        "message" : "測試帳號無法更新基本資料"
+                    }
                 sql = "update membership set name = %s, phone = %s, password = %s where id = %s"
                 value = (updateMemberInfo["name"], updateMemberInfo["phone"], updateMemberInfo["password"], memberInfo["id"])
                 mycursor.execute(sql, value)
                 cnx.commit()
                 return {
                     "ok" : True,
-                    "message" : "會員資料更成功"
+                    "message" : "會員資料更新成功"
                 }, 200
             else:
                 return {
