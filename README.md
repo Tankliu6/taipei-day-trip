@@ -3,7 +3,7 @@
 🎨 Taipei Day Trip is an e-commerce website designed for tourism and travel in Taipei.
 
 # Live Demo
-🔗 Check out our live demo to see Taipei Day Trip in action: [Live Demo](http://13.113.0.76:3000/)
+🔗 Check out our live demo to see Taipei Day Trip in action: [Live Demo](http://3.115.111.205:3000/)
 
 🔑 Test account and password
 
